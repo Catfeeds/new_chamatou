@@ -1869,7 +1869,7 @@
         }
         ;
         if (this.billingClassify == 1) {
-          if (!/^(([1-9]{1})(\d)+)$/g.test(this.deskPrice.split('.')[0])) {
+          if (!/^(([1-9]{1})(\d){0,20})$/g.test(this.deskPrice.split('.')[0])) {
             this.msgHint('输入茶座价格');
             return;
           }
@@ -1878,7 +1878,7 @@
             this.msgHint('输入时段');
             return;
           }
-          if (!/^([1-9]{1})(\d)+$/g.test(this.deskPrice.split('.')[0])) {
+          if (!/^([1-9]{1})(\d){0,20}$/g.test(this.deskPrice.split('.')[0])) {
             this.msgHint('输入茶座价格');
             return;
           }
@@ -1886,7 +1886,7 @@
           this.deskPrice = 0;
           this.timeFrame = 0;
         }
-        if (!/^([1-9]{1})(\d)+$/g.test(this.deposit.split('.')[0])) {
+        if (!/^([1-9]{1})(\d){0,20}$/g.test(this.deposit.split('.')[0])) {
           this.msgHint('输入诚意定金');
           return;
         }
@@ -2433,6 +2433,7 @@
         if(this.heGoodsList.length!=0){
           for (var j = 0; j< this.heGoodsList.length; j++) {
             hePrice+=parseInt(this.heGoodsList[j]['total_amount']);
+            
           }
         }else{
           hePrice=0;

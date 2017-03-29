@@ -531,6 +531,7 @@
           data(){
             return {
               desk_No:'',
+              iSsuccess:false,
               isLoading: false,
               memberList:[],
               user:'',
