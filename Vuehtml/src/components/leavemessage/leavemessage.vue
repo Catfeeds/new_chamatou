@@ -71,7 +71,7 @@
               <td colspan="11">
                 <div>
                   <div class="page clearfix">
-                    <div class="text">共<b>{{msgList.page.pageCount}}</b>页<b>{{msgList.page.dataCount}}</b>条记录</div>
+                    <div class="text">共<b>{{msgPage.pageCount}}</b>页<b>{{msgPage.dataCount}}</b>条记录</div>
                     <div class="linklist">
                       <a class="prev" @click="changePage(page,'prev');" href="javascript:void(0)">&nbsp;</a>
                       <a href="javascript:void(0)"   v-for="(pages,index) in msgPageList"  :class="{'current' : (page==pages)}"   @click="changePage(pages);" >{{pages}}</a>
@@ -151,6 +151,7 @@
         msgList:[],
         getmsgOne:[],
         msgPageList:[],
+        msgPage:[],
         page:1
       }
     },
@@ -232,15 +233,25 @@
             if (page > 1) {
               page--;
               this.page = page;
+            }else{
+            	return;
             }
           } else {
-            if (page < this.msgList['page']['pageCount'])
+            if (page < this.msgList['page']['pageCount']){
               page++;
               this.page = page;
+            }else{
+            	return;
+            }
           }
         }else{
-          this.page=page;
+      		if(page==this.page){
+          return;
         }
+          this.page=page;
+         
+        }
+     
         this.initData();
       },
       //初始化数据
@@ -248,9 +259,11 @@
       	var _this=this;
       	var pages=this.page;
       	this.msgPageList=[];
+        this.msgPage=[];
       	this.ajax(this.port.messageList,{page:pages},'GET',function(res){
       		if(res.code==1){
       			  _this.msgList=res.data;
+      			  _this.msgPage=res.data.page;
       			  for(var i=1;i<=res.data['page']['pageCount'];i++){
       			  	_this.msgPageList.push(i);
               }

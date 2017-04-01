@@ -26,12 +26,12 @@ export  default {
       //营业模块
       'getorderone':'table/gettableorder',//获取开单详情
       'getbook':'table/get-table-book',//获取预定接口
-      'goodsTurn':'cf/order/goodsTurn',//转台时房间分类和坐台
-      'orderturn':'cf/order/orderturn',//房间转台
-      'ordermerge':'cf/order/ordermerge',//合并房间
+      'goodsTurn':'table/table-goods-turn',//转台时房间分类和坐台
+      'orderturn':'table/table-turn',//房间转台
+      'ordermerge':'table/merge',//合并房间
       'book':'table/begin-table-book',//预定
-      'beginBook':'cf/order/beginBook',//非预定开单
-      'begin':'cf/order/begin',//开单
+      'beginBook':'table/begin-table-order-and-book',//非预定开单
+      'begin':'table/begin-table-order',//开单
       'edittable':'table/edit-table',//修改桌台
       'addtable':'table/add-table',//添加桌台
       'deltable':'table/del-table',//删除桌台
@@ -40,14 +40,20 @@ export  default {
       'closebook':'table/close-table-book',//取消预定
       'deltabletype':'table/deltabletype',//删除桌台类型
       'gettable':'table/desktopstatus',//切换状态
-      'initlist':'cf/bar/initlist',//初始化商品数据
-      'search':'cf/bar/search',//商品搜索
-      'addgoods':'cf/order/addgoods',//t添加开单桌台消费
-      'goodsCancel':'cf/order/goodsCancel',//移除开单桌台消费商品
+      'initlist':'goods/list-goods',//初始化商品数据
+      'search':'goods/search-goods',//商品搜索
+      'addgoods':'table/add-goods',//t添加开单桌台消费
+      'goodsCancel':'order/goods-close',//移除开单桌台消费商品
+      'goodsGiv':'order/goods-giv',//商品转赠送 order_id 订单ID order_goods_id 订单商品ID POST提交
       //会员模块
       'addMember':'vip/create',//添加会员接口
       'payMember':'cf/vip/pay',//会员充值接口
-      'memberData':'cf/vip/getlistall',//会员数据获取接口
+      'memberData':'vip/list-vip',//会员数据获取接口
+      'Search':'vip/search',// username 用户名 phone手机号 POST提交
+      'Pay':'vip/pay',//会员充值接口 Get vip_id 获取数据 || POST
+      'delete':'vip/delete',//会员删除 POST提交 vip_id参数
+      'payList':'vip/pay-list',//会员充值记录
+      'print':'vip/print',///vip/print?print_id=90 GET
       //留言模块
       'messageCreate':'message/create',//添加一条留言 POST提交
       'messageList':'message/list-message', //留言获取列表 GET提交

@@ -400,11 +400,11 @@
                 <td>{{openOrder.add_time}}</td>
                 <td>{{openOrder.price}}元</td>
                 <td>{{openOrder.num}}{{openOrder.unit}}</td>
-                <td>{{openOrder.num*openOrder.price}}元</td>
+                <td>{{openOrder.sum_price}}元</td>
                 <td>
-                  <a href="javascript:void(0)" v-if="(openOrder.give==0 && openOrder.is_give==1 ) ">转配</a>
+                  <a href="javascript:void(0)" v-if="(openOrder.give==0 && openOrder.is_give==1 ) "  @click="givePei(openOrder.id,openOrder.order_id)">转配</a>
                   <a href="javascript:void(0)"  v-if="openOrder.is_goods==1"   @click="openGoodsTurn(openOrder.id,openOrder.goods_name+'（'+openOrder.num+openOrder.unit+'）')">转台</a>
-                  <a href="javascript:void(0)"  v-if="openOrder.is_goods==1"   @click="openGoodsconfirmshow(openOrder.id)">取消</a>
+                  <a href="javascript:void(0)"  v-if="openOrder.is_goods==1"   @click="openGoodsconfirmshow(openOrder.id,openOrder.order_id)">取消</a>
                 </td>
               </tr>
               </tbody>
@@ -950,6 +950,30 @@
       </div>
     </div>
     <!--商品取消确认/end-->
+    <!--商品转配确认-->
+    <div class="viewsmall form_cont r10px   openGivePeiconfirmshow ">
+      <div class="form_cap clearfix">
+        <span class="fl">确认转配？</span>
+        <a class="close fr" @click="closeMask('.openGoodsconfirmshow');" href="javascript:void(0);"></a>
+      </div>
+      <div class="form_detail">
+        <v-msg  :msg="msg" :msgShow="msgShow"></v-msg>
+        <div class="form_table">
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+            <tr>
+              <td style="text-align: center" >您确认将该商品转为配茶吗？</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form_btn">
+          <a class="btngreen baocun" href="javascript:void(0);"  @click="closeMask('.openGivePeiconfirmshow')"  style="width: 45%;float: right;background: #999;">取消</a>
+          <a class="btngreen baocun" href="javascript:void(0);"  @click="openGivePeiConfirm()"  style="width: 45%;float: left;">确定</a>
+        </div>
+      </div>
+    </div>
+    <!--商品转配确认/end-->
     <!--编辑茶座-->
     <div class="viewsmall form_cont r10px   editdeskshow">
       <div class="form_cap clearfix">
@@ -1509,6 +1533,7 @@
           statrTime: '',
           endTime: ''
         },
+        openCancelParentId:'',
         bookUserName: '',//预定人姓名
         bookPhone: '',//预定人电话
         bookLeaveMessage: '',//预定人留言
@@ -2247,22 +2272,50 @@
         $('.bgblack').addClass('in');
       },
       //消费商品取消
-      openGoodsconfirmshow(id){
+      openGoodsconfirmshow(id,parentid){
         this.openCancelId=id;
+        this.openCancelParentId=parentid;
+        
         $('.openGoodsconfirmshow').addClass('in');
         $('.bgblack').addClass('in');
       },
       //商品删除二次确认
       openGoodsCancelConfirm(){
         var _this=this;
-        this.ajax(this.port.goodsCancel,{id:this.openCancelId},'POST',function (res) {
+        this.ajax(this.port.goodsCancel,{order_goods_id:this.openCancelId,order_id:this.openCancelParentId},'POST',function (res) {
           if(res.code==1){
             _this.ajax(_this.port.getorderone, {table_id: _this.deskDteail.deskId}, 'GET', function (res) {
               if (res.code == 1) {
                 _this.openDataList = res.data;
                 _this.openCancelId='';
                 _this.getOpenOrder();
+                _this.refresh();
                 $('.openGoodsconfirmshow').removeClass('in');
+                $('.bgblack').removeClass('in');
+              }
+            })
+          }
+        })
+      },
+      //开单桌台商品转配
+      givePei(id,pid){
+        this.openCancelId=id;
+        this.openCancelParentId=pid;
+        $('.openGivePeiconfirmshow').addClass('in');
+        $('.bgblack').addClass('in');
+      },
+      //转配二次确认
+      openGivePeiConfirm(){
+        var _this=this;
+        this.ajax(this.port.goodsGiv,{order_goods_id:this.openCancelId,order_id:this.openCancelParentId},'POST',function (res) {
+          if(res.code==1){
+            _this.ajax(_this.port.getorderone, {table_id: _this.deskDteail.deskId}, 'GET', function (res) {
+              if (res.code == 1) {
+                _this.openDataList = res.data;
+                _this.openCancelId='';
+                _this.getOpenOrder();
+                _this.refresh();
+                $('.openGivePeiconfirmshow').removeClass('in');
                 $('.bgblack').removeClass('in');
               }
             })
@@ -2283,14 +2336,18 @@
               }
             }
           } else {
-            if (page < this.goosDataList['pageNum'])
+          	
+            if (page < this.goosDataList['pageNum']){
               page++;
-            this.page = page;
+              this.page = page;
+            }
             if (this.pageIsSearch) {
               this.getSearchData(page)
             } else {
               this.getGoosDataList(page);
             }
+            
+            
           }
     
         } else {
@@ -2428,21 +2485,21 @@
         var hePrice=0;
         for (var i = 0; i < this.openDataList['goods_list'].length; i++) {
           count += parseInt(this.openDataList['goods_list'][i]['num']);
-          result += (parseInt(this.openDataList['goods_list'][i]['num']) * parseInt(this.openDataList['goods_list'][i]['price']));
+          result += parseInt(this.openDataList['goods_list'][i]['sum_price']);
         }
+        
         if(this.heGoodsList.length!=0){
           for (var j = 0; j< this.heGoodsList.length; j++) {
             hePrice+=parseInt(this.heGoodsList[j]['total_amount']);
-            
           }
         }else{
-          hePrice=0;
+            hePrice=0;
         }
-//        /total_amount
+      // total_amount
         this.orderGoodTotal = {
           ordertotalPrice: result,
           count: count,
-          totalPrice: result+this.openDataList['table_amount']+hePrice,//还需加上房间的费用或者合并的费用
+          totalPrice: result+this.openDataList['table_amount']+hePrice,
           hePrice:hePrice
         }
       },
