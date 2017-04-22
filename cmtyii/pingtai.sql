@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.2.222
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
- Source Server Version : 50553
- Source Host           : 192.168.2.222
- Source Database       : cmt2
+ Source Server Version : 50542
+ Source Host           : localhost
+ Source Database       : chamatou
 
  Target Server Type    : MySQL
- Target Server Version : 50553
+ Target Server Version : 50542
  File Encoding         : utf-8
 
- Date: 04/21/2017 10:55:43 AM
+ Date: 04/21/2017 11:51:13 AM
 */
 
 SET NAMES utf8mb4;
@@ -135,46 +135,6 @@ INSERT INTO `t_ad_awards` VALUES ('1', '2', '21656', '20.00', '1236498');
 COMMIT;
 
 -- ----------------------------
---  Table structure for `t_admin`
--- ----------------------------
-DROP TABLE IF EXISTS `t_admin`;
-CREATE TABLE `t_admin` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) NOT NULL COMMENT '用户名',
-  `name` varchar(20) NOT NULL COMMENT '真实姓名',
-  `password` char(32) NOT NULL COMMENT '密码',
-  `phone` varchar(12) NOT NULL COMMENT '电话号码 ',
-  `salt` char(6) NOT NULL,
-  `last_login_time` int(11) unsigned DEFAULT NULL COMMENT '最后登录时间',
-  `last_login_ip` varchar(15) DEFAULT NULL COMMENT '最后登录ip',
-  `create_time` int(11) unsigned NOT NULL COMMENT '添加时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Records of `t_admin`
--- ----------------------------
-BEGIN;
-INSERT INTO `t_admin` VALUES ('2', '小张', '涨涨', 'e10adc3949ba59abbe56e057f20f883e', '14712121212', 'KargmM', '1491440409', '127.0.0.1', '1489542414');
-COMMIT;
-
--- ----------------------------
---  Table structure for `t_admin_role`
--- ----------------------------
-DROP TABLE IF EXISTS `t_admin_role`;
-CREATE TABLE `t_admin_role` (
-  `admin_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Records of `t_admin_role`
--- ----------------------------
-BEGIN;
-INSERT INTO `t_admin_role` VALUES ('3', '4'), ('2', '1'), ('3', '4'), ('4', '1'), ('3', '4');
-COMMIT;
-
--- ----------------------------
 --  Table structure for `t_after_service`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_after_service`;
@@ -191,61 +151,6 @@ CREATE TABLE `t_after_service` (
   `beans_amount` decimal(10,2) DEFAULT NULL COMMENT '茶豆币退款数量，授信满了，第二退茶豆币',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='售后表';
-
--- ----------------------------
---  Table structure for `t_auth_assignment`
--- ----------------------------
-DROP TABLE IF EXISTS `t_auth_assignment`;
-CREATE TABLE `t_auth_assignment` (
-  `item_name` varchar(64) NOT NULL,
-  `user_id` varchar(64) NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`),
-  CONSTRAINT `t_auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `t_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Table structure for `t_auth_item`
--- ----------------------------
-DROP TABLE IF EXISTS `t_auth_item`;
-CREATE TABLE `t_auth_item` (
-  `name` varchar(64) NOT NULL,
-  `type` smallint(6) NOT NULL,
-  `description` text,
-  `rule_name` varchar(64) DEFAULT NULL,
-  `data` blob,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `type` (`type`),
-  CONSTRAINT `t_auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `t_auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Table structure for `t_auth_item_child`
--- ----------------------------
-DROP TABLE IF EXISTS `t_auth_item_child`;
-CREATE TABLE `t_auth_item_child` (
-  `parent` varchar(64) NOT NULL,
-  `child` varchar(64) NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`),
-  CONSTRAINT `t_auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `t_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `t_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Table structure for `t_auth_rule`
--- ----------------------------
-DROP TABLE IF EXISTS `t_auth_rule`;
-CREATE TABLE `t_auth_rule` (
-  `name` varchar(64) NOT NULL,
-  `data` blob,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `t_beans_goods`
@@ -456,6 +361,51 @@ CREATE TABLE `t_order_goods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单附属表（订单内购买的商品）';
 
 -- ----------------------------
+--  Table structure for `t_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_permission`;
+CREATE TABLE `t_permission` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `permission` varchar(50) NOT NULL COMMENT '权限名称',
+  `intro` varchar(255) DEFAULT NULL COMMENT '权限描述',
+  `lft` int(10) unsigned NOT NULL COMMENT '做节点',
+  `rght` int(10) unsigned NOT NULL COMMENT '右节点',
+  `path` varchar(50) NOT NULL COMMENT '权限路径',
+  `parent_id` int(10) unsigned NOT NULL COMMENT '父级权限',
+  `level` int(10) unsigned NOT NULL COMMENT '层级',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `t_permission`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_permission` VALUES ('29', '商户列表', '所有商家信心列表', '1', '8', 'Admin/Shop/index', '0', '1'), ('30', '添加商户', '添加商户信息', '2', '3', 'Admin/Permission/add', '29', '2'), ('31', '编辑权限', '编辑权限', '4', '5', 'Admin/Permission/edit', '29', '2'), ('33', '删除权限', '删除权限', '6', '7', 'Admin/Permission/del', '29', '2');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `t_permission_copy`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_permission_copy`;
+CREATE TABLE `t_permission_copy` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `permission` varchar(50) NOT NULL COMMENT '权限名称',
+  `let` int(10) unsigned NOT NULL COMMENT '做节点',
+  `rght` int(10) unsigned NOT NULL COMMENT '右节点',
+  `path` varchar(50) NOT NULL COMMENT '权限路径',
+  `parent_id` int(10) unsigned NOT NULL COMMENT '父级权限',
+  `level` int(10) unsigned NOT NULL COMMENT '层级',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `t_permission_copy`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_permission_copy` VALUES ('1', '添加业务员', '0', '0', 'Admin/Salesman/add', '0', '0'), ('2', '编辑业务员', '0', '0', 'Admin/Salesman/edit', '0', '0'), ('3', '删除业务员', '0', '0', 'Admin/Salesman/del', '0', '0'), ('4', '业务员列表', '0', '0', 'Admin/Salesman/index', '0', '0'), ('6', '编辑角色', '0', '0', 'Admin/Role/edit', '0', '0'), ('7', '删除角色', '0', '0', 'Admin/Role/del', '0', '0'), ('8', '角色列表', '0', '0', 'Admin/Role/index', '0', '0'), ('9', '权限列表', '0', '0', 'Admin/Role/getPermission', '0', '0'), ('10', '角色拥有权限', '0', '0', 'Admin/Role/getRolePermission', '0', '0'), ('11', '新增商品分类', '0', '0', 'Admin/GoodsCate/add', '0', '0'), ('12', '删除商品分类', '0', '0', 'Admin/GoodsCate/del', '0', '0'), ('13', '商品分类列表', '0', '0', 'Admin/GoodsCate/index', '0', '0'), ('14', '查询父级分类', '0', '0', 'Admin/GoodsCate/getFu', '0', '0'), ('15', '修改商品分类', '0', '0', 'Admin/GoodsCate/edit', '0', '0'), ('16', '查询下级分类', '0', '0', 'Admin/GoodsCate/getChild', '0', '0'), ('17', '获取所有后代分类', '0', '0', 'Admin/GoodsCate/getChilds', '0', '0'), ('18', '添加活动', '0', '0', 'Admin/Active/add', '0', '0'), ('19', '活动列表', '0', '0', 'Admin/Active/index', '0', '0'), ('20', '删除活动', '0', '0', 'Admin/Active/del', '0', '0'), ('21', '编辑活动', '0', '0', 'Admin/Active/edit', '0', '0'), ('22', '编辑活动', '0', '0', 'Admin/Active/edit', '0', '0'), ('23', '新增权限', '0', '0', 'Admin/Permission/add', '0', '0'), ('25', '添加角色', '0', '0', 'Admin/Role/add', '0', '0'), ('27', '', '0', '0', 'Admin/Shop/add', '0', '0');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `t_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
@@ -508,6 +458,33 @@ CREATE TABLE `t_salesman` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `t_salesman` VALUES ('15', '曹操', '15578759546', '0', '1492393318'), ('21', '关羽', '15356565656', '0', '1492654846'), ('22', '张飞', '14755555555', '0', '1492654862'), ('23', '刘备', '15155554242', '0', '1492654878');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `t_shop`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_shop`;
+CREATE TABLE `t_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sp_name` varchar(255) NOT NULL DEFAULT '' COMMENT '店铺名称',
+  `address` varchar(255) DEFAULT NULL COMMENT '门店地址(包括省市区)',
+  `lat` decimal(14,11) DEFAULT NULL COMMENT ' 纬度',
+  `lot` decimal(14,11) DEFAULT NULL COMMENT '经度',
+  `provinces_id` int(10) unsigned NOT NULL,
+  `city_id` int(10) unsigned NOT NULL,
+  `area_id` int(11) unsigned NOT NULL COMMENT '区id',
+  `add_detail` varchar(100) NOT NULL COMMENT '商家详细地址',
+  `sp_phone` varchar(15) DEFAULT NULL COMMENT '门店联系方式',
+  `cover` varchar(255) DEFAULT NULL COMMENT '封面图片名称',
+  `intro` varchar(255) DEFAULT NULL COMMENT '店铺介绍',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='店铺信息表';
+
+-- ----------------------------
+--  Records of `t_shop`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_shop` VALUES ('29', '', '吉林省白城市洮南市更方便刚发的', '45.47560430450', '122.45367732552', '7', '128', '1668', '更方便刚发的', '188888888', null, '规范化股份哪个服'), ('31', '', '山西省朔州市怀仁县的方式发', '39.79357083603', '113.11230462343', '4', '89', '1347', '的方式发', '1531465', null, '加密一个很');
 COMMIT;
 
 -- ----------------------------
@@ -1129,18 +1106,6 @@ CREATE TABLE `t_unit` (
   `name` varchar(6) DEFAULT NULL COMMENT '单位',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='平台单位配置表';
-
--- ----------------------------
---  Table structure for `t_user`
--- ----------------------------
-DROP TABLE IF EXISTS `t_user`;
-CREATE TABLE `t_user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `status` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `t_withdraw`
