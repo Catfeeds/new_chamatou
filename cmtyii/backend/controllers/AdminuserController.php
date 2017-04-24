@@ -5,8 +5,6 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Adminuser;
 use backend\models\AdminuserSearch;
-use yii\behaviors\TimestampBehavior;
-use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,13 +20,8 @@ class AdminuserController extends Controller
     public function behaviors()
     {
         return [
-            [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -47,7 +40,7 @@ class AdminuserController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -72,8 +65,7 @@ class AdminuserController extends Controller
     public function actionCreate()
     {
         $model = new Adminuser();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->createAdminuser()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -81,7 +73,6 @@ class AdminuserController extends Controller
             ]);
         }
     }
-
     /**
      * Updates an existing Adminuser model.
      * If update is successful, the browser will be redirected to the 'view' page.

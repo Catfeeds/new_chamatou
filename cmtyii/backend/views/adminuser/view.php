@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Adminuser */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Adminusers', 'url' => ['index']];
+$this->title = '管理员详情';
+$this->params['breadcrumbs'][] = ['label' => '管理员管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="adminuser-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '确定删除管理员?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -32,13 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'real_name',
             'phone',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            'email:email',
+            [
+                    'attribute'=>'email',
+                    'value' => $model->email
+            ],
             'status',
-            'created_at',
-            'updated_at',
+            [
+                    'attribute'=>'created_at',
+                    'value'=> date("Y-m-d H:i", $model->created_at)
+            ],
+            [
+                    'attribute' => 'updated_at',
+                    'value'=>date('Y-m-d H:i', $model->updated_at)
+            ],
         ],
     ]) ?>
 

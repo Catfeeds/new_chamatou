@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%adminuser}}".
@@ -21,6 +22,9 @@ use Yii;
  */
 class Adminuser extends \yii\db\ActiveRecord
 {
+    const STATUS_DELETED = 0;
+    const STATUS_ACTIVE = 10;
+
     /**
      * @inheritdoc
      */
@@ -63,6 +67,42 @@ class Adminuser extends \yii\db\ActiveRecord
             'status' => '状态',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
+            ['password_hash', 'safe'],
         ];
     }
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+    /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+    public function createAdminuser()
+    {
+
+        $this->setPassword('123456');
+        $this->generateAuthKey();
+
+        return $this->save() ? $this : null;
+    }
+
 }
