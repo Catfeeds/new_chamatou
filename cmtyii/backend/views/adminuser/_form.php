@@ -20,7 +20,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList([]) ?>
+    <?= $form->field($model, 'status')->dropDownList([
+        $model::STATUS_DELETED=> '删除',
+        $model::STATUS_ACTIVE=> '正常',
+        ],
+        [
+            'prompt' => '请选择',
+            ''
+        ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? '添加' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

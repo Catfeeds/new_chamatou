@@ -34,4 +34,6 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 
-/backend/runtime/*
+/backend/runtime/
+/frontend/runtime/
+/tea/runtime/

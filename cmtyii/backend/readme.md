@@ -56,3 +56,8 @@ $ yii migrate --migrationPath=@yii/rbac/migrations
 ---------------
 
 http#//localhost/path/to/index.php?r=admin
+
+
+使用方法可以参考
+--------------
+https://github.com/michaelweixi/blogdemo2
