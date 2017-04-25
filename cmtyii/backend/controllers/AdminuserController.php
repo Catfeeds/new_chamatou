@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\SignupForm;
 use Yii;
 use backend\models\Adminuser;
 use backend\models\AdminuserSearch;
@@ -64,14 +65,15 @@ class AdminuserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Adminuser();
-        if ($model->load(Yii::$app->request->post()) && $model->createAdminuser()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) ) {
+            if($user = $model->signup()){
+                return $this->redirect(['view', 'id' => $user->id]);
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
     /**
      * Updates an existing Adminuser model.

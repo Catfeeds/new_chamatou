@@ -25,6 +25,17 @@ class Adminuser extends \yii\db\ActiveRecord
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    protected $statusMsg = [];
+
+    public function __construct(array $config = [])
+    {
+        parent::__construct($config);
+        $this->statusMsg = [
+            self::STATUS_ACTIVE => yii::t('app', 'status_active'),
+            self::STATUS_DELETED => yii::t('app', 'status_deleted'),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,17 +67,17 @@ class Adminuser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => '用户名',
-            'real_name' => '姓名',
-            'phone' => '手机',
-            'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
-            'password_reset_token' => 'Password Reset Token',
-            'email' => '邮箱',
-            'status' => '状态',
-            'created_at' => '创建时间',
-            'updated_at' => '更新时间',
+            'id' => yii::t('app', 'id'),
+            'username' => yii::t('app', 'username'),
+            'real_name' => yii::t('app', 'real_name'),
+            'phone' => yii::t('app', 'phone'),
+            'auth_key' => yii::t('app', 'auth_key'),
+            'password_hash' => yii::t('app', 'password_hash'),
+            'password_reset_token' => yii::t('app', 'password_reset_token'),
+            'email' => yii::t('app', 'email'),
+            'status' => yii::t('app', 'status'),
+            'created_at' => yii::t('app', 'created_at'),
+            'updated_at' => yii::t('app', 'updated_at'),
             ['password_hash', 'safe'],
         ];
     }
@@ -96,13 +107,9 @@ class Adminuser extends \yii\db\ActiveRecord
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
-    public function createAdminuser()
+
+    public function getStatusMsg()
     {
-
-        $this->setPassword('123456');
-        $this->generateAuthKey();
-
-        return $this->save() ? $this : null;
+        return $this->statusMsg[$this->status];
     }
-
 }

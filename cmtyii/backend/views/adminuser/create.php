@@ -1,5 +1,6 @@
 <?php
 
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 
@@ -14,8 +15,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'real_name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'status')->dropDownList([
+        $model::STATUS_DELETED=> yii::t('app', 'status_delete'),
+        $model::STATUS_ACTIVE=> yii::t('app', 'status_active'),
+    ],
+        [
+            'prompt' => yii::t('app', 'prompt'),
+            ''
+        ]) ?>
+
+    <div class="form-group">
+        <?= Html::submitButton(yii::t('app', 'create'), ['class' => 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>
