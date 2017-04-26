@@ -18,7 +18,7 @@
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
+                <span class="input-group-btn">
                 <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
               </span>
@@ -29,28 +29,28 @@
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
-                'items' => [
+                'items'   => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Same tools',
-                        'icon' => 'share',
-                        'url' => '#',
+                        'icon'  => 'share',
+                        'url'   => '#',
                         'items' => [
                             ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
                             ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
                             [
                                 'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
+                                'icon'  => 'circle-o',
+                                'url'   => '#',
                                 'items' => [
                                     ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
                                     [
                                         'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
+                                        'icon'  => 'circle-o',
+                                        'url'   => '#',
                                         'items' => [
                                             ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
                                             ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
@@ -60,16 +60,26 @@
                             ],
                         ],
                     ],
-                    ['label' => '商户管理',  'url' => ['/shop']],
-                    ['label' => '提现管理',  'url' => ['/debug']],
-                    ['label' => '用户管理',  'url' => ['/debug']],
-                    ['label' => '充值记录',  'url' => ['/debug']],
-                    ['label' => '留言管理',  'url' => ['/debug']],
+                    [
+                        'label' => '权限管理',
+                        'url'   => '#',
+                        'items' => [
+                            ['label' => '管理员管理', 'url' => ['/adminuser'],],
+                            ['label' => '角色管理', 'url' => ['/admin/route'],],
+                            ['label' => '权限管理', 'url' => ['/admin/permission'],],
+                            ['label' => '菜单管理', 'url' => ['/admin/menu'],],
+
+                        ],
+                    ],
+                    ['label' => '商户管理', 'url' => ['/shoper']],
+                    ['label' => '提现管理', 'url' => ['/debug']],
+                    ['label' => '用户管理', 'url' => ['/debug']],
+                    ['label' => '充值记录', 'url' => ['/debug']],
+                    ['label' => '留言管理', 'url' => ['/debug']],
                     ['label' => 'B2B商城管理', 'url' => ['/debug']],
-                    ['label' => '统计中心',  'url' => ['/debug']],
-                    ['label' => '角色管理',  'url' => ['/debug']],
-                    ['label' => '业务员管理',  'url' => ['/debug']],
-                    ['label' => '管理员管理',  'url' => ['/adminuser']],
+                    ['label' => '统计中心', 'url' => ['/debug']],
+                    ['label' => '角色管理', 'url' => ['/debug']],
+                    ['label' => '业务员管理', 'url' => ['/debug']],
                 ],
             ]
         ) ?>

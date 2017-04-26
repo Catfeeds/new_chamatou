@@ -67,18 +67,18 @@ class Adminuser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => yii::t('app', 'id'),
-            'username' => yii::t('app', 'username'),
-            'real_name' => yii::t('app', 'real_name'),
-            'phone' => yii::t('app', 'phone'),
-            'auth_key' => yii::t('app', 'auth_key'),
-            'password_hash' => yii::t('app', 'password_hash'),
-            'password_reset_token' => yii::t('app', 'password_reset_token'),
-            'email' => yii::t('app', 'email'),
-            'status' => yii::t('app', 'status'),
-            'created_at' => yii::t('app', 'created_at'),
-            'updated_at' => yii::t('app', 'updated_at'),
-            ['password_hash', 'safe'],
+
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'real_name' => Yii::t('app', 'Real Name'),
+            'phone' => Yii::t('app', 'Phone'),
+            'auth_key' => Yii::t('app', 'Auth Key'),
+            'password_hash' => Yii::t('app', 'Password Hash'),
+            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
+            'email' => Yii::t('app', 'Email'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
     /**

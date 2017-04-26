@@ -26,7 +26,6 @@ use yii\widgets\ActiveForm;
         ],
         [
             'prompt' => '请选择',
-            ''
         ]) ?>
 
     <div class="form-group">
