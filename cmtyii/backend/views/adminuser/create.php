@@ -7,13 +7,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Adminuser */
 
-$this->title = '添加管理员';
-$this->params['breadcrumbs'][] = ['label' => '管理员管理', 'url' => ['index']];
+$this->title = yii::t('app', 'create_adminuser');
+$this->params['breadcrumbs'][] = ['label' => yii::t('app', 'create'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="adminuser-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->dropDownList([
-        $model::STATUS_DELETED=> yii::t('app', 'status_delete'),
+        $model::STATUS_DELETED=> yii::t('app', 'status_deleted'),
         $model::STATUS_ACTIVE=> yii::t('app', 'status_active'),
     ],
         [

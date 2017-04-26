@@ -10,6 +10,10 @@ return[
     'prompt' => '请选择',
     'updated_at' => '更新时间',
     'created_at' => '添加时间',
+    'create_adminuser' => '添加管理员',
+    'delete_msg' => '你确定删除吗?',
+
+    'adminuser_manage' => '管理员管理',
 
     //admin_user表
     'id' => '主记录',

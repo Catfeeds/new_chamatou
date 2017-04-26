@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Adminuser */
 
-$this->title = '管理员详情';
-$this->params['breadcrumbs'][] = ['label' => '管理员管理', 'url' => ['index']];
+$this->title = yii::t('app', 'view');
+$this->params['breadcrumbs'][] = ['label' => yii::t('app', 'adminuser_manage'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="adminuser-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('删除', ['delete', 'id' => $model->id], [
+        <?= Html::a(yii::t('app', 'update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(yii::t('app', 'delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => '确定删除管理员?',
+                'confirm' => yii::t('app', 'delete_msg'),
                 'method' => 'post',
             ],
         ]) ?>

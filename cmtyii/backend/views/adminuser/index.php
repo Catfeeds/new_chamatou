@@ -1,6 +1,7 @@
 <?php
 
 use backend\models\Adminuser;
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use dosamigos\datepicker\DatePicker;
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('添加管理员', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(yii::t('app', 'create'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -37,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'filter' => [
-                    Adminuser::STATUS_DELETED=> yii::t('app', 'status_delete'),
+                    Adminuser::STATUS_DELETED=> yii::t('app', 'status_deleted'),
                     Adminuser::STATUS_ACTIVE=> yii::t('app', 'status_active'),
                 ],
                 'value' => 'statusMsg'
@@ -45,18 +46,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'created_at',
-                'format' => ['date', 'php:Y-m-d H:i']
+                'format' => ['date', 'php:Y-m-d H:i'],
+                'filter' => DateRangePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'created_at',
+                    'convertFormat'=>true,
+                    'pluginOptions'=>[
+                        'locale'=>['format' => 'Y-m-d'],
+                    ]
+                ])
             ],
             [
                 'attribute' => 'updated_at',
                 'format' => ['date', 'php:Y-m-d H:i'],
-                'filter' => DatePicker::widget([
-                    'model' => $model,
+                'filter' => DateRangePicker::widget([
+                    'model' => $searchModel,
                     'attribute' => 'updated_at',
-                    'template' => '{addon}{input}',
-                    'clientOptions' => [
-                        'autoclose' => true,
-                        'format' => 'dd-M-yyyy'
+                    'convertFormat'=>true,
+                    'pluginOptions'=>[
+                        'locale'=>['format' => 'Y-m-d'],
                     ]
                 ])
             ],
