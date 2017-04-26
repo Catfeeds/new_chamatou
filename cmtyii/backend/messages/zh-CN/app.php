@@ -1,19 +1,19 @@
 <?php
 return[
 
-    'create' => '添加',
-    'update' => '修改',
-    'delete' => '删除',
-    'view' => '详情',
-    'status_deleted' => '已删除',
-    'status_active' => '正常',
-    'prompt' => '请选择',
+    'Create' => '添加',
+    'Update' => '修改',
+    'Delete' => '删除',
+    'View' => '详情',
+    'Status Deleted' => '已删除',
+    'Status Active' => '正常',
+    'Prompt' => '请选择',
     'Updated At' => '更新时间',
     'Created At' => '添加时间',
-    'create_adminuser' => '添加管理员',
-    'delete_msg' => '你确定删除吗?',
+    'Create Adminuser' => '添加管理员',
+    'Delete Msg' => '你确定删除吗?',
 
-    'adminuser_manage' => '管理员管理',
+    'Adminuser Manage' => '管理员管理',
 
     'Shopers' => '商户管理',
 
@@ -51,4 +51,16 @@ return[
     'Salesmen' => '业务员管理',
     'Shop Total' => '门店数',
     'Addtime' => '添加时间',
+
+    //提现管理
+    'Withdraws' => '提现管理',
+    'Amount' => '提现金额',
+    'Note' => '备注',
+    'Shoper ID' => '商铺',
+
+    //留言管理
+    'Messages' => '留言管理',
+    'Store ID' => '门店',
+    'Type' => '留言类型',
+    'Content' => '留言正文',
 ];

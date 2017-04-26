@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Shoper;
-use backend\models\ShoperSearch;
+use backend\models\search\ShoperSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
