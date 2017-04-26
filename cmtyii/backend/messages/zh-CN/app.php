@@ -30,12 +30,12 @@ return[
     'access' => '权限',
 
     //shoper 商铺表
-    'Boss' => '老板',
+    'Boss' => 'Boss',
     'Credit Amount' => '授信金额',
     'Contract No' => '合同号',
     'Withdraw Type' => '提现方式',
     'Bank' => '开户行',
-    'Bank User' => '开花人',
+    'Bank User' => '开户人',
     'Card No' => '卡号',
     'Credit Remain' => '授信余额',
     'Salesman ID' => '业务员',
@@ -44,6 +44,6 @@ return[
     'Total Amount' => '现金总收入',
     'Withdraw Total' => '提现总额',
     'Sp Status' => '账户状态',
-
+    'Shoper Status' => '授信状态',
     'Create Shoper' => '添加商户',
 ];

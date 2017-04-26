@@ -2,18 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\form\SignupForm;
 use Yii;
-use backend\models\Adminuser;
-use backend\models\AdminuserSearch;
+use backend\models\Shoper;
+use backend\models\ShoperSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * AdminuserController implements the CRUD actions for Adminuser model.
+ * ShoperController implements the CRUD actions for Shoper model.
  */
-class AdminuserController extends Controller
+class ShoperController extends Controller
 {
     /**
      * @inheritdoc
@@ -22,32 +21,31 @@ class AdminuserController extends Controller
     {
         return [
             'verbs' => [
-                'class'   => VerbFilter::className(),
+                'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-
         ];
     }
 
     /**
-     * Lists all Adminuser models.
+     * Lists all Shoper models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new AdminuserSearch();
+        $searchModel = new ShoperSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel'  => $searchModel,
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Adminuser model.
+     * Displays a single Shoper model.
      * @param integer $id
      * @return mixed
      */
@@ -59,24 +57,25 @@ class AdminuserController extends Controller
     }
 
     /**
-     * Creates a new Adminuser model.
+     * Creates a new Shoper model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) ) {
-            if($user = $model->signup()){
-                return $this->redirect(['view', 'id' => $user->id]);
-            }
+        $model = new Shoper();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
+
     /**
-     * Updates an existing Adminuser model.
+     * Updates an existing Shoper model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -95,7 +94,7 @@ class AdminuserController extends Controller
     }
 
     /**
-     * Deletes an existing Adminuser model.
+     * Deletes an existing Shoper model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -108,15 +107,15 @@ class AdminuserController extends Controller
     }
 
     /**
-     * Finds the Adminuser model based on its primary key value.
+     * Finds the Shoper model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Adminuser the loaded model
+     * @return Shoper the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Adminuser::findOne($id)) !== null) {
+        if (($model = Shoper::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

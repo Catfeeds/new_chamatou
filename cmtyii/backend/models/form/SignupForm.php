@@ -1,7 +1,8 @@
 <?php
 
-namespace backend\models;
+namespace backend\models\form;
 
+use Yii;
 use yii\base\Model;
 use backend\models\Adminuser;
 
@@ -51,11 +52,11 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => '用户名',
-            'real_name' => '真实姓名',
-            'email' => 'Email',
-            'phone' => '电话',
-            'status' => '状态',
+            'username' =>  Yii::t('app', 'Username'),
+            'real_name' => Yii::t('app', 'Real Name'),
+            'email' => Yii::t('app', 'email'),
+            'phone' => Yii::t('app', 'phone'),
+            'status' => Yii::t('app', 'status'),
         ];
     }
 
