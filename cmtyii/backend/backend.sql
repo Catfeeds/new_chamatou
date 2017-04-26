@@ -33,3 +33,7 @@ CREATE TABLE `t_shoper_img` (
 `path` VARCHAR(12) NOT NULl COMMENT '保存路径',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商铺图片';
+
+#修改销售人员信息的时间表
+ALTER TABLE `t_salesman` DROP `addtime`;
+ALTER TABLE `t_salesman` ADD `add_time` int(11) NOT NULL COMMENT '添加时间';

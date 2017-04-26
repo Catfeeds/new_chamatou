@@ -81,7 +81,7 @@
                     ['label' => 'B2B商城管理', 'url' => ['/debug']],
                     ['label' => '统计中心', 'url' => ['/debug']],
                     ['label' => '角色管理', 'url' => ['/debug']],
-                    ['label' => '业务员管理', 'url' => ['/debug']],
+                    ['label' => '业务员管理', 'url' => ['/salesman']],
                 ],
             ]
         ) ?>

@@ -46,4 +46,9 @@ return[
     'Sp Status' => '账户状态',
     'Shoper Status' => '授信状态',
     'Create Shoper' => '添加商户',
+
+    //业务员管理
+    'Salesmen' => '业务员管理',
+    'Shop Total' => '门店数',
+    'Addtime' => '添加时间',
 ];
