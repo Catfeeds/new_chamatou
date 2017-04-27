@@ -81,7 +81,7 @@ class Goods extends ActiveRecord
         $cates = $this->getCat();
         //实例化搜索类
         $searchModel = new GoodsSearch();
-        $query = Goods::find()->where(['status'=>0]);
+        $query = Goods::find()->where(['status'=>0])->orderBy('Id desc');
         //获取搜索数据
         $data = \Yii::$app->request->get($searchModel->formName());
         //将搜索数据加载到搜索模型
