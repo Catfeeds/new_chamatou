@@ -44,7 +44,6 @@ return[
     'Total Amount' => '现金总收入',
     'Withdraw Total' => '提现总额',
     'Sp Status' => '账户状态',
-    'Shoper Status' => '授信状态',
     'Create Shoper' => '添加商户',
 
     //业务员管理
@@ -63,4 +62,33 @@ return[
     'Store ID' => '门店',
     'Type' => '留言类型',
     'Content' => '留言正文',
+
+    //添加商户
+    'Store Sp Name' => '店铺名称',
+    'Store Address' => '店铺地址',
+    'Store Lat' => '店铺地址',
+    'Store Log' => '店铺地址',
+    'Store Provinces Id' => '省',
+    'Store City Id' => '市',
+    'Store Area Id' => '区',
+    'Store Add Detail' => '店铺详细地址',
+    'Store Sp Phone' => '店铺手机号',
+    'Store Cover' => '店铺简介',
+
+    'Shoper Boss' => '商家Boss',
+    'Shoper Phone' => '商家电话',
+    'Shoper Credit Amount' => '授信额度',
+    'Shoper Contract No' => '合同号',
+    'Shoper Withdraw Type' => '提现方式',
+    'Shoper Blank' => '开户行',
+    'Shoper Blank User' => '开户人',
+    'Shoper Card No' => '卡号',
+    'Shoper Credit Remain' => '授信状态',
+    'Shoper Status' => '授信状态',
+    'Shoper Salesman Id' => '销售',
+    'Shoper Add Time' => '添加时间',
+    'Shoper Beans Incom' => '茶豆币收入',
+    'Shoper Total Amount' => '现金总收入',
+    'Shoper Withdraw Total' => '提现总额',
+    'Shoper Sp Status' => '商户状态',
 ];

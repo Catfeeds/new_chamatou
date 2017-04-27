@@ -8,8 +8,10 @@
 namespace backend\models\form;
 
 
+use backend\models\Locations;
 use Yii;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class CreateShoperForm extends Model
 {
@@ -55,7 +57,22 @@ class CreateShoperForm extends Model
     {
         return [
             'store_sp_name' => Yii::t('app', 'Store Sp Name'),
-            'store_' => Yii::t('app', 'Store Sp Name'),
+            'shoper_boss' => Yii::t('app', 'Store Boss'),
+            'store_sp_phone' => Yii::t('app', 'Store Sp Phone'),
+            'shoper_phone' => Yii::t('app', 'Shoper Add Detail'),
+            'store_add_detail' => Yii::t('app', 'Store Add Detail'),
+            'shoper_contract_no' => Yii::t('app', 'Shoper Contract No'),
+            'store_intro' => Yii::t('app', 'Store Intro'),
         ];
     }
+    public  function getCityList($pid)
+    {
+        return Locations::getCityList($pid);
+    }
+    public function createShoper()
+    {
+
+        return null;
+    }
+
 }

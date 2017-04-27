@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\form\CreateShoperForm;
 use Yii;
 use backend\models\Shoper;
 use backend\models\search\ShoperSearch;
@@ -63,11 +64,14 @@ class ShoperController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Shoper();
+        $model = new CreateShoperForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->createShoper()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
+        else {
             return $this->render('create', [
                 'model' => $model,
             ]);
