@@ -1,5 +1,6 @@
 <?php
 
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -24,18 +25,53 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'shoper_id',
-            'store_id',
-            'type',
-            'content:ntext',
-            // 'phone',
-            // 'username',
-            // 'add_time:datetime',
-            // 'status',
-            // 'delete_tag',
-            // 'delete_time:datetime',
-            // 'title',
+//            'id',
+            [
+                'attribute' => 'shoper_id',
+                'value' => 'storeName.sp_name',
+            ],
+            [
+                'attribute' => 'type',
+                'value' => function ($model) {
+                    switch ($model->type) {
+                        case 1:
+                            return '培训支持';
+                        case 2:
+                            return '活动申请';
+                        case 3:
+                            return '广告设计';
+                    }
+                }
+            ],
+            'title',
+            [
+                'attribute' => 'content',
+                'format' => 'ntext',
+                'value' => function ($model) {
+                    return mb_substr($model->content, 0, 12, 'utf-8');
+                }
+            ],
+            'phone',
+            'username',
+            [
+                'attribute' => 'add_time',
+                'format' => 'date',
+                'filter' => DateRangePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'add_time',
+                    'convertFormat' => true,
+                    'pluginOptions' => [
+                        'locale' => ['format' => 'Y-m-d'],
+                    ]
+                ])
+            ],
+            [
+                    'attribute' => 'message_status',
+                    'value' => function($model){
+                        return $model->status ? '未读' : '已读';
+                    }
+            ],
+
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

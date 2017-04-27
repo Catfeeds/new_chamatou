@@ -105,11 +105,11 @@ class Shoper extends \yii\db\ActiveRecord
     {
         $one = SpStore::find()
             ->alias('s')
-            ->leftJoin('t_locations l', ['s.city_id'=> 'l.id'])
+            ->leftJoin('t_locations l', 's.city_id = l.id')
             ->select('l.name')
             ->where( ['s.shoper_id'=>$id])
             ->one();
-        return isset($one->name) ? $one->name : null;
+       return $one;
 
     }
 }

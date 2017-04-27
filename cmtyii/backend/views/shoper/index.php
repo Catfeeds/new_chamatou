@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'area',
                 'value'     => function ($model) {
-                    return $model->getArea($model->id);
+                    $one = $model->getArea($model->id);
                 },
             ],
             'phone',

@@ -11,7 +11,7 @@ use Yii;
  * @property string $username
  * @property string $phone
  * @property integer $shop_total
- * @property integer $addtime
+ * @property integer $add_time
  */
 class Salesman extends \yii\db\ActiveRecord
 {

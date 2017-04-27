@@ -61,7 +61,7 @@ class SalesmanSearch extends Salesman
         $query->andFilterWhere([
             'id' => $this->id,
             'shop_total' => $this->shop_total,
-            'add_time' => $this->addtime,
+            'add_time' => $this->add_time,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
