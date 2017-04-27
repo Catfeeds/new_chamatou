@@ -53,7 +53,7 @@ class ShoperSearch extends Shoper
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' =>  ['pageSize'=>2],
+            'pagination' =>  ['pageSize'=>10],
             'sort' => [
                 'defaultOrder' => [
                     'id' => SORT_DESC

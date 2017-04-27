@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use backend\models\form\CreateShoperForm;
+use backend\models\SpStore;
+use backend\models\Upload;
 use Yii;
 use backend\models\Shoper;
 use backend\models\search\ShoperSearch;
@@ -54,6 +56,7 @@ class ShoperController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'storeModel' => $this->findStoreModel($id)
         ]);
     }
 
@@ -65,17 +68,17 @@ class ShoperController extends Controller
     public function actionCreate()
     {
         $model = new CreateShoperForm();
+        $uploadModel = new Upload();
 
         if ($model->load(Yii::$app->request->post())) {
-            if($model->createShoper()){
-                return $this->redirect(['view', 'id' => $model->id]);
+            if($id = $model->createShoper()){
+                return $this->redirect(['view', 'id' => $id]);
             }
         }
-        else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        return $this->render('create', [
+            'model' => $model,
+            'uploadModel' => $uploadModel,
+        ]);
     }
 
     /**
@@ -87,12 +90,16 @@ class ShoperController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $storeModel = $this->findStoreModel($id);
+        $uploadModel = new Upload();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'uploadModel' => $uploadModel,
+                'storeModel' => $storeModel,
             ]);
         }
     }
@@ -106,6 +113,7 @@ class ShoperController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        $this->findStoreModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -122,6 +130,14 @@ class ShoperController extends Controller
         if (($model = Shoper::findOne($id)) !== null) {
             return $model;
         } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    protected function findStoreModel($shoper_id)
+    {
+        if(($model = SpStore::findOne(['shoper_id' => $shoper_id])) !== null){
+            return $model;
+        }else{
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }

@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Shoper */
 
-$this->title = $model->id;
+$this->title = '商铺详情';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shopers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="shoper-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
 
     <p>
         <?= Html::a(Yii::t('app', 'update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -46,9 +46,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'withdraw_total',
             [
                     'attribute' => 'sp_status',
-                    'value' => $model->getSpstatusMsg()
-            ]
+                    'value' => $model->getShoperStatus(),
+            ],
+
         ],
     ]) ?>
 
+
+    <?= DetailView::widget([
+        'model' => $storeModel,
+        'attributes' => [
+            'id',
+            'shoper_id',
+            'sp_name',
+            'address',
+            'lat',
+            'lot',
+            'provinces_id',
+            'city_id',
+            'area_id',
+            'add_detail',
+            'sp_phone',
+            'cover',
+            'intro',
+        ],
+    ]) ?>
 </div>
