@@ -2,10 +2,10 @@
 
 namespace backend\controllers;
 
-use backend\models\SignupForm;
+use backend\models\form\SignupForm;
 use Yii;
 use backend\models\Adminuser;
-use backend\models\AdminuserSearch;
+use backend\models\search\AdminuserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

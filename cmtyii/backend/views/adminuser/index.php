@@ -7,7 +7,7 @@ use yii\grid\GridView;
 use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\AdminuserSearch */
+/* @var $searchModel backend\models\search\AdminuserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '管理员管理';
