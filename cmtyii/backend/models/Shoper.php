@@ -28,6 +28,7 @@ use Yii;
  */
 class Shoper extends \yii\db\ActiveRecord
 {
+    public $yinhuan;
     /**
      * @inheritdoc
      */
@@ -74,6 +75,7 @@ class Shoper extends \yii\db\ActiveRecord
             'withdraw_total' => Yii::t('app', 'Withdraw Total'),
             'sp_status' => Yii::t('app', 'Sp Status'),
             'withdrawType.name' =>  Yii::t('app', 'Withdraw Type'),
+            'yinhuan' => Yii::t('app', '当期应还'),
         ];
     }
     public function getSpstatus()

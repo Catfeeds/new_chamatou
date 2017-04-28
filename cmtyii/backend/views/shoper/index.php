@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\Salesman;
 use backend\models\WithdawType;
 use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
@@ -38,34 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'phone',
-            'credit_amount',
-            'contract_no',
-            [
-                'attribute' => 'withdraw_type',
-                'value'     => function ($model) {
-                    switch ($model->withdraw_type) {
-                        case 1:
-                            return '支付宝';
-                            break;
-                        case 2:
-                            return '微信';
-                            break;
-                        case 3:
-                            return '银行卡';
-                            break;
-
-                    }
-                },
-                'filter'    => [
-                    1 => '支付宝',
-                    2 => '微信',
-                    3 => '银行卡',
-                ],
-            ],
-            'bank',
-            'bank_user',
-            'card_no',
             'credit_remain',
+            [
+                    'attribute' => 'yinhuan',
+            ],
             [
                 'attribute' => 'status',
                 'value'     => function ($model) {
@@ -79,7 +56,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     1 => '冻结',
                 ],
             ],
-            'salesman_id',
+            [
+                'attribute' => 'sp_status',
+                'value'     => 'spstatus',
+                'filter'    => $searchModel->getSpStatusDropDownList(),
+            ],
+            [
+                    'attribute' => 'salesman_id',
+                    'value' =>  function($model){
+                        $one = Salesman::find()
+                                ->select(['username'])
+                                ->where(['id' => $model->salesman_id])
+                                ->one();
+                        return isset($one->username) ? $one->username : null;
+                    },
+                    'filter' => Salesman::find()
+                                ->select(['username', 'id'])
+                                ->column()
+            ],
             [
                 'attribute' => 'add_time',
                 //'format' => ['date', 'Y-m-d H:i']
@@ -95,15 +89,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]),
             ],
-            'beans_incom',
-            'total_amount',
-            'withdraw_total',
-            [
-                'attribute' => 'sp_status',
-                'value'     => 'spstatus',
-                'filter'    => $searchModel->getSpStatusDropDownList(),
-            ],
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
