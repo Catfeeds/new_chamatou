@@ -56,4 +56,9 @@ class Locations extends \yii\db\ActiveRecord
         $model = Locations::findAll(array('parent_id'=>$pid));
         return ArrayHelper::map($model, 'id', 'name');
     }
+
+    public static function getLatLog($city, $address)
+    {
+
+    }
 }

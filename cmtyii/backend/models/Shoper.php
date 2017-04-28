@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use Codeception\Coverage\Subscriber\Local;
 use Yii;
 
 /**
@@ -27,6 +28,7 @@ use Yii;
  */
 class Shoper extends \yii\db\ActiveRecord
 {
+    public $yinhuan;
     /**
      * @inheritdoc
      */
@@ -73,17 +75,18 @@ class Shoper extends \yii\db\ActiveRecord
             'withdraw_total' => Yii::t('app', 'Withdraw Total'),
             'sp_status' => Yii::t('app', 'Sp Status'),
             'withdrawType.name' =>  Yii::t('app', 'Withdraw Type'),
+            'yinhuan' => Yii::t('app', '当期应还'),
         ];
     }
     public function getSpstatus()
     {
-        return $this->sp_status == 1 ? '正常' : '封停';
+        return $this->sp_status == 0 ? '正常' : '封停';
     }
     public function getSpStatusDropDownList()
     {
         return [
-            1 => '正常',
-            2 => '封停'
+            0 => '正常',
+            1 => '封停'
         ];
     }
 
@@ -94,13 +97,21 @@ class Shoper extends \yii\db\ActiveRecord
             2 => '冻结'
         ];
     }
-    public function getShoperStatus()
+
+    public function getStore()
     {
-        return $this->status == 1 ? '正常': '冻结';
+        return $this->hasOne(SpStore::className(), ['shoper_id'=>'id']);
     }
 
-    public function getWithdrawType()
+    public function getArea($id)
     {
-        return $this->hasOne(WithdawType::className(), ['id'=> 'withdraw_type']);
+        $one = SpStore::find()
+            ->alias('s')
+            ->leftJoin('t_locations l', 's.city_id = l.id')
+            ->select('l.name')
+            ->where( ['s.shoper_id'=>$id])
+            ->one();
+       return $one;
+
     }
 }

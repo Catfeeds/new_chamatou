@@ -75,4 +75,9 @@ class Message extends \yii\db\ActiveRecord
     {
         return new MessageQuery(get_called_class());
     }
+
+    public function getStoreName()
+    {
+        return $this->hasOne(SpStore::className(), ['id'=> 'store_id']);
+    }
 }
