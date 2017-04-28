@@ -55,7 +55,7 @@ class GoodsCat extends ActiveRecord
     {
         $arrCat = [];
         $data    =  $this->getCate();
-        $arrCat[0]  =  '所有分类';
+        $arrCat[0]  =  '选择分类';
         foreach ($data as $v){
             $arrCat[$v['id']] = $v['cate_name'];
         }

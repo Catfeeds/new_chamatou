@@ -12,6 +12,7 @@ namespace backend\controllers;
 use backend\models\GoodsCat;
 use tea\models\Goods;
 use yii\web\Controller;
+
 class CategoryController extends Controller
 {
 
@@ -22,13 +23,13 @@ class CategoryController extends Controller
     public function actionAdd()
     {
         $model = new GoodsCat();
-        if($model->load(\Yii::$app->request->post())){
-            if($model->save()){
+        if ($model->load(\Yii::$app->request->post())) {
+            if ($model->save()) {
                 return $this->redirect(['category/index']);
             }
         }
-        return $this->render('addcat',[
-            'model'=>$model
+        return $this->render('addcat', [
+            'model' => $model
         ]);
     }
 
@@ -41,7 +42,7 @@ class CategoryController extends Controller
         $goodsModel = new GoodsCat();
         $cates = $goodsModel->getCate();
         //var_dump($cates);die;
-        return $this->render('index',['data'=>$cates]);
+        return $this->render('index', ['data' => $cates]);
     }
 
     /**
@@ -52,10 +53,10 @@ class CategoryController extends Controller
     public function actionEdit($id)
     {
         $model = GoodsCat::findOne($id);
-        if($model->load(\Yii::$app->request->post()) && $model->save()){
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
-        return $this->render('addcat',['model'=>$model]);
+        return $this->render('addcat', ['model' => $model]);
     }
 
 
@@ -69,10 +70,10 @@ class CategoryController extends Controller
     public function actionDel($id)
     {
         $model = GoodsCat::findOne($id);
-        if($model->delete()){
-            \Yii::$app->session->setFlash('success','删除成功');
-        }else{
-            \Yii::$app->session->setFlash('error','删除失败');
+        if ($model->delete()) {
+            \Yii::$app->session->setFlash('success', '删除成功');
+        } else {
+            \Yii::$app->session->setFlash('error', '删除失败');
         }
         return $this->redirect(['index']);
 

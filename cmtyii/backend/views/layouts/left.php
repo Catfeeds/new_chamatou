@@ -29,11 +29,11 @@
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
-                'items'   => [
+                'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     [
                         'label' => '权限管理',
-                        'url'   => '#',
+                        'url' => '#',
                         'items' => [
                             ['label' => '管理员管理', 'url' => ['/adminuser'],],
                             ['label' => '路由管理', 'url' => ['/admin/route'],],
@@ -48,7 +48,15 @@
                     ['label' => '提现管理', 'url' => ['/withdraw']],
                     ['label' => '充值记录', 'url' => ['/#']],
                     ['label' => '留言管理', 'url' => ['/message']],
-                    ['label' => 'B2B商城管理', 'url' => ['/#']],
+                    [
+                        'label' => 'B2B商城管理',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => '商品列表', 'url' => ['goods/index'],],
+                            ['label' => '品类列表', 'url' => ['category/index'],],
+                            ['label' => '订单管理', 'url' => ['order/index'],],
+                        ]
+                    ],
                     ['label' => '统计中心', 'url' => ['/dataCenter']],
                     ['label' => '业务员管理', 'url' => ['/salesman']],
                 ],
