@@ -1,6 +1,5 @@
 <?php
 
-use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -67,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <!--门店信息-店铺简介-->
         <?= $form->field($model, 'store_intro')->textInput(['maxlength' => true]) ?>
         <!--门店信息-上传图片-->
-        <?= $form->field($uploadModel, 'file[]')->widget(FileInput::classname(), [
+        <?= $form->field($uploadModel, 'file[]')->widget( FileInput::class, [
             'options' => ['multiple' => true],
         ]) ?>
 
