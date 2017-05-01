@@ -39,9 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         case 2:
                             return '活动申请';
                         case 3:
-                            return '广告设计';
+                            return '活动申请';
                     }
-                }
+                },
+                'filter' => [
+                    1 => '技术支持',
+                    2 => '活动申请',
+                    3 => '活动申请',
+                ]
             ],
             'title',
             [
@@ -68,12 +73,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                     'attribute' => 'message_status',
                     'value' => function($model){
-                        return $model->status ? '未读' : '已读';
+                        return $model->status ? '已读' : '未读';
                     }
             ],
 
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => "{view}{delete}",
+            ],
         ],
     ]); ?>
 </div>

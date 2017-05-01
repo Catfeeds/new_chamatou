@@ -45,14 +45,19 @@ class Withdraw extends \yii\db\ActiveRecord
             'Id' => Yii::t('app', 'ID'),
             'shoper_id' => Yii::t('app', 'Shoper ID'),
             'amount' => Yii::t('app', 'Amount'),
-            'status' => Yii::t('app', 'Status'),
-            'note' => Yii::t('app', 'Note'),
-            'add_time' => Yii::t('app', 'Add Time'),
+            'status' => Yii::t('app', '状态'),
+            'note' => Yii::t('app', '备注'),
+            'add_time' => Yii::t('app', '申请时间'),
         ];
     }
 
     public function getShoper()
     {
-        return $this->hasOne(Shoper::className(), ['shoper_id' => 'id']);
+        return $this->hasOne(Shoper::className(), ['id' => 'shoper_id']);
+    }
+
+    public function getStore()
+    {
+        return $this->hasOne(SpStore::className(), ['shoper_id' => 'shoper_id']);
     }
 }

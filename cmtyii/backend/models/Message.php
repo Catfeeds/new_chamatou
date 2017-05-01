@@ -80,4 +80,17 @@ class Message extends \yii\db\ActiveRecord
     {
         return $this->hasOne(SpStore::className(), ['id'=> 'store_id']);
     }
+
+    /**
+     * 查看的时候调用。将留言标记为已读
+     * @param $id
+     * @return static
+     */
+    public static function view($id)
+    {
+        $model = Message::findOne($id);
+        $model->status =1;
+        $model->save();
+        return $model;
+    }
 }
