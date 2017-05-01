@@ -121,4 +121,33 @@ class WithdrawController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * 通过提现
+     * @param $id
+     * @return \yii\web\Response
+     */
+    public function actionVia($id)
+    {
+        $model = $this->findModel($id);
+        //TODO:: 判断用户账户是否充足，并进行扣款
+        $model->status = 1;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * 拒绝提现
+     * @param $id
+     * @return \yii\web\Response
+     */
+    public function actionRefuse($id)
+    {
+        $model = $this->findModel($id);
+        //TODO:: 判断用户账户是否充足，并进行退款,还有个备注的提交
+        $model->status = 2;
+        $model->note  = Yii::$app->request->post('note');
+        $model->save();
+        return $this->redirect(['index']);
+    }
 }

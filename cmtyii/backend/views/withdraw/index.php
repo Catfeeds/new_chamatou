@@ -82,7 +82,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => "{}{delete}"
+                'template' => "{via}{refuse}{delete}",
+                'buttons' => [
+                        'via' => function($url, $model, $key){
+                            $options = [
+                                'title' => Yii::t('app', '通过'),
+                                'aria-label' => Yii::t('app', 'access'),
+                                'data-pjax' => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, $options);
+                        },
+                        'refuse' => function($url, $model, $key){
+                            $options = [
+                                'title' => Yii::t('app', '拒绝'),
+                                'aria-label' => Yii::t('app', 'access'),
+                                'data-pjax' => '0',
+                            ];
+                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, $options);
+                        }
+                ]
+
             ],
         ],
     ]); ?>
