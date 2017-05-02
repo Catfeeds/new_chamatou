@@ -12,10 +12,9 @@ use backend\models\Shoper;
  */
 class ShoperSearch extends Shoper
 {
-    public function attributes()
-    {
-        return array_merge(parent::attributes(),['authorName']);
-    }
+    public $sp_name;
+    public $area;
+
 
     /**
      * @inheritdoc
@@ -26,6 +25,7 @@ class ShoperSearch extends Shoper
             [['id', 'withdraw_type', 'status', 'salesman_id', 'add_time', 'sp_status'], 'integer'],
             [['boss', 'phone', 'contract_no', 'bank', 'bank_user', 'card_no'], 'safe'],
             [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total'], 'number'],
+            ['sp_name','safe']
         ];
     }
 
@@ -48,6 +48,8 @@ class ShoperSearch extends Shoper
     public function search($params)
     {
         $query = Shoper::find();
+
+        $query->joinWith(['sp_name']);
 
         // add conditions that should always apply here
 

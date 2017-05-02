@@ -12,6 +12,7 @@ use backend\models\Locations;
 use backend\models\Shoper;
 use backend\models\ShoperImg;
 use backend\models\SpStore;
+use backend\models\SpUsers;
 use backend\models\Upload;
 use Yii;
 use yii\base\Model;
@@ -188,6 +189,19 @@ class CreateShoperForm extends Model
                 }
             }
         }
+
+        //给店铺添加一个管理员-茶坊端的
+        $spUser = new SpUsers();
+        $spUser->store_id = $store->id;
+        $spUser->shoper_id = $store->shoper_id;
+        $spUser->user = 'admin';
+        $spUser->phone = $store->sp_phone;
+        $spUser->add_time = time();
+        $spUser->password = md5('123456');
+        $spUser->is_admin = 1;
+        $spUser->status = 0;
+        $spUser->save();
+
         return $shoper ? $shoper->id : null;
     }
 
