@@ -51,8 +51,9 @@ class MessageController extends Controller
      */
     public function actionView($id)
     {
+        $model = Message::view($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -101,8 +102,10 @@ class MessageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->delete_tag = 1;
+        $model->delete_time = time();
+        $model->save();
         return $this->redirect(['index']);
     }
 

@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'boss',
             'phone',
             'credit_amount',
@@ -46,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'withdraw_total',
             [
                     'attribute' => 'sp_status',
-                    'value' => $model->getShoperStatus(),
+                    'value' => $model->getSpstatus(),
             ],
 
         ],
@@ -56,8 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $storeModel,
         'attributes' => [
-            'id',
-            'shoper_id',
             'sp_name',
             'address',
             'lat',

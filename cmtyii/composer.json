@@ -22,6 +22,7 @@
         "mdmsoft/yii2-admin": "2.x-dev",
         "kartik-v/yii2-date-range": "dev-master",
         "moonlandsoft/yii2-phpexcel" : "*"
+        "kartik-v/bootstrap-fileinput": "~1.0.4v"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
