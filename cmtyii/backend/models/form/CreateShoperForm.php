@@ -21,6 +21,7 @@ use yii\web\UploadedFile;
 
 class CreateShoperForm extends Model
 {
+    public $id;
 
     //店铺信息
     public $store_sp_name; //店铺名称
@@ -56,6 +57,14 @@ class CreateShoperForm extends Model
     public $shoper_pay_account; //支付宝账号
 
     public $file;
+
+    public function __construct($id)
+    {
+        parent::__construct();
+        if(isset($id)){
+            $this->genUpdateModel($id);
+        }
+    }
 
     public function rules()
     {
@@ -205,4 +214,39 @@ class CreateShoperForm extends Model
         return $shoper ? $shoper->id : null;
     }
 
+    public function genUpdateModel($id)
+    {
+        $shoper = Shoper::findOne($id);
+        $store = SpStore::findOne(['shoper_id'=>$id]);
+
+        //赋值店铺信息
+        $this->id = $id;
+        $this->store_sp_name = $store->sp_name;
+        $this->shoper_boss = $shoper->boss;
+        $this->store_sp_phone = $shoper->phone;
+        $this->store_provinces_id = $store->provinces_id;
+        $this->store_city_id = $store->city_id;
+        $this->store_area_id = $store->area_id;
+        $this->store_add_detail = $store->add_detail;
+        $this->shoper_phone = $store->sp_phone;
+        $this->shoper_credit_type = 0;
+        $this->shoper_credit_amount = 0;
+
+        if($shoper->credit_amount>0){
+            $this->shoper_credit_type = 1;
+            $this->shoper_credit_amount = $shoper->credit_amount;
+        }
+        $this->shoper_contract_no = $shoper->contract_no;
+        $this->store_intro = $store->intro;
+        $this->shoper_withdraw_type = $shoper->withdraw_type;
+        if($this->shoper_withdraw_type == 3){
+            $this->shoper_card_no = $shoper->card_no;
+            $this->shoper_bank = $shoper->bank;
+            $this->shoper_bank_user = $shoper->bank_user;
+        }else{
+            $this->shoper_pay_account = $shoper->pay_account;
+        }
+
+        return $this;
+    }
 }

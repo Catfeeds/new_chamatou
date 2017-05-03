@@ -89,8 +89,7 @@ class ShoperController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $storeModel = $this->findStoreModel($id);
+        $model = new CreateShoperForm($id);
         $uploadModel = new Upload();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -99,7 +98,6 @@ class ShoperController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'uploadModel' => $uploadModel,
-                'storeModel' => $storeModel,
             ]);
         }
     }
