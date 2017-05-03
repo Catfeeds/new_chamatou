@@ -58,7 +58,7 @@ class CreateShoperForm extends Model
 
     public $file;
 
-    public function __construct($id)
+    public function __construct($id = null)
     {
         parent::__construct();
         if(isset($id)){

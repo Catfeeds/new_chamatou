@@ -16,9 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Message'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -71,10 +69,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])
             ],
             [
-                    'attribute' => 'message_status',
+                    'label' => '留言状态',
+                    'attribute' => 'status',
                     'value' => function($model){
                         return $model->status ? '已读' : '未读';
-                    }
+                    },
+                    'filter' => [
+                            0 => '未读',
+                            1 => '已读',
+                    ]
             ],
 
 

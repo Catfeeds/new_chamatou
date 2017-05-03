@@ -57,7 +57,7 @@
                             ['label' => '订单管理', 'url' => ['order/index'],],
                         ]
                     ],
-                    ['label' => '统计中心', 'url' => ['/dataCenter']],
+                    ['label' => '统计中心', 'url' => ['/dashboard']],
                     ['label' => '业务员管理', 'url' => ['/salesman']],
                 ],
             ]

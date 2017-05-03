@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\ShoperImg;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -15,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
 
     <p>
-        <?= Html::a(Yii::t('app', 'update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
@@ -64,7 +65,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'area_id',
             'add_detail',
             'sp_phone',
-            'cover',
+            [
+                    'attribute' => 'cover',
+                    'label' => '图片',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        $imgs = ShoperImg::find()
+                            ->where(['store_id'=>$model->id])
+                            ->select('path')->all();
+                        $html = '';
+
+                        foreach($imgs as $img){
+                            $html .= Html::img('public'.$img['path'], ['width'=> '400px', 'height'=> '400px']);
+                        }
+                        return $html;
+                    }
+            ],
             'intro',
         ],
     ]) ?>

@@ -4,7 +4,9 @@ use backend\models\Salesman;
 use backend\models\WithdawType;
 use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\editable\Editable;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\ShoperSearch */
@@ -24,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel'  => $searchModel,
+        'export' => false,
         'columns'      => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -31,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'sp_name',
                 'value'     => 'store.sp_name',
+
             ],
             [
                 'attribute' => 'area',
@@ -38,10 +42,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     $one = $model->getArea($model->id);
                 },
             ],
-            'phone',
+            [
+                'attribute' => 'phone',
+                'class'=>'kartik\grid\EditableColumn',
+                'editableOptions'=>[
+                    'asPopover' => false,
+                ],
+
+            ],
             'credit_remain',
             [
                     'attribute' => 'yinhuan',
+                    'class'=>'kartik\grid\EditableColumn',
             ],
             [
                 'attribute' => 'status',
@@ -72,7 +84,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'filter' => Salesman::find()
                                 ->select(['username', 'id'])
-                                ->column()
+                                ->column(),
+                    'class'=>'kartik\grid\EditableColumn',
+
             ],
             [
                 'attribute' => 'add_time',

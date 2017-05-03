@@ -42,3 +42,27 @@ ALTER TABLE `t_salesman` DROP `addtime`;
 ALTER TABLE `t_salesman` ADD `add_time` int(11) NOT NULL COMMENT '添加时间';
 
 ALTER TABLE t_shoper ADD pay_account varchar(64) not null default '' COMMENT '支付宝或者微信账号';
+
+#创建茶豆币消费记录
+CREATE TABLE `t_shoper_tea_ beans_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `shoper_id` int(11) NOT NULL COMMENT '商家id',
+  `store_id` int(11) DEFAULT NULL COMMENT '店铺id',
+  `num` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `add_time` int(11) DEFAULT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0收入; 1消费;2提现',
+  `method` tinyint(1) DEFAULT '0' COMMENT '0减，1加',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商铺的茶豆币记录，num不能为负值'
+
+CREATE TABLE `t_shoper_tea_ beans_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `shoper_id` int(11) NOT NULL COMMENT '商家id',
+  `store_id` int(11)  COMMENT '店铺id',
+  `num` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `add_time` int(11) DEFAULT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0收入; 1消费;2提现',
+  `method` tinyint(1) DEFAULT '0' COMMENT '0减，1加',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商铺的茶豆币记录，num不能为负值';
+
