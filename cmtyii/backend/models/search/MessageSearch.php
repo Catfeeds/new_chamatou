@@ -12,6 +12,7 @@ use backend\models\Message;
  */
 class MessageSearch extends Message
 {
+
     /**
      * @inheritdoc
      */

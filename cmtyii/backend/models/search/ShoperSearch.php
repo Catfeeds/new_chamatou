@@ -49,8 +49,6 @@ class ShoperSearch extends Shoper
     {
         $query = Shoper::find();
 
-        $query->joinWith(['sp_name']);
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

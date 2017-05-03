@@ -40,23 +40,28 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'amount',
             [
-                'attribute' => 'shoper_id',
+                'label' => '店铺名称',
+                'attribute' => 'store_sp_name',
                 'value' => 'store.sp_name'
             ],
             [
-                'attribute' => 'sp_phone',
-                'value' => 'store.sp_phone'
+                'label' => '联系电话',
+                'attribute' => 'shoper_phone',
+                'value' => 'shoper.phone'
             ],
             [
-                'attribute' => 'bank',
+                'label' => '开户行',
+                'attribute' => 'shoper_bank',
                 'value' => 'shoper.bank'
             ],
             [
-                'attribute' => 'bank_user',
+                'label' => '开户人',
+                'attribute' => 'shoper_bank_user',
                 'value' => 'shoper.bank_user'
             ],
             [
-                'attribute' => 'card_no',
+                'label' => '卡号',
+                'attribute' => 'shoper_card_no',
                 'value' => 'shoper.card_no'
             ],
             [
