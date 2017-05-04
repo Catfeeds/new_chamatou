@@ -36,11 +36,11 @@
                         'url' => '#',
                         'items' => [
                             ['label' => '管理员管理', 'url' => ['/adminuser'],],
+                            ['label' => '分配', 'url' => ['/admin/assignment'],],
                             ['label' => '路由管理', 'url' => ['/admin/route'],],
                             ['label' => '权限管理', 'url' => ['/admin/permission'],],
                             ['label' => '菜单管理', 'url' => ['/admin/menu'],],
                             ['label' => '角色管理', 'url' => ['/admin/role'],],
-                            ['label' => '用户管理', 'url' => ['/adminuser'],],
 
                         ],
                     ],
