@@ -43,6 +43,9 @@ return [
             'rules' => [
             ],
         ],
+        'wechat' => [
+            'class' => 'maxwen\easywechat\Wechat',
+            ],
 
     ],
     'params' => $params,

@@ -85,6 +85,11 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(OrderGoods::className(),['order_id'=>'id'])->select($select)->asArray()->all();
     }
 
+    public function getStore($select = [])
+    {
+        return $this->hasOne(Store::className(),['id'=>'store_id'])->select($select)->asArray()->all();
+    }
+
     /**
      * 获取商品的价格和
      */
