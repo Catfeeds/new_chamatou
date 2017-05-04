@@ -44,7 +44,7 @@ class Goods extends ActiveRecord
             foreach ($goods as $goodK=>&$good){
                 $good['stock'] = $StockModel->getGoodsStock($good['id']);//获取商品库存
                 $good['num'] = 0; //将商品数量设置为0 用户点击选中时再增加
-                if($good['cate_id'] == $value['id']){
+                if($good['cate_id'] == $value['id'] && $good['stock'] != '0'){
                     $data[$cateK]['goods'][] = $good;
                 }
             }

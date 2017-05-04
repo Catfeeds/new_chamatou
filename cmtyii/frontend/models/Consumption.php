@@ -10,9 +10,11 @@ namespace frontend\models;
 
 
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 
 class Consumption extends ActiveRecord
 {
+    public $error;
     public static function tableName()
     {
         return '{{%users_beans_log}}';
@@ -32,9 +34,22 @@ class Consumption extends ActiveRecord
         $this->add_time = time();
         $this->user_id = 1;
         $this->num = $num;
-        if($this->save()){
+        $tr = \Yii::$app->db->beginTransaction();
+        try {
+            //扣除用户的茶豆币
+            $res = User::deduction($this->num);
+            if($res !== true){
+               throw new \Exception('用户茶豆币扣除失败');
+            }
+            //执行保存用户茶豆币的消费记录
+            if(!$this->save()){
+                throw new \Exception($this->getFirstError());
+            }
+            $tr->commit();
             return true;
+        } catch(\Exception $e){
+            $tr->rollBack();
+            return false;
         }
-        return false;
     }
 }

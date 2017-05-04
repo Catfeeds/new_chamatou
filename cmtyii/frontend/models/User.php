@@ -26,12 +26,50 @@ class User extends ActiveRecord
         ];
     }
 
-//    public static function deduction($num)
-//    {
-//        $user = \Yii::$app->session->get('wx_user');
-//        $userModel = User::findOne($user['id']);
-//        if($userModel->beans < $num){
-//            return
-//        }
-//    }
+    /**
+     * 扣除和记录用户茶豆币消费
+     * @param $num
+     * @return bool|string
+     */
+    public static function deduction($num)
+    {
+        $user = \Yii::$app->session->get('wx_user');
+        $userModel = User::findOne(1);
+        if($userModel->beans < $num){
+            return '茶豆币余额不足!';
+        }
+        $userModel->beans -= $num;
+        if(!$userModel->save()){
+            return '茶豆币扣除失败!';
+        }
+        return true;
+    }
+
+
+    /**
+     * 判断商品数组中是否有重复的商品记录
+     * 如果重复就将里面的数量相加 并删除多余的记录
+     *
+     */
+    public static function setGoods($goods)
+    {
+        $goods_id = [];
+        foreach ($goods as $key=>$value)
+        {
+            if (isset($goods_id[$value['goods_id']])){
+                unset($goods[$key]);
+            }else{
+                $goods_id[$value['goods_id']] = $value['num'];
+                foreach ($goods as $key2=>$vlue2)
+                {
+                    if($vlue2['goods_id'] == $value['goods_id'] && $vlue2['id'] != $value['id'])
+                    {
+                        $goods_id[$value['goods_id']] = $goods_id[$value['goods_id']]+$vlue2['num'];
+                        $goods[$key]['num'] = $goods[$key]['num'] + $vlue2['num'];
+                    }
+                }
+            }
+        }
+        return $goods;
+    }
 }
