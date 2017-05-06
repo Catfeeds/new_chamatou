@@ -6,9 +6,7 @@ use yii\helpers\Html;use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Shoper */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Shoper',
-]) . $model->id;
+$this->title = '更新店铺';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shopers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');

@@ -27,7 +27,7 @@ class CreateShoperForm extends Model
     public $store_sp_name; //店铺名称
     public $store_address; //店铺地址
     public $store_lat;
-    public $store_lot;
+    public $store_lon;
     public $store_provinces_id;
     public $store_city_id;
     public $store_area_id;
@@ -69,7 +69,7 @@ class CreateShoperForm extends Model
     public function rules()
     {
         return [
-            [['store_sp_name', 'store_address','store_lat','store_lot','store_provinces_id',
+            [['store_sp_name', 'store_address','store_lat','store_lon','store_provinces_id',
                     'store_city_id','store_area_id','store_add_detail', 'store_sp_phone','store_cover',
                     'store_intro','shoper_boss', 'shoper_phone','shoper_credit_type','shoper_credit_amount','shoper_contract_no',
                 'shoper_withdraw_type','shoper_bank','shoper_bank_user', 'shoper_card_no','shoper_credit_remain',
@@ -85,7 +85,7 @@ class CreateShoperForm extends Model
             "store_sp_name"         => Yii::t('app', '名称'),
             "store_address"        => Yii::t('app', '地址'),
             "store_lat"            => Yii::t('app', '纬度'),
-            "store_lot"            => Yii::t('app', '经度'),
+            "store_lon"            => Yii::t('app', '经度'),
             "store_provinces_id"   => Yii::t('app', '省'),
             "store_city_id"        => Yii::t('app', '市'),
             "store_area_id"        => Yii::t('app', '区'),
@@ -158,9 +158,6 @@ class CreateShoperForm extends Model
         $store = new SpStore();
         $store->shoper_id = $shoper->id;
         $store->sp_name = $this->store_sp_name;
-        $store->address = '';
-        $store->lat = '';
-        $store->lot = '';
         $store->provinces_id = $this->store_provinces_id;
         $store->city_id = $this->store_city_id;
         $store->area_id = $this->store_area_id;
@@ -168,6 +165,12 @@ class CreateShoperForm extends Model
         $store->sp_phone = $this->store_sp_phone;
         $store->cover = '';
         $store->intro = $this->store_intro;
+
+        $lat_lon = Locations::address2ll($store->add_detail, $store->city_id);
+
+        $store->address = Locations::byIdAddress($store->provinces_id, $store->city_id, $store->area_id, $store->add_detail);
+        $store->lat = $lat_lon['lat'];
+        $store->lon = $lat_lon['lon'];
 
         if (!$store->save()) {
             return null;
@@ -239,13 +242,17 @@ class CreateShoperForm extends Model
         $this->shoper_contract_no = $shoper->contract_no;
         $this->store_intro = $store->intro;
         $this->shoper_withdraw_type = $shoper->withdraw_type;
-        if($this->shoper_withdraw_type == 3){
-            $this->shoper_card_no = $shoper->card_no;
-            $this->shoper_bank = $shoper->bank;
-            $this->shoper_bank_user = $shoper->bank_user;
-        }else{
-            $this->shoper_pay_account = $shoper->pay_account;
-        }
+        $this->shoper_card_no = $shoper->card_no;
+        $this->shoper_bank = $shoper->bank;
+        $this->shoper_bank_user = $shoper->bank_user;
+        $this->shoper_pay_account = $shoper->pay_account;
+//        if($this->shoper_withdraw_type == 3){
+//            $this->shoper_card_no = $shoper->card_no;
+//            $this->shoper_bank = $shoper->bank;
+//            $this->shoper_bank_user = $shoper->bank_user;
+//        }else{
+//            $this->shoper_pay_account = $shoper->pay_account;
+//        }
 
         return $this;
     }

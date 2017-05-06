@@ -58,8 +58,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'sp_name',
             'address',
-            'lat',
-            'lot',
             'provinces_id',
             'city_id',
             'area_id',
