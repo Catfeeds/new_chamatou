@@ -27,6 +27,8 @@ class UserController extends BaseController
     public function beforeAction($action)
     {
         $this->user = \Yii::$app->session->get('wx_user');
+        $user = $this->user;
+        //$this->user_id = $user['id'];
         return true;
     }
     /**
@@ -37,14 +39,18 @@ class UserController extends BaseController
     {
         $beans = BeansConfig::find()->asArray()->one();
         //查出茶豆币的兑换比例
-
+        $re_beans = (\Yii::$app->request->post('money')*$beans["scale"]);
         $userModel = User::findOne($this->user_id);
-            $userModel->beans += (\Yii::$app->request->post('money')*$beans["scale"]);
-            if($userModel->save()){
+        $userModel->beans += $re_beans;
+        if($userModel->save()){
+            //用户充值成功保存充值记录
+            $re = User::recharge($re_beans,$this->user_id);
+            if($re){
                 return ['status'=>1,'msg'=>'充值成功'];
-            }else{
-                return ['status'=>0,'msg'=>'充值失败'];
             }
+        }
+        return ['status'=>0,'msg'=>'充值失败'];
+
     }
 
     /**
@@ -55,9 +61,9 @@ class UserController extends BaseController
     {
         $user = User::findOne($this->user_id);
         if($user){
-            return ['status'=>1,'beans'=>$user->beans];
+            return ['status'=>1,'beans'=>$user->beans,'userPic'=>$user->photo,'userName'=>$user->nickname];
         }
-        return ['status'=>0,'msg'=>'获取用户信息错误'];
+        return ['status'=>0,'msg'=>'获取用户信息错误','beans'=>0];
     }
 
     /**
@@ -85,14 +91,15 @@ class UserController extends BaseController
             return ['status'=>0,'data'=>[]];
         }
         //调用模型中自定义的方法 将数组中重复的商品数量累加
-        $goods = User::setGoods($goods);
-        $count = count($goods);//统计总的商品种数
+        $res = User::setGoods($goods);
         return [
-            'status'=>1,'allNum'=>$count,
+            'status'=>1,
+            'allNum'=>$res['count'],
             'order_status'=>$orderM->status,
             'order_no' => $orderM->start_time,
             'allPic'=>$orderM->total_amount,
-            'data'=>$goods];
+            'data'=>$res['goods']
+        ];
     }
 
     //订单列表
@@ -103,14 +110,14 @@ class UserController extends BaseController
         foreach ($order_list as $value){
             $store_info = $value->getStore(['sp_name']);
             $goods_info = $value->getGoods(['goods_name',]);
-            //$store_img = \Yii::$app->db->createCommand("select * from t_shoper_img where shoper_id = :shoper_id and store_id = :store_id",
-              //  [':shoper_id']);
-            //var_dump($store_info);die;
+            //获取茶楼的店铺图片
+            $store_img = \Yii::$app->db->createCommand("select path from t_shoper_img where shoper_id = :shoper_id and store_id = :store_id",
+                [':shoper_id'=>1,'store_id'=>29])->queryOne();
             $data[] = [
                 'order_id' =>$value->id,
                 'order_status' =>$value->status,
                 'shop_name' => $store_info[0]['sp_name'],
-                'shop_pic'=>2,
+                'shop_pic'=>$store_img['path'],
                 'total_amount'=>$value->total_amount,
                 'order_time' => date('Y-m-d H:i:s',$value->start_time),
                 'order_no' => $value->start_time,
@@ -133,7 +140,7 @@ class UserController extends BaseController
     public function actionVip()
     {
         $vip_count = Vip::find()->where("user_id = $this->user_id")->count();
-        return ['vip_num'=>$vip_count];
+        return ['status'=>1,'vip_num'=>$vip_count];
     }
 
     /**
@@ -151,9 +158,9 @@ class UserController extends BaseController
        }
         $data = [];
         foreach ($vip_list as $value){
-            $shoper = $value->getStore(['boss']);
+            $shoper = $value->getStore(['sp_name']);
             $data[] = [
-                'shoper_name' => $shoper['boss'],
+                'shoper_name' => $shoper['sp_name'],
                 'vip_total' => $value->vip_amount,
                 'card_no'   => $value->card_no,
             ];
@@ -218,6 +225,10 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * 验证手机验证码
+     * @return array
+     */
     public function actionVerify()
     {
         $data = \Yii::$app->request->post();
@@ -228,6 +239,11 @@ class UserController extends BaseController
         if($data['code'] != $code){
             return ['status'=>0,'msg'=>'验证码错误!'];
         }
-        return ['status'=>1,'msg'=>'验证成功'];
+        $userModel = User::findOne($this->user_id);
+        $userModel->phone = $data['phone'];
+        if($userModel->save()){
+            return ['status'=>1,'msg'=>'验证成功'];
+        }
+        return ['status'=>0,'msg'=>'绑定手机失败,请稍后再试'];
     }
 }
