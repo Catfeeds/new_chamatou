@@ -8,7 +8,9 @@
 
 namespace frontend\controllers;
 
+use frontend\common\Common;
 use frontend\models\User;
+use tea\models\Store;
 
 class IndexController extends BaseController
 {
@@ -51,5 +53,63 @@ class IndexController extends BaseController
         header("Location: http://test5.angkebrand.com/#/main/nearbyTea");
     }
 
+
+    /**
+     * 首页附近茶楼列表  目前只推荐省类的茶楼
+     * @return array
+     */
+    public function actionTea()
+    {
+        $data = \Yii::$app->request->get();
+        //$data = ['lat'=>45.47560430450,'lon'=>122.45367732552];
+        $teas = Store::find()
+            ->where(['like','address',"{$data['address']}"])
+            ->select(['id','sp_name','address','lat','lon'])
+            ->asArray()->all();
+        if(!$teas){
+            return ['status'=>0,'msg'=>'你所在的省份没有发现茶楼'];
+        }
+        foreach ($teas as $k=>$v){
+            $pic = \Yii::$app->db->createCommand("select path from t_shoper_img where store_id = :store_id",
+                ['store_id'=>$v['id']])->queryOne();
+            $teas[$k]['teaPic'] = $pic['path'];
+        }
+        $addLat = ['lat'=>$data['lat'],'lon'=>$data['lon']];
+        $model = new Common();
+        $tea = $model->distance($addLat,$teas);
+        return ['status'=>1,'data'=>$tea];
+
+    }
+
+    /**
+     * 茶楼详情
+     */
+    public function actionTeadetail()
+    {
+        $store_id = \Yii::$app->request->get('id');
+        $store = \frontend\models\Store::findOne($store_id);
+        if($store){
+            $pic = $store->getPic(['path']);
+            $pic2 = [];
+            foreach ($pic as $value){
+                $pic2[] = $value['path'];
+            }
+            $data = [
+                'status'=>1,
+                'data'=>[
+                    'sp_name'=>$store->sp_name,
+                    'address'=>$store->address,
+                    'sp_phone'=>$store->sp_phone,
+                    'intro'=>$store->intro,
+                    'pic' => $pic2,
+                    'lat' => $store->lat,
+                    'lon' => $store->lon,
+                ]
+            ];
+        }else{
+            $data = ['status'=>0,'msg'=>'获取详情失败'];
+        }
+        return $data;
+    }
 
 }
