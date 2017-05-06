@@ -28,6 +28,12 @@ class Consumption extends ActiveRecord
         ];
     }
 
+    /**
+     * 用户点单时使用茶豆币抵用  扣除茶豆币并记录
+     * 使用事务  当操作出错时用户的操作无效
+     * @param $num
+     * @return bool
+     */
     public function consumption($num)
     {
         $user = \Yii::$app->session->get('wx_user');

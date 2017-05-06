@@ -31,10 +31,10 @@ class User extends ActiveRecord
      * @param $num
      * @return bool|string
      */
-    public static function deduction($num)
+    public static function deduction($num,$user_id)
     {
         $user = \Yii::$app->session->get('wx_user');
-        $userModel = User::findOne(1);
+        $userModel = User::findOne($user_id);
         if($userModel->beans < $num){
             return '茶豆币余额不足!';
         }
@@ -54,6 +54,7 @@ class User extends ActiveRecord
     public static function setGoods($goods)
     {
         $goods_id = [];
+        $count = 0;
         foreach ($goods as $key=>$value)
         {
             if (isset($goods_id[$value['goods_id']])){
@@ -68,8 +69,35 @@ class User extends ActiveRecord
                         $goods[$key]['num'] = $goods[$key]['num'] + $vlue2['num'];
                     }
                 }
+                $count += $goods[$key]['num'];
             }
         }
-        return $goods;
+        return ['goods'=>$goods,'count'=>$count];
+    }
+
+    /**
+     * 保存用户充值记录
+     * @param $beans
+     * @param $user_id
+     * @return bool
+     */
+    public static function recharge($beans,$user_id)
+    {
+       $model = new Consumption();
+       $model->user_id = $user_id;
+       $model->num = $beans;
+       $model->type = 1;
+       $model->method = 1;
+       $model->add_time = time();
+       if($model->save()){
+           return true;
+       }
+       return false;
+    }
+
+    public static function chekUser($user)
+    {
+
+        var_dump($user->getId());
     }
 }

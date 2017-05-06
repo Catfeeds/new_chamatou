@@ -53,7 +53,7 @@ class GoodsController extends BaseController
         //如果选择了茶豆币抵用 进行记录并扣除用户余额
         if($data['beans'] > 0){
             $model = new Consumption();
-            $re = $model->consumption($data['beans']);
+            $re = $model->consumption($data['beans'],$this->user_id);
             if(!$re){
                 return ['status'=>0,'msg'=>'点单失败'];
             }
