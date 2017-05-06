@@ -12,7 +12,7 @@ use Yii;
  * @property string $sp_name
  * @property string $address
  * @property string $lat
- * @property string $lot
+ * @property string $lon
  * @property integer $provinces_id
  * @property integer $city_id
  * @property integer $area_id
@@ -38,7 +38,7 @@ class SpStore extends \yii\db\ActiveRecord
     {
         return [
             [['shoper_id', 'provinces_id', 'city_id', 'area_id'], 'integer'],
-            [['lat', 'lot'], 'number'],
+            [['lat', 'lon'], 'number'],
             [['provinces_id', 'city_id', 'area_id', 'add_detail'], 'required'],
             [['sp_name', 'address', 'cover', 'intro'], 'string', 'max' => 255],
             [['add_detail'], 'string', 'max' => 100],
@@ -53,18 +53,18 @@ class SpStore extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'shoper_id' => Yii::t('app', 'Shoper ID'),
-            'sp_name' => Yii::t('app', 'Sp Name'),
-            'address' => Yii::t('app', 'Address'),
+            'shoper_id' => Yii::t('app', '公司名称'),
+            'sp_name' => Yii::t('app', '店铺名称'),
+            'address' => Yii::t('app', '店铺地址'),
             'lat' => Yii::t('app', 'Lat'),
-            'lot' => Yii::t('app', 'Lot'),
-            'provinces_id' => Yii::t('app', 'Provinces ID'),
-            'city_id' => Yii::t('app', 'City ID'),
-            'area_id' => Yii::t('app', 'Area ID'),
-            'add_detail' => Yii::t('app', 'Add Detail'),
-            'sp_phone' => Yii::t('app', 'Sp Phone'),
-            'cover' => Yii::t('app', 'Cover'),
-            'intro' => Yii::t('app', 'Intro'),
+            'lon' => Yii::t('app', 'Lon'),
+            'provinces_id' => Yii::t('app', '省'),
+            'city_id' => Yii::t('app', '市'),
+            'area_id' => Yii::t('app', '区'),
+            'add_detail' => Yii::t('app', '详细地址'),
+            'sp_phone' => Yii::t('app', '联系电话'),
+            'cover' => Yii::t('app', '封面图'),
+            'intro' => Yii::t('app', '店铺简介'),
         ];
     }
 }

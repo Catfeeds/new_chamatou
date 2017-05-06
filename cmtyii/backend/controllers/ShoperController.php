@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\form\CreateShoperForm;
+use backend\models\Locations;
 use backend\models\SpStore;
 use backend\models\Upload;
 use Yii;
