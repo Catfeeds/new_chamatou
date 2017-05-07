@@ -32,14 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             [
+                'label' => '店铺名称',
                 'attribute' => 'sp_name',
                 'value'     => 'store.sp_name',
 
             ],
             [
+                'label'=> '地区',
                 'attribute' => 'area',
                 'value'     => function ($model) {
-                    $one = $model->getArea($model->id);
+                    $one = $model->store;
+                    echo '<pre>';
+                    print_r($model);die;
                 },
             ],
             [

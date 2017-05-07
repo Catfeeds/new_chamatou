@@ -51,35 +51,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]) ?>
-
-
-    <?= DetailView::widget([
-        'model' => $storeModel,
-        'attributes' => [
-            'sp_name',
-            'address',
-            'provinces_id',
-            'city_id',
-            'area_id',
-            'add_detail',
-            'sp_phone',
-            [
-                    'attribute' => 'cover',
-                    'label' => '图片',
-                    'format' => 'raw',
-                    'value' => function($model){
-                        $imgs = ShoperImg::find()
-                            ->where(['store_id'=>$model->id])
-                            ->select('path')->all();
-                        $html = '';
-
-                        foreach($imgs as $img){
-                            $html .= Html::img('public'.$img['path'], ['width'=> '400px', 'height'=> '400px']);
-                        }
-                        return $html;
-                    }
-            ],
-            'intro',
-        ],
-    ]) ?>
 </div>

@@ -2,23 +2,22 @@
 
 namespace backend\controllers;
 
-use backend\models\form\CreateShoperForm;
 use backend\models\form\ShoperForm;
-use backend\models\Locations;
-use backend\models\search\SpStorerSearch;
-use backend\models\SpStore;
+use backend\models\form\storeBindForm;
+use backend\models\form\StoreForm;
+use backend\models\Shoper;
 use backend\models\Upload;
 use Yii;
-use backend\models\Shoper;
-use backend\models\search\ShoperSearch;
+use backend\models\SpStore;
+use backend\models\search\SpStorerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ShoperController implements the CRUD actions for Shoper model.
+ * StoreController implements the CRUD actions for SpStore model.
  */
-class ShoperController extends Controller
+class StoreController extends Controller
 {
     /**
      * @inheritdoc
@@ -51,7 +50,7 @@ class ShoperController extends Controller
     }
 
     /**
-     * Displays a single Shoper model.
+     * Displays a single SpStore model.
      * @param integer $id
      * @return mixed
      */
@@ -59,31 +58,31 @@ class ShoperController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'storeModel' => $this->findStoreModel($id)
         ]);
     }
 
     /**
-     * Creates a new Shoper model.
+     * Creates a new SpStore model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ShoperForm();
+        $model = new StoreForm();
+        $uploadModel = new Upload();
 
-        if ($model->load(Yii::$app->request->post())) {
-            if($id = $model->createShoper()){
-                return $this->redirect(['view', 'id' => $id]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->addStore()) {
+            return $this->redirect(['shoper/create', 'store_id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+                'uploadModel' => $uploadModel
+            ]);
         }
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
-     * Updates an existing Shoper model.
+     * Updates an existing SpStore model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -102,7 +101,7 @@ class ShoperController extends Controller
     }
 
     /**
-     * Deletes an existing Shoper model.
+     * Deletes an existing SpStore model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -115,18 +114,41 @@ class ShoperController extends Controller
     }
 
     /**
-     * Finds the Shoper model based on its primary key value.
+     * Finds the SpStore model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Shoper the loaded model
+     * @return SpStore the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Shoper::findOne($id)) !== null) {
+        if (($model = SpStore::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionBindShoper($id)
+    {
+        $storeBindForm = new storeBindForm();
+        $storeBindForm->store_id = $id;
+        $model = new ShoperForm();
+
+        if(Yii::$app->request->post('storeBindForm') ){
+             if($storeBindForm->load(Yii::$app->request->post()) &&  $storeBindForm->bind()){
+                 return $this->redirect(['index']);
+             }
+        }
+        if ($model->load(Yii::$app->request->post())) {
+
+        } else {
+            return $this->render('bind_shoper', [
+                'model' => $model,
+                'storeBindForm' => $storeBindForm,
+                'store_id' => $id
+            ]);
+        }
+
     }
 }

@@ -67,4 +67,16 @@ class SpStore extends \yii\db\ActiveRecord
             'intro' => Yii::t('app', '店铺简介'),
         ];
     }
+
+    public function getProvince(){
+        return $this->hasOne(Locations::className(), ['id'=>'provinces_id']);
+    }
+
+    public function getCity(){
+        return $this->hasOne(Locations::className(),  ['id'=>'city_id']);
+    }
+
+    public function getArea(){
+        return $this->hasOne(Locations::className(),  ['id'=>'area_id']);
+    }
 }
