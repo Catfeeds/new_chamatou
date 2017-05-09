@@ -20,6 +20,7 @@ use Yii;
  * @property string $sp_phone
  * @property string $cover
  * @property string $intro
+ * @property string $add_time
  */
 class SpStore extends \yii\db\ActiveRecord
 {
@@ -37,7 +38,7 @@ class SpStore extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'provinces_id', 'city_id', 'area_id'], 'integer'],
+            [['shoper_id', 'provinces_id', 'city_id', 'area_id','add_time'], 'integer'],
             [['lat', 'lon'], 'number'],
             [['provinces_id', 'city_id', 'area_id', 'add_detail'], 'required'],
             [['sp_name', 'address', 'cover', 'intro'], 'string', 'max' => 255],
@@ -65,6 +66,7 @@ class SpStore extends \yii\db\ActiveRecord
             'sp_phone' => Yii::t('app', '联系电话'),
             'cover' => Yii::t('app', '封面图'),
             'intro' => Yii::t('app', '店铺简介'),
+            'add_time' => Yii::t('app', '添加时间'),
         ];
     }
 
@@ -93,5 +95,10 @@ class SpStore extends \yii\db\ActiveRecord
     public function getShoper()
     {
         return $this->hasOne(Shoper::className(), ['id'=> 'shoper_id']);
+    }
+
+    public function getSalesman()
+    {
+        return $this->getShoper()->getSalesman();
     }
 }

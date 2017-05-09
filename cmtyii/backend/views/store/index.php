@@ -1,5 +1,6 @@
 <?php
 
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -25,24 +26,47 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                    'attribute' => 'add_time',
+                    'value'     => function ($model) {
+                        return date('Y-m-d H:i', $model->add_time);
+                    },
+                    'filter'    => DateRangePicker::widget([
+                        'model'         => $searchModel,
+                        'attribute'     => 'add_time',
+                        'convertFormat' => true,
+                        'pluginOptions' => [
+                            'locale' => ['format' => 'Y-m-d'],
+                    ],
+                ]),
+
+            ],
             'sp_name',
             'address',
             [
-                'attribute' => 'provinces_id',
+                'label' => '省',
+                'attribute' => 'province_name',
                 'value' => 'province.name',
             ],
             [
-                'attribute' => 'city_id',
+                'label' => '市',
+                'attribute' => 'city_name',
                 'value' => 'city.name'
             ],
             [
-                'attribute' => 'area_id',
+                'label' => '区',
+                'attribute' => 'area_name',
                 'value' => 'area.name'
             ],
             'add_detail',
             'sp_phone',
 //            'cover',
             'intro',
+//            [
+//                    'label' => '销售人员',
+//                    'attribute' => 'salesman_name',
+//                    'value' => 'salesman.username'
+//            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',

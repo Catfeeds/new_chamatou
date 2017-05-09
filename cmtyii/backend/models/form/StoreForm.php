@@ -39,7 +39,7 @@ class StoreForm extends SpStore
         $this->address = Locations::byIdAddress($this->provinces_id, $this->city_id, $this->area_id, $this->add_detail);
         $this->lat = $lat_lon['lat'];
         $this->lon = $lat_lon['lon'];
-
+        $this->add_time = time();
         $this->save();
         Upload::uploadStoreImg($this->id);
         return $this ? $this : null;
