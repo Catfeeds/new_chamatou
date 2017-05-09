@@ -79,4 +79,19 @@ class SpStore extends \yii\db\ActiveRecord
     public function getArea(){
         return $this->hasOne(Locations::className(),  ['id'=>'area_id']);
     }
+
+    public function getImg()
+    {
+        return $this->hasMany(ShoperImg::className(), ['store_id' => 'id']);
+    }
+
+    public function getImgs()
+    {
+        return $this->getImg()->select('path')->column();
+    }
+
+    public function getShoper()
+    {
+        return $this->hasOne(Shoper::className(), ['id'=> 'shoper_id']);
+    }
 }

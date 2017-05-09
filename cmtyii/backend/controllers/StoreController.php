@@ -58,6 +58,7 @@ class StoreController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'shoperModel' => $this->findShoperModel($id)
         ]);
     }
 
@@ -89,13 +90,15 @@ class StoreController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = StoreForm::store($id);
+        $uploadModel = new Upload();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->updateStore()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'uploadModel' => $uploadModel
             ]);
         }
     }
@@ -123,6 +126,15 @@ class StoreController extends Controller
     protected function findModel($id)
     {
         if (($model = SpStore::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    protected function findShoperModel($id)
+    {
+        $model = $this->findModel($id);
+        if (($model = Shoper::findOne(['id'=>$model->shoper_id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

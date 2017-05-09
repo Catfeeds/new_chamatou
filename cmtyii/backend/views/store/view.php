@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('app', yii::t('app', 'delete msg')),
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,20 +28,34 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'shoper_id',
             'sp_name',
             'address',
-            'lat',
-            'lon',
-            'provinces_id',
-            'city_id',
-            'area_id',
-            'add_detail',
             'sp_phone',
-            'cover',
+            [
+                    'attribute' =>'cover',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        $one = $model->getImgs();
+                        $html = '';
+                        if(isset($one)){
+                            foreach($one as $o){
+                                $html .= Html::img($o);
+                            }
+                        }
+                        return $html;
+                    }
+            ],
             'intro',
         ],
     ]) ?>
 
+    <?= DetailView::widget([
+        'model' => $shoperModel,
+        'attributes' => [
+            'boss',
+
+
+        ]
+    ]) ?>
 </div>

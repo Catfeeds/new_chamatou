@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
         ?>
 
-        <?= $form->field($model, 'city_id')->dropDownList($model->getLocations($model->city_id),
+        <?= $form->field($model, 'city_id')->dropDownList($model->getLocations($model->provinces_id),
             [
                 'prompt'=>'--请选择市--',
                 'onchange'=>'
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
         ?>
 
-        <?= $form->field($model, 'area_id')->dropDownList($model->getLocations($model->area_id),['prompt'=>'--请选择区--',]) ?>
+        <?= $form->field($model, 'area_id')->dropDownList($model->getLocations($model->city_id),['prompt'=>'--请选择区--',]) ?>
 
         <?= $form->field($model, 'add_detail')->textInput(['maxlength' => true]) ?>
 
