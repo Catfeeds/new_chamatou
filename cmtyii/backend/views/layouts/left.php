@@ -44,7 +44,7 @@
 
                         ],
                     ],
-                    ['label' => '商户管理', 'url' => ['/shoper']],
+                    ['label' => '商户管理', 'url' => ['/store']],
                     ['label' => '提现管理', 'url' => ['/withdraw']],
                     ['label' => '充值记录', 'url' => ['/#']],
                     ['label' => '留言管理', 'url' => ['/message']],

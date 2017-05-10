@@ -1,21 +1,51 @@
 <?php
 
-use kartik\file\FileInput;
-use yii\helpers\Html;use yii\widgets\ActiveForm;
+use backend\models\Shoper;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Shoper */
 
-$this->title = '更新店铺';
+$this->title = Yii::t('app', '添加/绑定-商户');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shopers'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="shoper-update">
+<div class="store-bind-shoper">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="shoper-form">
+    <div class="bind-shoper-form-bind">
+        <?php $form = ActiveForm::begin(); ?>
+        <?php
+
+        $one = Shoper::find()
+            ->select('boss,id')
+            ->indexBy('id')
+            ->column();
+
+        ?>
+       <?= $form->field($storeBindForm, 'shoper_id')->dropDownList(
+            Shoper::find()
+                ->select('boss,id')
+                ->indexBy('id')
+                ->column(),
+            [
+                    'prompt' => '选择商铺',
+            ]
+        ) ?>
+
+        <?= $form->field($storeBindForm, 'store_id')->hiddenInput() ?>
+
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Bind') : Yii::t('app', 'Bind'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+
+        <?php  ActiveForm::end(); ?>
+    </div>
+
+    <div class="bind-shoper-form-create">
 
         <?php $form = ActiveForm::begin(); ?>
 

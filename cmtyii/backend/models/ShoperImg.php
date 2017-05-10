@@ -28,7 +28,7 @@ class ShoperImg extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'store_id', 'path'], 'required'],
+            [['path'], 'required'],
             [['shoper_id', 'store_id'], 'integer'],
             [['path'], 'string', 'max' => 255],
         ];

@@ -69,12 +69,17 @@ class Locations extends \yii\db\ActiveRecord
      * @param $city
      * @return array
      */
-    public static function address2ll($address, $city)
+    public static function address2ll($address, $city, $provinces)
     {
+        if(in_array($provinces, [1,2,9,22])){
+            $city = $provinces;
+        }
         $city = Locations::findOne(['id' => $city]);
         $q = $address;
         $region = $city['name'];
+
         $api_url = "http://api.map.baidu.com/place/v2/search?q={$q}&region={$region}&output=json&ak=CAdKE7vTaNmnVjA4jGQvq2Amz0dkZ4iF&scope=1";
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $api_url);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
@@ -83,8 +88,7 @@ class Locations extends \yii\db\ActiveRecord
         curl_close($ch);
         if (isset($response)) {
             $res = json_decode($response, true);
-
-            if ($res['status'] === 0) {
+            if ($res['status'] === 0 && isset($res['results'][0]['location']['lat']) && isset($res['results'][0]['location']['lng']) ) {
                 return [
                     'lat' => $res['results'][0]['location']['lat'],
                     'lon' => $res['results'][0]['location']['lng'],

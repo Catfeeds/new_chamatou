@@ -25,7 +25,7 @@ class ShoperSearch extends Shoper
             [['id', 'withdraw_type', 'status', 'salesman_id', 'add_time', 'sp_status'], 'integer'],
             [['boss', 'phone', 'contract_no', 'bank', 'bank_user', 'card_no'], 'safe'],
             [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total'], 'number'],
-            ['sp_name','safe']
+            ['sp_name', 'safe']
         ];
     }
 
