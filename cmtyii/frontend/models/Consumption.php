@@ -34,16 +34,16 @@ class Consumption extends ActiveRecord
      * @param $num
      * @return bool
      */
-    public function consumption($num)
+    public function consumption($num,$user_id)
     {
         $user = \Yii::$app->session->get('wx_user');
         $this->add_time = time();
-        $this->user_id = 1;
+        $this->user_id = $user_id;
         $this->num = $num;
         $tr = \Yii::$app->db->beginTransaction();
         try {
             //扣除用户的茶豆币
-            $res = User::deduction($this->num);
+            $res = User::deduction($this->num,$user_id);
             if($res !== true){
                throw new \Exception('用户茶豆币扣除失败');
             }

@@ -23,7 +23,6 @@ class IndexController extends BaseController
     public function actionIndex()
     {
         return \Yii::$app->wechat->authorizeRequired()->send();
-
     }
 
     //授权回调页面
@@ -49,8 +48,9 @@ class IndexController extends BaseController
         }
         //将用户信息保存到session中
         \Yii::$app->session->set('wx_user',$userinfo);
+        \Yii::$app->session->set('openid',$userinfo['openid']);
         //跳转到用户首页
-        header("Location: http://test5.angkebrand.com/#/main/nearbyTea");
+        header("Location: http://127.0.0.1.tunnel.qydev.com/wx");
     }
 
 
@@ -66,6 +66,7 @@ class IndexController extends BaseController
             ->where(['like','address',"{$data['address']}"])
             ->select(['id','sp_name','address','lat','lon'])
             ->asArray()->all();
+       // var_dump($teas);die;
         if(!$teas){
             return ['status'=>0,'msg'=>'你所在的省份没有发现茶楼'];
         }

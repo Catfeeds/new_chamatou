@@ -53,10 +53,9 @@ class Common
     {
         $arr1 = [];
         foreach ($arr as $k=>$value){
-            $arr1[$value[$field]] = $value;
+            $arr1[$k] = $value[$field];
         }
-        ksort($arr1);
-        return $arr1;
+        array_multisort($arr1,SORT_ASC,$arr);
+        return $arr;
     }
-
 }

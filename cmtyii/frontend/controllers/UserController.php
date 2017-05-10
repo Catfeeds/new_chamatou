@@ -22,36 +22,48 @@ use tea\models\Vip;
 class UserController extends BaseController
 {
     public $user;
-    public $user_id = 1;
+    public $user_id;
 
     public function beforeAction($action)
     {
-        $this->user = \Yii::$app->session->get('wx_user');
-        $user = $this->user;
+        $user = \Yii::$app->session->get('wx_user');
+        $this->user = $user;
         //$this->user_id = $user['id'];
+        $this->user_id = $user['id'];
         return true;
     }
     /**
      * 用户茶豆币充值
      * @return array
      */
-    public function actionRecharge()
+//    public function actionRecharge()
+//    {
+//        //查出茶豆币的兑换比例
+//        $beans = BeansConfig::find()->asArray()->one();
+//        $re_beans = (\Yii::$app->request->post('money')*$beans["scale"]);
+//        $userModel = User::findOne($this->user_id);
+//        $userModel->beans += $re_beans;
+//        if($userModel->save()){
+//            //用户充值成功保存充值记录
+//            $re = User::recharge($re_beans,$this->user_id);
+//            if($re){
+//                return ['status'=>1,'msg'=>'充值成功'];
+//            }
+//        }
+//        return ['status'=>0,'msg'=>'充值失败'];
+//
+//    }
+
+    /*public function actionFail()
     {
         $beans = BeansConfig::find()->asArray()->one();
-        //查出茶豆币的兑换比例
         $re_beans = (\Yii::$app->request->post('money')*$beans["scale"]);
         $userModel = User::findOne($this->user_id);
-        $userModel->beans += $re_beans;
-        if($userModel->save()){
-            //用户充值成功保存充值记录
-            $re = User::recharge($re_beans,$this->user_id);
-            if($re){
-                return ['status'=>1,'msg'=>'充值成功'];
-            }
-        }
-        return ['status'=>0,'msg'=>'充值失败'];
-
-    }
+        $userModel->beans -= $re_beans;
+        $userModel->save();
+        $consunption = Consumption::find()->where(['user_id'=>$this->user_id,'type'=>1,'method'=>1])->orderBy('id desc')->one();
+        $consunption->delete();
+    }*/
 
     /**
      * 获取用户茶豆币余额
@@ -61,9 +73,15 @@ class UserController extends BaseController
     {
         $user = User::findOne($this->user_id);
         if($user){
-            return ['status'=>1,'beans'=>$user->beans,'userPic'=>$user->photo,'userName'=>$user->nickname];
+            return [
+                'status'=>1,
+                'beans'=>$user->beans ? $user->beans : 0,
+                'userPic'=>$user->photo,
+                'userName'=>$user->nickname,
+                'phone'  => $user->phone,
+            ];
         }
-        return ['status'=>0,'msg'=>'获取用户信息错误','beans'=>0];
+        return ['status'=>0,'msg'=>'获取用户信息失败','beans'=>0];
     }
 
     /**
@@ -98,7 +116,9 @@ class UserController extends BaseController
             'order_status'=>$orderM->status,
             'order_no' => $orderM->start_time,
             'allPic'=>$orderM->total_amount,
-            'data'=>$res['goods']
+            'data'=>$res['goods'],
+            'store_id'=>$orderM->store_id,
+            'shoper_id' => $orderM->shoper_id,
         ];
     }
 
@@ -201,6 +221,7 @@ class UserController extends BaseController
         foreach ($recharge_list as &$value){
             $value['add_time'] = date("Y-m-d H:i:s",$value['add_time']);
         }
+        //var_dump($recharge_list);die;
         if(!$recharge_list){
             $result = ['status'=>0,'msg'=>'暂无消费记录'];
         }else{
@@ -215,6 +236,12 @@ class UserController extends BaseController
      */
     public function actionBingphone()
     {
+        $ip =  $code = \Yii::$app->cache->get('user_ip');
+
+        if(!empty($ip)){
+           return ['status'=>0,'msg'=>'过于频繁!请稍候再试!'];
+        }
+        \Yii::$app->cache->set('user_ip',\Yii::$app->request->userIP,120);
         $phone = \Yii::$app->request->get('phone');
         $code = rand(1000,9999);
         if(SendSms::send($phone,$code)){

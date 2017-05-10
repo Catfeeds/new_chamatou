@@ -44,8 +44,6 @@ class User extends ActiveRecord
         }
         return true;
     }
-
-
     /**
      * 判断商品数组中是否有重复的商品记录
      * 如果重复就将里面的数量相加 并删除多余的记录
@@ -95,9 +93,8 @@ class User extends ActiveRecord
        return false;
     }
 
-    public static function chekUser($user)
+    /*public static function chekUser($user)
     {
-
         var_dump($user->getId());
-    }
+    }*/
 }
