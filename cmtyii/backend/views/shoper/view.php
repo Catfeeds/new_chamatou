@@ -1,8 +1,9 @@
 <?php
 
 use backend\models\ShoperImg;
+use kartik\detail\DetailView;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+//use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Shoper */
@@ -27,26 +28,46 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model'      => $model,
+        'mode' => DetailView::MODE_VIEW,
+        'hAlign' => DetailView::ALIGN_LEFT,
         'attributes' => [
             'boss',
-            'phone',
             'credit_amount',
             'contract_no',
-            'withdraw_type',
+            [
+                'attribute' => 'withdraw_type',
+                'value' => $model->withdrawName
+            ],
+            'pay_account',
             'bank',
             'bank_user',
             'card_no',
             'credit_remain',
-            'status',
-            'salesman_id',
-            'add_time:datetime',
+            'credit_balance',
+            [
+                'attribute' => 'status',
+                'value' => $model->status === 1 ? '冻结' : '正常'
+            ],
+            [
+                'attribute' => 'salesman_id',
+                'value'     => $model->salesman ? $model->salesman->username : null,
+            ],
             'beans_incom',
             'total_amount',
             'withdraw_total',
             [
-                    'attribute' => 'sp_status',
-                    'value' => $model->getSpstatus(),
+                'attribute' => 'sp_status',
+                'value' => $model->sp_status == 1 ? '封停' : '正常'
+            ],
+            [
+                    'attribute' => 'add_time',
+                    'format'=>'date',
+                    'type'=>DetailView::INPUT_DATE,
+                    'widgetOptions' => [
+                        'pluginOptions'=>['format'=>'yyyy-mm-dd']
+                    ],
+                    'valueColOptions'=>['style'=>'width:30%']
             ],
 
         ],

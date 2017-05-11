@@ -3,12 +3,13 @@
 use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\SpStorerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', '店铺管理');
+$this->title = Yii::t('app', '门店管理');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sp-store-index">
@@ -70,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{view} {update} {delete} {bind-shoper}',
+                'template'=>'{shoper}{view} {update} {delete} {bind-shoper}',
                 'buttons'=>
                     [
                         'bind-shoper'=>function($url,$model,$key)
@@ -84,6 +85,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a('<span class="glyphicon glyphicon-check"></span>',$url,$options);
 
                         },
+                        'shoper'=> function($url, $model, $key)
+                        {
+                            if(!isset($model->shoper_id)){
+                                return '';
+                            }
+                            $options=[
+                                'title'=>Yii::t('yii', '商户管理'),
+                                'aria-label'=>Yii::t('yii','商户管理'),
+                                'data-method'=>'post',
+                                'data-pjax'=>'0',
+                            ];
+                            $url = Url::toRoute(['shoper/view', 'id'=> $model->shoper_id]);
+                            return Html::a('<span class="">商铺</span>',$url,$options);
+                        }
                     ],
             ],
         ],

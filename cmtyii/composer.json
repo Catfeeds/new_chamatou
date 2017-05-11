@@ -32,7 +32,9 @@
     "kartik-v/yii2-editable": "@dev",
     "maxwen/yii2-easy-wechat": "^1.0",
     "gmars/yii2-sms": "dev-master",
-    "overtrue/wechat": "~3.1"
+    "overtrue/wechat": "~3.1",
+    "kartik-v/yii2-detail-view": "*",
+    "kartik-v/yii2-widget-datepicker": "@dev"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

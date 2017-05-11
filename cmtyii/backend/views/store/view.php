@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\SpStore */
 
 $this->title = $model->sp_name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sp Stores'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', '门店管理'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sp-store-view">
