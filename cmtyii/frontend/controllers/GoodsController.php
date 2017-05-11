@@ -76,7 +76,7 @@ class GoodsController extends BaseController
             if(!$re){
                 return ['status'=>0,'msg'=>'点单失败'];
             }
-            $orderModel->beans_amount = $data['beans'];
+            $orderModel->beans_amount += $data['beans'];
         }
         $orderModel->wx_user_id = $this->user_id;
         if(!$orderModel->save()){

@@ -37,7 +37,7 @@ class Goods extends ActiveRecord
             'content' => '商品介绍',
             'store' => '库存',
             'price' => '单价',
-            'spec' => '规格',
+            'spec' => '单位',
             'cat_id' => '所属分类'
         ];
     }

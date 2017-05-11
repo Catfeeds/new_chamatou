@@ -49,11 +49,9 @@ class IndexController extends BaseController
         //将用户信息保存到session中
         \Yii::$app->session->set('wx_user',$userinfo);
         \Yii::$app->session->set('openid',$userinfo['openid']);
-        //跳转到用户首页
-        header("Location: http://127.0.0.1.tunnel.qydev.com/wx");
+        //跳转到用户h端首页
+        return $this->redirect("http://127.0.0.1.tunnel.qydev.com/wx");
     }
-
-
     /**
      * 首页附近茶楼列表  目前只推荐省类的茶楼
      * @return array
@@ -113,4 +111,8 @@ class IndexController extends BaseController
         return $data;
     }
 
+    public function actionN()
+    {
+        header("Location: http://test5.angkebrand.com/wx");
+    }
 }

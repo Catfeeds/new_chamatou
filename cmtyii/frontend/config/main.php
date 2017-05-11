@@ -46,6 +46,10 @@ return [
         'wechat' => [
             'class' => 'maxwen\easywechat\Wechat',
             ],
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+            //'cachePath' => '@runtime/cache',
+        ],
 
     ],
     'params' => $params,

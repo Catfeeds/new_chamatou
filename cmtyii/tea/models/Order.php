@@ -46,7 +46,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id', 'status', 'start_time', 'end_time', 'person','merge_order_id','staff_id'], 'integer'],
-            [['table_amount', 'total_amount', 'beans_amount', 'sp_beans_amount', 'discount', 'coupon_amount'], 'number'],
+            [['table_amount', 'total_amount', 'beans_amount', 'discount', 'coupon_amount'], 'number'],
             [['table_name', 'cash_amout', ], 'string', 'max' => 255],
             [['notes'], 'string', 'max' => 120],
             [['shoper_id','start_time','table_id','status'],'required'],

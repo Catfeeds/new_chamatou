@@ -28,7 +28,6 @@ class UserController extends BaseController
     {
         $user = \Yii::$app->session->get('wx_user');
         $this->user = $user;
-        //$this->user_id = $user['id'];
         $this->user_id = $user['id'];
         return true;
     }
@@ -53,17 +52,6 @@ class UserController extends BaseController
 //        return ['status'=>0,'msg'=>'充值失败'];
 //
 //    }
-
-    /*public function actionFail()
-    {
-        $beans = BeansConfig::find()->asArray()->one();
-        $re_beans = (\Yii::$app->request->post('money')*$beans["scale"]);
-        $userModel = User::findOne($this->user_id);
-        $userModel->beans -= $re_beans;
-        $userModel->save();
-        $consunption = Consumption::find()->where(['user_id'=>$this->user_id,'type'=>1,'method'=>1])->orderBy('id desc')->one();
-        $consunption->delete();
-    }*/
 
     /**
      * 获取用户茶豆币余额
@@ -110,13 +98,25 @@ class UserController extends BaseController
         }
         //调用模型中自定义的方法 将数组中重复的商品数量累加
         $res = User::setGoods($goods);
+        //计算出当前订单中商品的总价
+        $total_amount = 0;
+        foreach ($res['goods'] as $v){
+            $total_amount += $v['num'] * $v['price'];
+        }
+        //取出台桌号码  供继续点单的时候使用
+        $table_name = $orderM->table_name;
+        $start = strpos($table_name,'-');
+        $table_no = substr($table_name,$start+2);
         return [
             'status'=>1,
             'allNum'=>$res['count'],
             'order_status'=>$orderM->status,
             'order_no' => $orderM->start_time,
-            'allPic'=>$orderM->total_amount,
+            //已完成订单可能包含包间费用 所以用订单自带的总额  进行中的订单没有该总额  所以返回该订单中商品的总价
+            'allPic'=>$orderM->status == 2 ? $orderM->total_amount : $total_amount,
             'data'=>$res['goods'],
+            'table_no' => $table_no,
+            'beans' =>  $orderM->beans_amount,
             'store_id'=>$orderM->store_id,
             'shoper_id' => $orderM->shoper_id,
         ];
@@ -268,7 +268,7 @@ class UserController extends BaseController
         }
         $userModel = User::findOne($this->user_id);
         $userModel->phone = $data['phone'];
-        if($userModel->save()){
+        if($userModel->save(false)){
             return ['status'=>1,'msg'=>'验证成功'];
         }
         return ['status'=>0,'msg'=>'绑定手机失败,请稍后再试'];

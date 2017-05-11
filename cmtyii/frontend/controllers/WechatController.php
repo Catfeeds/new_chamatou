@@ -27,7 +27,7 @@ class WechatController extends Controller
     public function actionConfig()
     {
         $js = \Yii::$app->wechat->app->js;
-        $js->setUrl("http://127.0.0.1.tunnel.qydev.com/wx/");
+        $js->setUrl("http://test5.angkebrand.com/wx/");
         $config = $js->config([
                 'openLocation',
                 'getLocation',
@@ -81,8 +81,8 @@ class WechatController extends Controller
          \Yii::$app->wechat->payment->handleNotify(function($notify, $successful) {
              // 用户是否支付成功
              if ($successful) {
-                $transaction_id = \Yii::$app->cache->get('transaction_id');
-                 if($transaction_id === false || $transaction_id != $notify->transaction_id){
+                 $time_end = \Yii::$app->cache->get($notify->openid.$notify->time_end);
+                 if($time_end == false){
                      $beans = BeansConfig::find()->asArray()->one();
                      $re_beans = ($notify->total_fee) * $beans["scale"];
                      $userModel = User::find()->where(['openid'=>$notify->openid])->one();
@@ -95,7 +95,7 @@ class WechatController extends Controller
                          $model->method = 1;
                          $model->add_time = time();
                          if($model->save()){
-                             \Yii::$app->cache->set('transaction_id',$notify->transaction_id,2*3600);
+                             \Yii::$app->cache->set($notify->openid.$notify->time_end,$notify->time_end,36000);
                              return true;
                          }
                      }
