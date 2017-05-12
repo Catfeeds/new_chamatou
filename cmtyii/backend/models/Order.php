@@ -20,6 +20,17 @@ class Order extends ActiveRecord
         return $this->hasMany(OrderGoods::className(),['order_id'=>'Id'])->asArray();
    }
 
+    public function getGoods()
+    {
+        $goods = $this->hasMany(OrderGoods::className(),['order_id'=>'Id'])->asArray()->all();
+       // var_dump($goods);die;
+        $goodsStr = '';
+        foreach ($goods as $v){
+            $goodsStr .= $v['goods_name'].'x'.$v['num'].';';
+        }
+        return $goodsStr;
+   }
+
     /**
      * 分页获取订单列表
      * @return array|ActiveRecord[]

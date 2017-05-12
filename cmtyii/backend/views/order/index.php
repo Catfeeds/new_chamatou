@@ -53,9 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     .contents-list ul {
         margin-bottom: 15px;
-        box-shadow: 0px 1px 6px #666;
-        -webkit-box-shadow: 0px 1px 6px #666;
-        -moz-box-shadow: 0px 1px 6px #666;
+        box-shadow: 0px 1px 5px #666;
+        -webkit-box-shadow: 0px 1px 5px #666;
+        -moz-box-shadow: 0px 1px 5px #666;
         padding: 0
     }
 
@@ -134,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="order-detail">
             <p style="float: left">总额:<?= $order->total_amount ?>元</p>
             <p style="float:left">茶豆币抵扣数:<?= $order->beans_amount?></p>
-            <button class="btn btn-xs btn-info excel" style="float: right;margin-right: 20px;margin-top: 9px" data-id="<?= $order->Id?>" data-url="<?= Url::to(['excel'])?>">导出</button>
+            <a href="<?= Url::to(['excel','id'=>$order->Id])?>" style="float: right;margin-right: 20px;margin-top: 9px;text-align: right" class="btn btn-xs btn-info">导出</a>
             <?php if($order->status == 2):?>
             <button class="btn btn-xs btn-primary" data-href="<?= Url::to(['sed']) ?>" id="data-sed" data-target="#sedModal"
                     data-id=<?= $order->Id?> data-toggle="modal" style="float: right;margin-right: 20px;margin-top: 9px">确认发货</button>
@@ -185,6 +185,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     layer.msg("请输入订单编号",{time:1000});
                     return false;
                 }
+                var reg = /^\d+$/;
+                if(!reg.test(data)){
+                    layer.msg("请输入正确的订单编号",{time:1000});
+                    return false;
+                }
                 $.ajax({
                     type : "get",
                     url  :  url,
@@ -193,7 +198,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     success:function(re){
                         layer.msg(re.msg,{time:2000})
                         return true;
-                    },
+                    }
                 })
             })
             
