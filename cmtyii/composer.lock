@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e86b076005630f4389d7fb13dfcff3fb",
-    "content-hash": "0e6dfdf0ed98a0630ee2f731e5d55048",
+    "hash": "4340b784ef0287bb6939c8b6b3ee3804",
+    "content-hash": "c80301520f5651c7163f7ad67f662019",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -857,12 +857,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "927fe43448c677caa6981bbe398c85371a7ce7de"
+                "reference": "d7ce80dff962d23520ee96530a1c473547bf1c61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/kartik-v/bootstrap-fileinput/927fe43448c677caa6981bbe398c85371a7ce7de.zip",
-                "reference": "927fe43448c677caa6981bbe398c85371a7ce7de",
+                "url": "https://files.phpcomposer.com/files/kartik-v/bootstrap-fileinput/d7ce80dff962d23520ee96530a1c473547bf1c61.zip",
+                "reference": "d7ce80dff962d23520ee96530a1c473547bf1c61",
                 "shasum": ""
             },
             "type": "library",
@@ -902,7 +902,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2017-05-03 17:22:05"
+            "time": "2017-05-05 09:32:08"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -959,12 +959,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-date-range.git",
-                "reference": "107f3cec4c9639592ecf470291ba7d15e7123241"
+                "reference": "0ad2909dbdbc29a9bac04869dbc85b5a2bde87f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/kartik-v/yii2-date-range/107f3cec4c9639592ecf470291ba7d15e7123241.zip",
-                "reference": "107f3cec4c9639592ecf470291ba7d15e7123241",
+                "url": "https://files.phpcomposer.com/files/kartik-v/yii2-date-range/0ad2909dbdbc29a9bac04869dbc85b5a2bde87f5.zip",
+                "reference": "0ad2909dbdbc29a9bac04869dbc85b5a2bde87f5",
                 "shasum": ""
             },
             "require": {
@@ -1005,7 +1005,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-04-21 09:00:40"
+            "time": "2017-05-05 14:44:34"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1118,12 +1118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "07a3c40bfec825ba5d7458802db932a9e8b9802c"
+                "reference": "00f63fc74655025ffc38a99eb19134c2ed9d88f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/kartik-v/yii2-grid/07a3c40bfec825ba5d7458802db932a9e8b9802c.zip",
-                "reference": "07a3c40bfec825ba5d7458802db932a9e8b9802c",
+                "url": "https://files.phpcomposer.com/files/kartik-v/yii2-grid/00f63fc74655025ffc38a99eb19134c2ed9d88f9.zip",
+                "reference": "00f63fc74655025ffc38a99eb19134c2ed9d88f9",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1163,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-04-29 18:46:37"
+            "time": "2017-05-10 10:56:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1488,6 +1488,51 @@
             "time": "2017-03-13 07:08:03"
         },
         {
+            "name": "moonlandsoft/yii2-phpexcel",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moonlandsoft/yii2-phpexcel.git",
+                "reference": "9408d09abc7ff4828302dafd5ffb709314f14589"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/moonlandsoft/yii2-phpexcel/9408d09abc7ff4828302dafd5ffb709314f14589.zip",
+                "reference": "9408d09abc7ff4828302dafd5ffb709314f14589",
+                "shasum": ""
+            },
+            "require": {
+                "phpoffice/phpexcel": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "moonland\\phpexcel\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Moh Khoirul Anam",
+                    "email": "moh.khoirul.anaam@gmail.com"
+                }
+            ],
+            "description": "Exporting PHP to Excel or Importing Excel to PHP",
+            "keywords": [
+                "excel",
+                "export",
+                "extension",
+                "import",
+                "xls",
+                "yii2"
+            ],
+            "time": "2015-09-06 07:50:33"
+        },
+        {
             "name": "overtrue/socialite",
             "version": "1.0.24",
             "source": {
@@ -1594,6 +1639,63 @@
                 "weixin-sdk"
             ],
             "time": "2017-04-27 04:10:13"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/PHPOffice/PHPExcel/372c7cbb695a6f6f1e62649381aeaa37e7e70b32.zip",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2015-05-01 07:00:55"
         },
         {
             "name": "pimple/pimple",
@@ -1792,16 +1894,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.7",
+            "version": "v5.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4"
+                "reference": "9a06dc570a0367850280eefd3f1dc2da45aef517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/swiftmailer/swiftmailer/56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4.zip",
-                "reference": "56db4ed32a6d5c9824c3ecc1d2e538f663f47eb4",
+                "url": "https://files.phpcomposer.com/files/swiftmailer/swiftmailer/9a06dc570a0367850280eefd3f1dc2da45aef517.zip",
+                "reference": "9a06dc570a0367850280eefd3f1dc2da45aef517",
                 "shasum": ""
             },
             "require": {
@@ -1842,7 +1944,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-04-20 17:32:18"
+            "time": "2017-05-01 15:54:03"
         },
         {
             "name": "symfony/http-foundation",

@@ -32,7 +32,8 @@
     "kartik-v/yii2-editable": "@dev",
     "maxwen/yii2-easy-wechat": "^1.0",
     "gmars/yii2-sms": "dev-master",
-    "overtrue/wechat": "~3.1"
+    "overtrue/wechat": "~3.1",
+    "moonlandsoft/yii2-phpexcel" : "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",
