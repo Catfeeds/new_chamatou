@@ -99,8 +99,8 @@
       </b>
       </div>
     </div>
-    <div class="goback  global_IptSad" @click="goFish()">
-      返回
+    <div class="goback  global_BtnCol2 global_boxSad" @click="goFish()">
+      继续选购
     </div>
   </div>
   <!-- 确认订单模块结束 -->

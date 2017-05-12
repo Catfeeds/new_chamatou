@@ -413,13 +413,11 @@
 }
 .goback{
   width: 60%;
-  height: 1.2rem;
-  line-height: 0.6rem;
-  margin:20vh 0.3rem 40vh;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  margin:1.2rem auto 20vh;
   text-align: center;
   font-size: 0.3rem;
-  color: #fff;
-  background-color: #666;
 }
 .mark{
   height: 100vh;
