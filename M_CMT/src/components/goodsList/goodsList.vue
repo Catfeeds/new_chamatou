@@ -228,7 +228,7 @@ export default {
       totalPrices: 0, //购物车总价
       carFlag: false, //是否展示购物车模块开关 FALSE为关
       fishFlag: true, //确认点单模块开关 TRUE为关
-      iptBeans: 0, //用户输入的茶豆币
+      iptBeans: '', //用户输入的茶豆币
       iptTable: '', //用户输入的桌号
       userHasBeans: 0, //用户拥有的茶豆币（在进入页面时存入）
       succeedAlertFlag: false, //点单成功弹出层开关
@@ -292,6 +292,7 @@ export default {
       this.fishFlag = !this.fishFlag;
       this.carFlag = false;
       this.succeedAlertFlag = false;
+      this.iptBeans = ''
     },
     //点击清空按钮：
     clearAll: function clearAll() {
@@ -433,7 +434,7 @@ export default {
           duration: '800',
           type: 'error' //成功 'success'  , 失败 'eroor' , 警告 'warning'
         });
-        _this.iptBeans = 0;
+        _this.iptBeans = '';
         return;
       } else if (_this.iptTable == '') {
         _this.$message({
