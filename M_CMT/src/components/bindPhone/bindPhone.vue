@@ -107,7 +107,6 @@ export default {
       if(_this.Code == _this.iptCode){
         // var phone = _this.iptPhoneNumber;
         // var code = _this.iptCode;
-        //alert(_this.iptPhoneNumber)
         this.ajax(_this.port.bind, {
           phone:_this.iptPhoneNumber,
           code:_this.iptCode
