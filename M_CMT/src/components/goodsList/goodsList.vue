@@ -316,8 +316,8 @@ export default {
     downB: function downB() {
       var _this = this;
       var thisTotal = _this.totalBox;
-      var iptB = parseInt(_this.iptBeans);
-      var uHasB = parseInt(_this.userHasBeans)
+      var iptB = parseFloat(_this.iptBeans);
+      var uHasB = parseFloat(_this.userHasBeans)
       if (iptB > uHasB) {
         _this.$message({
           message: '您输入了大于您余额的茶豆币~！！',

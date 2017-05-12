@@ -7,8 +7,7 @@
       </div>
       <p class="global_blkBB"></p>
       <div class="bindPhoneRow">
-        <span>请输入验证码：</span>
-        <input type="number" class="global_IptSad dCodeIpt" name="" value="" v-model="iptCode">
+        <span>请输入验证码：</span><input type="number" class="global_IptSad dCodeIpt" name="" value="" v-model="iptCode">
         <div v-show="sendDCodeFlag && PhoneT" v-bind="PhoneT" class="spendDCode global_IptSad  global_BtnCol2" @click="sendCode()">
           发送验证短信
         </div>
@@ -106,11 +105,12 @@ export default {
     sendBind:function sendBind(){
       var _this = this;
       if(_this.Code == _this.iptCode){
-        var phone = _this.iptPhoneNumber;
-        var code = _this.iptCode;
+        // var phone = _this.iptPhoneNumber;
+        // var code = _this.iptCode;
+        //alert(_this.iptPhoneNumber)
         this.ajax(_this.port.bind, {
-          phone:phone,
-          code:code
+          phone:_this.iptPhoneNumber,
+          code:_this.iptCode
         }, 'POST', function(res) {
           //console.log(res);
           if (res.status == 1) {
