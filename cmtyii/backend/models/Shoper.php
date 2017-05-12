@@ -76,11 +76,9 @@ class Shoper extends \yii\db\ActiveRecord
             'sp_status' => Yii::t('app', 'Sp Status'),
             'withdrawType.name' =>  Yii::t('app', 'Withdraw Type'),
             'yinhuan' => Yii::t('app', '当期应还'),
+            'credit_balance' => Yii::t('app', 'Credit Balance'),
+            'pay_account' => Yii::t('app', 'Pay Account'),
         ];
-    }
-    public function getSpstatus()
-    {
-        return $this->sp_status == 0 ? '正常' : '封停';
     }
     public function getSpStatusDropDownList()
     {
@@ -113,5 +111,22 @@ class Shoper extends \yii\db\ActiveRecord
             ->column();
        return isset($one[0]) ? $one[0] : null;
 
+    }
+
+    public function getSalesman()
+    {
+        return $this->hasOne(Salesman::className(), ['id'=> 'salesman_id']);
+    }
+
+    public function getWithdrawName()
+    {
+        switch($this->withdraw_type){
+            case 1:
+                return '支付宝';
+            case 2:
+                return '微信';
+            case 3:
+                return '银行卡';
+        }
     }
 }

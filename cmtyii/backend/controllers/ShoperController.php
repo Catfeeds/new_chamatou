@@ -59,7 +59,6 @@ class ShoperController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'storeModel' => $this->findStoreModel($id)
         ]);
     }
 
