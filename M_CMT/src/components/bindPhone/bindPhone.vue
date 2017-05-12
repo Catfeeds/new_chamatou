@@ -12,7 +12,7 @@
         <div v-show="sendDCodeFlag && PhoneT" v-bind="PhoneT" class="spendDCode global_IptSad  global_BtnCol2" @click="sendCode()">
           发送验证短信
         </div>
-        <div style="font-size:0.2rem" v-show="!PhoneT" v-bind="PhoneT" class="spendDCode global_IptSad  global_BtnColRed">
+        <div style="font-size:0.2rem" v-show="!PhoneT && sendDCodeFlag" v-bind="PhoneT" class="spendDCode global_IptSad  global_BtnColRed">
           请输入正确手机号
         </div>
         <div v-show="!sendDCodeFlag" class="spendDCode global_IptSad  global_BtnCol2" >
