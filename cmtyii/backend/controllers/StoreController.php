@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\form\ShoperForm;
+use backend\models\form\ShoperSalesmanForm;
 use backend\models\form\storeBindForm;
 use backend\models\form\StoreForm;
 use backend\models\Shoper;
@@ -42,7 +43,6 @@ class StoreController extends Controller
     {
         $searchModel = new SpStorerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -161,6 +161,20 @@ class StoreController extends Controller
                 'store_id' => $id
             ]);
         }
+    }
 
+    /**
+     * 店铺绑定销售人员
+     * @param $id
+     * @return string
+     */
+    public function actionSalesman($id)
+    {
+        $model = new ShoperSalesmanForm();
+        $model->base($id);
+
+        return $this->render('@app/views/salesman/shoper', [
+            'model' => $model,
+        ]);
     }
 }
