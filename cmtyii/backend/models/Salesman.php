@@ -49,4 +49,31 @@ class Salesman extends \yii\db\ActiveRecord
             'add_time' => Yii::t('app', 'Add Time'),
         ];
     }
+
+    public static function updateShopTotal($shoper_id, $id, $old_id)
+    {
+        if(empty($old_id) && !empty($id)){
+            return Salesman::incShopTotal($id);
+        }
+        if(!empty($old_id) && !empty($id) && $old_id != $id){
+            return Salesman::decShopTotal($old_id) &&
+                Salesman::incShopTotal($id);
+        }
+
+        return null;
+    }
+
+    public static function incShopTotal($id, $num =1)
+    {
+        $model = Salesman::findOne(['id'=>$id]);
+        $model->shop_total+=$num;
+        return $model->save();
+    }
+
+    public static function decShopTotal($id, $num=1)
+    {
+        $model = Salesman::findOne(['id'=>$id]);
+        $model->shop_total-=1;
+        return $model->save();
+    }
 }

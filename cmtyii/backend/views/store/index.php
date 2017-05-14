@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\Shoper;
 use backend\models\SpStore;
 use kartik\daterange\DateRangePicker;
 use kartik\grid\GridView;
@@ -64,6 +65,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'sp_phone',
 //            'cover',
             'intro',
+            [
+                    'label' => '销售人员',
+                    'attribute' => 'salesman_username',
+                    'value' => 'salesman.username'
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',

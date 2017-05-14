@@ -25,6 +25,8 @@ use Yii;
  */
 class SpStore extends \yii\db\ActiveRecord
 {
+    public $salesman_username;
+
     /**
      * @inheritdoc
      */

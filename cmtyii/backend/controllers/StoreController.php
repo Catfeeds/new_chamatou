@@ -170,8 +170,11 @@ class StoreController extends Controller
      */
     public function actionSalesman($id)
     {
-        $model = new ShoperSalesmanForm();
-        $model->base($id);
+        $model = ShoperSalesmanForm::build($id);
+
+        if($model->load(Yii::$app->request->post()) && $model->saveSalesman()){
+            return $this->redirect(['view', 'id'=>$id]);
+        }
 
         return $this->render('@app/views/salesman/shoper', [
             'model' => $model,
