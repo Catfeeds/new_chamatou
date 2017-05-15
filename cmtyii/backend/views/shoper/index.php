@@ -56,8 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'credit_remain',
             [
-                    'attribute' => 'yinhuan',
-                    'class'=>'kartik\grid\EditableColumn',
+                'attribute' => 'yinhuan',
+                'class'=>'kartik\grid\EditableColumn',
             ],
             [
                 'attribute' => 'status',
@@ -75,21 +75,20 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'sp_status',
                 'value'     => 'spstatus',
-                'filter'    => $searchModel->getSpStatusDropDownList(),
             ],
             [
-                    'attribute' => 'salesman_id',
-                    'value' =>  function($model){
-                        $one = Salesman::find()
-                                ->select(['username'])
-                                ->where(['id' => $model->salesman_id])
-                                ->one();
-                        return isset($one->username) ? $one->username : null;
-                    },
-                    'filter' => Salesman::find()
-                                ->select(['username', 'id'])
-                                ->column(),
-                    'class'=>'kartik\grid\EditableColumn',
+                'attribute' => 'salesman_id',
+                'value' =>  function($model){
+                    $one = Salesman::find()
+                        ->select(['username'])
+                        ->where(['id' => $model->salesman_id])
+                        ->one();
+                    return isset($one->username) ? $one->username : null;
+                },
+                'filter' => Salesman::find()
+                    ->select(['username', 'id'])
+                    ->column(),
+                'class'=>'kartik\grid\EditableColumn',
 
             ],
             [
