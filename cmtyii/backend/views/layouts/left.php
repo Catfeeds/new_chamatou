@@ -45,7 +45,7 @@
                         ],
                     ],
                     ['label' => '门店管理', 'url' => ['/store']],
-                    ['label' => '商铺管理', 'url' => ['/shoper']],
+//                    ['label' => '商铺管理', 'url' => ['/shoper']],
                     ['label' => '提现管理', 'url' => ['/withdraw']],
                     [
                         'label' => '用户管理',
@@ -68,6 +68,14 @@
                     ],
                     ['label' => '统计中心', 'url' => ['/dashboard']],
                     ['label' => '业务员管理', 'url' => ['/salesman']],
+                    [
+                            'label' => '授信',
+                            'url' => '#',
+                            'items' => [
+                                    ['label' => '授信订单', 'url' => ['credit/order']],
+                                    ['label' => '还款记录', 'url' => ['credit/refund']],
+                            ]
+                    ],
                 ],
             ]
         ) ?>

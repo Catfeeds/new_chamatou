@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'aria-label' => Yii::t('app', 'access'),
                                 'data-pjax' => '0',
                             ];
-                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, $options);
+                            return Html::a('<span class="">通过|</span>', $url, $options);
                         },
                         'refuse' => function($url, $model, $key){
                             $options = [
@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'aria-label' => Yii::t('app', 'access'),
                                 'data-pjax' => '0',
                             ];
-                            return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, $options);
+                            return Html::a('<span class="">拒接</span>', $url, $options);
                         }
                 ]
 

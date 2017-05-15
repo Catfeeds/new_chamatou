@@ -1,8 +1,10 @@
 <?php
 
+use backend\models\Shoper;
+use backend\models\SpStore;
 use kartik\daterange\DateRangePicker;
+use kartik\grid\GridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -63,15 +65,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'sp_phone',
 //            'cover',
             'intro',
-//            [
-//                    'label' => '销售人员',
-//                    'attribute' => 'salesman_name',
-//                    'value' => 'salesman.username'
-//            ],
+            [
+                    'label' => '销售人员',
+                    'attribute' => 'salesman_username',
+                    'value' => 'salesman.username'
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{shoper}{view} {update} {delete} {bind-shoper}',
+                'template'=>'{salesman}{shouxin}{shoper}{view} {update} {delete} {bind-shoper}',
                 'buttons'=>
                     [
                         'bind-shoper'=>function($url,$model,$key)
@@ -97,8 +99,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'data-pjax'=>'0',
                             ];
                             $url = Url::toRoute(['shoper/view', 'id'=> $model->shoper_id]);
-                            return Html::a('<span class="">商铺</span>',$url,$options);
+                            return Html::a('<span class="">商铺|</span>',$url,$options);
+                        },
+                        'shouxin' => function($url, $model, $key)
+                        {
+                            return Html::a('<span class="">授信|</span>', $url);
+                        },
+                        'salesman' => function($url, $model, $key)
+                        {
+                            return Html::a('<span class="">销售|</span>',
+                                Url::toRoute(['store/salesman', 'id'=>$model->id])
+                                );
                         }
+
                     ],
             ],
         ],

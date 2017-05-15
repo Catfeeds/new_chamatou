@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use backend\models\Adminuser;
 use Yii;
 use yii\base\Model;
 

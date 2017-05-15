@@ -21,9 +21,12 @@ use Yii;
  * @property string $cover
  * @property string $intro
  * @property string $add_time
+ * @property integer $salesman_id
  */
 class SpStore extends \yii\db\ActiveRecord
 {
+    public $salesman_username;
+
     /**
      * @inheritdoc
      */
@@ -38,7 +41,7 @@ class SpStore extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'provinces_id', 'city_id', 'area_id','add_time'], 'integer'],
+            [['shoper_id', 'provinces_id', 'city_id', 'area_id','add_time', 'salesman_id'], 'integer'],
             [['lat', 'lon'], 'number'],
             [['provinces_id', 'city_id', 'area_id', 'add_detail'], 'required'],
             [['sp_name', 'address', 'cover', 'intro'], 'string', 'max' => 255],
@@ -67,6 +70,7 @@ class SpStore extends \yii\db\ActiveRecord
             'cover' => Yii::t('app', '封面图'),
             'intro' => Yii::t('app', '店铺简介'),
             'add_time' => Yii::t('app', '添加时间'),
+            'salesman_id' => Yii::t('app', '销售人员'),
         ];
     }
 
@@ -99,6 +103,6 @@ class SpStore extends \yii\db\ActiveRecord
 
     public function getSalesman()
     {
-        return $this->getShoper()->getSalesman();
+        return $this->hasOne(Salesman::className(), ['id'=> 'salesman_id']);
     }
 }
