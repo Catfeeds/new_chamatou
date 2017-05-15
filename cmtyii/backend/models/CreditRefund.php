@@ -45,4 +45,9 @@ class CreditRefund extends \yii\db\ActiveRecord
             'add_time' => Yii::t('app', '还款时间'),
         ];
     }
+
+    public function getShoper()
+    {
+        return $this->hasOne(Shoper::className(), ['id'=> 'shoper_id']);
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -16,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <!--        --><?//= Html::a(Yii::t('app', 'Create Credit Consume'), ['create'], ['class' => 'btn btn-success']) ?>
+        <!--        --><? //= Html::a(Yii::t('app', 'Create Credit Consume'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,13 +28,21 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => '商家名字',
                 'attribute' => 'shoper_id',
-                'value'=> 'shoper.boss',
+                'value' => 'shoper.boss',
             ],
-            'add_time:datetime',
+            [
+                'attribute' => 'add_time',
+                'format' => ['date', 'Y-m-d H:i:s'],
+                'filter' => DateRangePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'add_time',
+                    'convertFormat' => true,
+                    'pluginOptions' => [
+                        'locale' => ['format' => 'Y-m-d'],
+                    ],
+                ])
+            ],
             'amount',
-
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
