@@ -60,6 +60,14 @@
                     ],
                     ['label' => '统计中心', 'url' => ['/dashboard']],
                     ['label' => '业务员管理', 'url' => ['/salesman']],
+                    [
+                            'label' => '授信',
+                            'url' => '#',
+                            'items' => [
+                                    ['label' => '授信订单', 'url' => ['credit/order']],
+                                    ['label' => '还款记录', 'url' => ['credit/consume']],
+                            ]
+                    ],
                 ],
             ]
         ) ?>
