@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Withdraw;
 use backend\models\search\WithdrawSearch;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
