@@ -8,9 +8,11 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'homeUrl'=> '',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'name' => '茶码头-平台管理系统',
     'modules' => [
         "admin" => [
             "class" => "mdm\admin\Module",
