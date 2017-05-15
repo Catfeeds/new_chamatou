@@ -21,6 +21,7 @@ npm run build --report
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 
+<!--
 #  茶码头-手机端
 
 #  A、目录结构：
@@ -48,3 +49,6 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 #  C、可能你会用到的地方：
 #  	1、打包的目录的配置：config/index.js:build里面
 #  	2、项目启动的端口号：config/index.js:dev:{port:xxxx}
+
+
+-->
