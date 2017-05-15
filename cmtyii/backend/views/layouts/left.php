@@ -47,7 +47,15 @@
                     ['label' => '门店管理', 'url' => ['/store']],
                     ['label' => '商铺管理', 'url' => ['/shoper']],
                     ['label' => '提现管理', 'url' => ['/withdraw']],
-                    ['label' => '充值记录', 'url' => ['/#']],
+                    [
+                        'label' => '用户管理',
+                        'url' => ['/#'],
+                        'items' => [
+                             ['label' => '用户列表','url' => ['users/userslist']],
+                             ['label' => '充值列表','url' => ['users/usersrecharge']],
+                             ['label' => '消费列表','url' => ['users/usersreduce']],
+                        ]
+                    ],
                     ['label' => '留言管理', 'url' => ['/message']],
                     [
                         'label' => 'B2B商城管理',
