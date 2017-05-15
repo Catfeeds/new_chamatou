@@ -65,7 +65,7 @@
                             'url' => '#',
                             'items' => [
                                     ['label' => '授信订单', 'url' => ['credit/order']],
-                                    ['label' => '还款记录', 'url' => ['credit/consume']],
+                                    ['label' => '还款记录', 'url' => ['credit/refund']],
                             ]
                     ],
                 ],

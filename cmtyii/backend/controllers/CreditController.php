@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\search\CreditRefundSearch;
 use Yii;
 use backend\models\CreditConsume;
 use backend\models\search\CreditConsumeSearch;
@@ -120,5 +121,17 @@ class CreditController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    public function actionRefund()
+    {
+        $searchModel = new CreditRefundSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('refund', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }
