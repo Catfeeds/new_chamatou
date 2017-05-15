@@ -61,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td class="is_sx" data="<?= $v->Id ?>" status="<?= $v->status ?>" style="cursor: pointer;">
                     <i class="glyphicon glyphicon-hand-right"></i><?= ($v->status == 1) ? '上架' : '下架' ?>
                 </td>
+
                 <td>
                     <?= Html::a('编辑', ['edit', 'id' => $v->Id], ['class' => 'btn btn-xs btn-info']); ?>
                     <a data-href="<?= Url::to(['del', 'id' => $v->Id]) ?>" data-target="#delModal"
@@ -74,6 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     echo LinkPager::widget([
         'pagination' => $pager,
+        'firstPageLabel' => '首页',
+        'lastPageLabel'  => '尾页',
+        'nextPageLabel'  => '下一页',
+        'prevPageLabel' => '上一页',
+        'maxButtonCount' => 5,
     ]); ?>
 </div>
 

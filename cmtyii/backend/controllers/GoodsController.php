@@ -51,6 +51,7 @@ class GoodsController extends Controller
             //调用模型方法处理图片
             if ($goodsModel->upload()) {
                 $goodsModel->add_time = time();
+                //$goodsModel->content = serialize($goodsModel->content);
                 if ($goodsModel->save(false)) {
                     return $this->redirect(['index']);
                 }
@@ -115,4 +116,11 @@ class GoodsController extends Controller
         $re = $model->setSale($data);
         return $re;
     }
+
+
+//    public function actionDetail($id)
+//    {
+//        $goods = Goods::findOne($id);
+//        return $this->render('detail',['goods'=>$goods]);
+//    }
 }

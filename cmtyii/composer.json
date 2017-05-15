@@ -35,7 +35,10 @@
     "overtrue/wechat": "~3.1",
     "moonlandsoft/yii2-phpexcel" : "*",
     "kartik-v/yii2-detail-view": "*",
-    "kartik-v/yii2-widget-datepicker": "@dev"
+    "kartik-v/yii2-widget-datepicker": "@dev",
+    "yiidoc/yii2-redactor": "*",
+    "amigos/yii2-date-picker-widget": "*"
+
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

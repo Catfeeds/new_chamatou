@@ -17,7 +17,13 @@ return [
         ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
-        ]
+        ],
+        'redactor' => [
+            'class' => 'yii\redactor\RedactorModule',
+            'uploadDir' => './upload',  // 比如这里可以填写 ./uploads
+            'uploadUrl' => 'http://cmt.yii/upload',
+            'imageAllowExtensions'=>['jpg','png','gif']
+        ],
     ],
     'components' => [
         'request' => [

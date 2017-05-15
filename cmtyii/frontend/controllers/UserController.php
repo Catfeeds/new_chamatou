@@ -245,7 +245,8 @@ class UserController extends BaseController
         $phone = \Yii::$app->request->get('phone');
         $code = rand(1000,9999);
         if(SendSms::send($phone,$code)){
-            \Yii::$app->cache->set('sms_code',$code,300);
+            \Yii::$app->cache->set('sms_code',$code,60);
+            \Yii::$app->cache->set('sms_phone',$phone,60);
             return ['status'=>1,'data'=>$code];
         }else{
             return ['status'=>0,'msg'=>'发送失败了'];
@@ -260,11 +261,15 @@ class UserController extends BaseController
     {
         $data = \Yii::$app->request->post();
         $code = \Yii::$app->cache->get('sms_code');
+        $phone = \Yii::$app->cache->get('sms_phone');
         if(!$code){
             return ['status'=>0,'msg'=>'验证码已过期,请重新获取!'];
         }
         if($data['code'] != $code){
             return ['status'=>0,'msg'=>'验证码错误!'];
+        }
+        if($data['phone'] != $phone){
+            return ['status'=>0,'msg'=>'该手机号和验证手机号不同'];
         }
         $userModel = User::findOne($this->user_id);
         $userModel->phone = $data['phone'];

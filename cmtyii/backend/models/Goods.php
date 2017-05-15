@@ -12,6 +12,7 @@ namespace backend\models;
 use backend\models\search\GoodsSearch;
 use yii\data\Pagination;
 use yii\db\ActiveRecord;
+use yii\helpers\FileHelper;
 
 class Goods extends ActiveRecord
 {
@@ -21,7 +22,7 @@ class Goods extends ActiveRecord
     public function rules()
     {
         return [
-            [['goods_name', 'cover', 'content', 'store', 'price', 'spec', 'add_time', 'cat_id'], 'required'],
+            [['goods_name', 'cover', 'store', 'price', 'spec', 'add_time', 'cat_id','content'], 'required'],
             ['price', 'number'],
             [['store'], 'integer'],
             ['cat_id', 'compare', 'compareValue' => 0, 'operator' => '>','message'=>'请选择分类'],
@@ -69,13 +70,17 @@ class Goods extends ActiveRecord
     public function upload()
     {
         if ($this->file) {
-            $fileName = '/upload/goods' . date('Ymd', time()) . rand(100, 999) . '.' . $this->file->extension;
-            if ($this->file->saveAs(\Yii::getAlias('@webroot') . $fileName, false)) {
-                $this->cover = $fileName;
-                return true;
-            }else{
-                return false;
+            $fileDir = FileHelper::createDirectory('./upload/' . date('Ymd', time()),0777);
+            if($fileDir){
+                $fileName ='/upload/' . date('Ymd', time()) .'/' .date('Ymd', time()). rand(100, 999) . '.' . $this->file->extension;
+                if ($this->file->saveAs(\Yii::getAlias('@webroot') . $fileName, false)) {
+                    $this->cover = $fileName;
+                    return true;
+                }else{
+                    return false;
+                }
             }
+            //var_dump($fileName);die;
         }
         return true;
     }
