@@ -65,7 +65,7 @@ export default {
   },
   mounted: function mounted() {
     var _this = this;
-    //请求用户茶豆币
+    //判断进入的方式，是通过扫码，还是公众号点击
     this.ajax(_this.port.outIn, {}, 'GET', function(res) {
       //console.log(res);
       if (res.status == 1) {
