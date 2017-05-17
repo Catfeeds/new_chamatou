@@ -8,16 +8,24 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'homeUrl'=> '',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'name' => '茶码头-平台管理系统',
     'modules' => [
         "admin" => [
             "class" => "mdm\admin\Module",
         ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
-        ]
+        ],
+        'redactor' => [
+            'class' => 'yii\redactor\RedactorModule',
+            'uploadDir' => './upload',  // 比如这里可以填写 ./uploads
+            'uploadUrl' => 'http://cmt.yii/upload',
+            'imageAllowExtensions'=>['jpg','png','gif']
+        ],
     ],
     'components' => [
         'request' => [

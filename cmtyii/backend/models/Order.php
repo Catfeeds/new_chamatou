@@ -8,17 +8,23 @@
 
 namespace backend\models;
 
-
-use backend\models\search\OrderSearch;
+use Yii;
 use yii\data\Pagination;
 use yii\db\ActiveRecord;
-
 class Order extends ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%order}}';
+    }
+
     public function getOrderGoods()
     {
         return $this->hasMany(OrderGoods::className(),['order_id'=>'Id'])->asArray();
-   }
+    }
 
     public function getGoods()
     {

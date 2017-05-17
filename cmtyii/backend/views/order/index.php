@@ -153,7 +153,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endforeach; ?>
 </div>
 <div>
-    <?= \yii\widgets\LinkPager::widget(['pagination'=>$pager])?>
+    <?= \yii\widgets\LinkPager::widget([
+        'pagination' => $pager,
+        'firstPageLabel' => '首页',
+        'lastPageLabel'  => '尾页',
+        'nextPageLabel'  => '下一页',
+        'prevPageLabel' => '上一页',
+        'maxButtonCount' => 5,
+    ])?>
 </div>
 <div class="modal fade" id="sedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

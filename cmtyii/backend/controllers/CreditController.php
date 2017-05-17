@@ -2,18 +2,18 @@
 
 namespace backend\controllers;
 
+use backend\models\search\CreditRefundSearch;
 use Yii;
-use backend\models\Withdraw;
-use backend\models\search\WithdrawSearch;
-use yii\data\Pagination;
+use backend\models\CreditConsume;
+use backend\models\search\CreditConsumeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * WithdrawController implements the CRUD actions for Withdraw model.
+ * CreditController implements the CRUD actions for CreditConsume model.
  */
-class WithdrawController extends Controller
+class CreditController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +31,12 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Lists all Withdraw models.
+     * Lists all CreditConsume models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionOrder()
     {
-        $searchModel = new WithdrawSearch();
+        $searchModel = new CreditConsumeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Displays a single Withdraw model.
+     * Displays a single CreditConsume model.
      * @param integer $id
      * @return mixed
      */
@@ -58,16 +58,16 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Creates a new Withdraw model.
+     * Creates a new CreditConsume model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Withdraw();
+        $model = new CreditConsume();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -76,7 +76,7 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Updates an existing Withdraw model.
+     * Updates an existing CreditConsume model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -86,7 +86,7 @@ class WithdrawController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -95,7 +95,7 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Deletes an existing Withdraw model.
+     * Deletes an existing CreditConsume model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -108,47 +108,30 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Finds the Withdraw model based on its primary key value.
+     * Finds the CreditConsume model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Withdraw the loaded model
+     * @return CreditConsume the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Withdraw::findOne($id)) !== null) {
+        if (($model = CreditConsume::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    /**
-     * 通过提现
-     * @param $id
-     * @return \yii\web\Response
-     */
-    public function actionVia($id)
-    {
-        $model = $this->findModel($id);
-        //TODO:: 判断用户账户是否充足，并进行扣款
-        $model->status = 1;
-        $model->save();
-        return $this->redirect(['index']);
-    }
 
-    /**
-     * 拒绝提现
-     * @param $id
-     * @return \yii\web\Response
-     */
-    public function actionRefuse($id)
+    public function actionRefund()
     {
-        $model = $this->findModel($id);
-        //TODO:: 判断用户账户是否充足，并进行退款,还有个备注的提交
-        $model->status = 2;
-        $model->note  = Yii::$app->request->post('note');
-        $model->save();
-        return $this->redirect(['index']);
+        $searchModel = new CreditRefundSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('refund', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

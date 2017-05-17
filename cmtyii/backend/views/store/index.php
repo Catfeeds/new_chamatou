@@ -31,17 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             [
                     'attribute' => 'add_time',
-                    'value'     => function ($model) {
-                        return date('Y-m-d H:i', $model->add_time);
-                    },
+                    'format' => ['date', 'Y-m-d H:i:s'],
                     'filter'    => DateRangePicker::widget([
                         'model'         => $searchModel,
                         'attribute'     => 'add_time',
                         'convertFormat' => true,
                         'pluginOptions' => [
                             'locale' => ['format' => 'Y-m-d'],
-                    ],
-                ]),
+                        ],
+                    ]),
 
             ],
             'sp_name',
@@ -103,6 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'shouxin' => function($url, $model, $key)
                         {
+                            $url = Url::toRoute(['credit/order', 'store_id'=>$model->id]);
                             return Html::a('<span class="">授信|</span>', $url);
                         },
                         'salesman' => function($url, $model, $key)
