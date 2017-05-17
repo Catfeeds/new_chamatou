@@ -444,7 +444,7 @@ export default {
         });
         return;
       }
-
+      //提交订单
       this.ajax(_this.port.sendOrder, {
         beans: _this.iptBeans,
         table_no: _this.iptTable,
@@ -483,10 +483,7 @@ export default {
       var _this = this;
       // console.log(1);
       // console.log(_this.port.test);
-
       // 请求商品列表数据
-
-
       this.ajax(_this.port.goods, {
         shoper_id: _this.$route.params.shoper_id,
         store_id: _this.$route.params.store_id

@@ -19,7 +19,8 @@ export default {
       'configData': 'wechat/config', //获取配置文件
       'getTeaData': 'index/tea', //根据位置获取推荐茶楼
       'teaDeta': 'index/teadetail', //获取茶楼的详细信息
-      'pay': 'wechat/pay' //调取支付的参数
+      'pay': 'wechat/pay', //调取支付的参数
+      'outIn':'index/type'//判断是否从外面扫码进入
     };
     Vue.prototype.hostUrl = 'http://test5.angkebrand.com/'; //定义请求公共头
 

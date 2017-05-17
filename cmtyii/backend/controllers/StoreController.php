@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use backend\models\form\ShoperForm;
 use backend\models\form\ShoperSalesmanForm;
-use backend\models\form\storeBindForm;
+use backend\models\form\StoreBindForm;
 use backend\models\form\StoreForm;
 use backend\models\Shoper;
 use backend\models\Upload;
@@ -143,7 +143,7 @@ class StoreController extends Controller
 
     public function actionBindShoper($id)
     {
-        $storeBindForm = new storeBindForm();
+        $storeBindForm = new StoreBindForm();
         $storeBindForm->store_id = $id;
         $model = new ShoperForm();
 

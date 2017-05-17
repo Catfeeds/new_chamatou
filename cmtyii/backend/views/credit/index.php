@@ -1,5 +1,6 @@
 <?php
 
+use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -36,7 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'shoper_id',
                     'value'=> 'shoper.boss',
             ],
-            'add_time:datetime',
+            [
+                    'attribute' => 'add_time',
+                    'format' => ['date', 'Y-m-d H:i'],
+                    'filter'    => DateRangePicker::widget([
+                        'model'         => $searchModel,
+                        'attribute'     => 'add_time',
+                        'convertFormat' => true,
+                        'pluginOptions' => [
+                            'locale' => ['format' => 'Y-m-d'],
+                        ],
+                    ]),
+            ],
              'amount',
              [
                      'attribute' => 'status',
@@ -46,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      }
              ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'template' => "{view}{delete}"],
         ],
     ]); ?>
 </div>

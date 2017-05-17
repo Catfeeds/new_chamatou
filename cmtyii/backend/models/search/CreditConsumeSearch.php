@@ -42,7 +42,9 @@ class CreditConsumeSearch extends CreditConsume
     public function search($params)
     {
         $query = CreditConsume::find();
-
+        if(isset($params['store_id'])){
+            $this->store_id = $params['store_id'];
+        }
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

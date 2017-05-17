@@ -8,9 +8,11 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'homeUrl'=> '',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'name' => '茶码头-平台管理系统',
     'modules' => [
         "admin" => [
             "class" => "mdm\admin\Module",
@@ -23,6 +25,9 @@ return [
             'uploadDir' => './upload',  // 比如这里可以填写 ./uploads
             'uploadUrl' => 'http://cmt.yii/upload',
             'imageAllowExtensions'=>['jpg','png','gif']
+        ],
+        'statistics' => [
+            'class' => 'backend\module\statistics\statistics',
         ],
     ],
     'components' => [
