@@ -61,15 +61,16 @@
 </div>
 </template>
 <script type="text/javascript">
-// window.onload = function() {
-//   var swiper = new Swiper('.swiper-container', {
-//     pagination: '.swiper-pagination',
-//     paginationClickable: true,
-//     pagination: '.swiper-pagination',
-//     loop: true,
-//     autoplay: 3000
-//   });
-// }
+window.onload = function() {
+  var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    paginationClickable: true,
+    pagination: '.swiper-pagination',
+    loop: true,
+    autoplay: 3000
+  });
+  alert(this.$route.query.flag,'onload')
+}
 import Swiper from '../../../static/lib/swiper-3.4.2.jquery.min.js';
 export default {
   data() {
@@ -159,13 +160,13 @@ export default {
     //do something after mounting vue instance
     //console.log('Im dwon');
     var _this = this;
-    var swiper = new Swiper('.swiper-container', {
-      pagination: '.swiper-pagination',
-      paginationClickable: true,
-      pagination: '.swiper-pagination',
-      loop: true,
-      autoplay: 3000
-    });
+    // var swiper = new Swiper('.swiper-container', {
+    //   pagination: '.swiper-pagination',
+    //   paginationClickable: true,
+    //   pagination: '.swiper-pagination',
+    //   loop: true,
+    //   autoplay: 3000
+    // });
 //第一次获取地理位置
     _this.ajax(_this.port.configData, {}, 'GET', function(res) {
       wx.config({
@@ -200,12 +201,9 @@ export default {
       });
     })
 
-
-
-
-
-  }
 }
+}
+
 </script>
 
 <style media="screen">

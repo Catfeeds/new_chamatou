@@ -65,9 +65,27 @@ export default {
   },
   mounted: function mounted() {
     var _this = this;
-    _this.$router.push({
-      path: '/main/nearbyTea'
+    //请求用户茶豆币
+    this.ajax(_this.port.outIn, {}, 'GET', function(res) {
+      //console.log(res);
+      if (res.status == 1) {
+        if(res.data.qr == 1){
+            var shopId = res.data.shoper_id;
+            var storeId = res.data.store_id;
+            _this.$router.push({name: 'goodsList', params: {shoper_id:shopId , store_id:storeId}});
+        }else{
+            _this.$router.push({
+              path: '/main/nearbyTea'
+            })
+        }
+      } else {
+        _this.$message({
+          message: '噢哦~!服务器好像开小差了，请待会儿重试吧....',
+          type: 'warning'
+        });
+      }
     })
+
     console.log("                    .::::.");
     console.log("                  .::::::::.");
     console.log("                 :::::::::::  ");
