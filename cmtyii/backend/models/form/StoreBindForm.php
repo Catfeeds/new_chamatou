@@ -5,7 +5,6 @@
  * Date: 2017/5/8
  * Time: 上午1:27
  */
-
 namespace backend\models\form;
 
 
@@ -13,9 +12,10 @@ use backend\models\Shoper;
 use backend\models\ShoperImg;
 use backend\models\SpStore;
 use backend\models\SpUsers;
+use Yii;
 use yii\base\Model;
 
-class storeBindForm extends Model
+class StoreBindForm extends Model
 {
     public $store_id;
     public $shoper_id;
@@ -24,6 +24,12 @@ class storeBindForm extends Model
     {
         return [
             [['shoper_id'], 'integer']
+        ];
+    }
+    public function attributeLabels()
+    {
+        return [
+            'shoper_id' => Yii::t('app', '商户'),
         ];
     }
 

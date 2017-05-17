@@ -81,5 +81,5 @@ return[
 
     'Credit Balance' => '授信总额',
     'Shoper Status' => '商户状态',
-    'Pay Account' => '支付账户'
+    'Pay Account' => '账号'
 ];

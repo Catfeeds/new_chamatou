@@ -19,7 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="sp-store-form">
 
         <?php $form = ActiveForm::begin([
-            'options' => ['enctype'=>'multipart/form-data'],
+            'options' => ['enctype'=>'multipart/form-data',
+            'layout' => 'inline'
+            ],
         ]); ?>
 
         <?= $form->field($model, 'sp_name')->textInput(['maxlength' => true]) ?>
@@ -59,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'multiple' => true
             ],
             'pluginOptions' => [
-                'maxFileCount' => 3,
+                'maxFileCount' => 5,
                 'showUpload' => false
                     ]
         ]) ?>
@@ -67,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'intro')->textInput(['maxlength' => true]) ?>
 
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', '下一步') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

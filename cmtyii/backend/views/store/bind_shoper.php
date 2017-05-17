@@ -36,57 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ) ?>
 
-        <?= $form->field($storeBindForm, 'store_id')->hiddenInput() ?>
+        <?= $form->field($storeBindForm, 'store_id')->hiddenInput()->label(false) ?>
 
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Bind') : Yii::t('app', 'Bind'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Bind'), ['class' => 'btn btn-primary']) ?>
         </div>
 
         <?php  ActiveForm::end(); ?>
-    </div>
-
-    <div class="bind-shoper-form-create">
-
-        <?php $form = ActiveForm::begin(); ?>
-
-        <?= $form->field($model, 'boss')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'credit_amount')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'contract_no')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'withdraw_type')->textInput() ?>
-
-        <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'bank_user')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'card_no')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'credit_remain')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'status')->textInput() ?>
-
-        <?= $form->field($model, 'salesman_id')->textInput() ?>
-
-        <?= $form->field($model, 'add_time')->textInput() ?>
-
-        <?= $form->field($model, 'beans_incom')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'total_amount')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'withdraw_total')->textInput(['maxlength' => true]) ?>
-
-        <?= $form->field($model, 'sp_status')->textInput() ?>
-
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
     </div>
 
 </div>
