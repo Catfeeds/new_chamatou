@@ -26,6 +26,9 @@ return [
             'uploadUrl' => 'http://cmt.yii/upload',
             'imageAllowExtensions'=>['jpg','png','gif']
         ],
+        'statistics' => [
+            'class' => 'backend\module\statistics\statistics',
+        ],
     ],
     'components' => [
         'request' => [

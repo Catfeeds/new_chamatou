@@ -66,7 +66,7 @@
                             ['label' => '订单管理', 'url' => ['order/index'],],
                         ]
                     ],
-                    ['label' => '统计中心', 'url' => ['/dashboard']],
+                    ['label' => '统计中心', 'url' => ['/statistics/store/index']],
                     ['label' => '业务员管理', 'url' => ['/salesman']],
                     [
                             'label' => '授信',
