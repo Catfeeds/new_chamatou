@@ -20,7 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <!---->
 <!--        --><?php //endforeach; ?>
 <style>
-    .contents {
+    .content {
+       color:#777;
     }
 
     ul {
@@ -30,8 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
     .contents-header, .contents-list ul {
         overflow: hidden;
         width: 100%;
-        margin-bottom: 5px;
-        padding: 0
+        padding: 0;
+        margin:0;
+        /*border-bottom: 1px solid #f1f1f1;*/
     }
 
     .contents-header li, .contents-list ul li {
@@ -39,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
         float: left;
         display: block;
         height: 50px;
-        line-height: 60px;
+        line-height: 50px;
         text-align: center;
-        color: #222;
+        color: #666;
         font-size: 16px;
     }
 
@@ -52,10 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
     .contents-list ul {
-        margin-bottom: 15px;
-        box-shadow: 0px 1px 5px #666;
-        -webkit-box-shadow: 0px 1px 5px #666;
-        -moz-box-shadow: 0px 1px 5px #666;
+        /*box-shadow: 0px 1px 5px #666;*/
+        /*-webkit-box-shadow: 0px 1px 5px #666;*/
+        /*-moz-box-shadow: 0px 1px 5px #666;*/
         padding: 0
     }
 
@@ -71,17 +72,59 @@ $this->params['breadcrumbs'][] = $this->title;
 
     .order-detail {
         width: 100%;
-        height: 40px;
-        line-height: 40px;
+        height: 50px;
+        line-height: 50px;
         background: ghostwhite;
-        color: #222;
-        margin-bottom: 5px;
+        color: #777;
+       border-top: 1px solid #ccc;
         text-indent: 20px;
     }
     .order-status li {
         float: left;
         font-size: 20px;
         margin-right: 40px;
+    }
+    .contents-list{
+        border:1px solid #ccc;
+        margin-bottom: 15px;
+        box-shadow: 0px 0px 5px #ccc;
+        -webkit-box-shadow: 0px 0px 5px #ccc;
+        -moz-box-shadow: 0px 0px 5px #ccc;
+    }
+    .order-detail p{margin: 0}
+    .exports{
+        display: inline-block;
+        float: right;
+        color:#fff;
+        margin-right: 20px;
+        padding:0;
+        border:1px solid #00acd6;
+        background-color: #00c0ef;
+        width: 80px;height:35px;line-height: 35px;
+        text-align: center;
+        text-indent: 0;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 7px;
+    }
+    .fahuo{
+        display: inline-block;
+        float: right;
+        color:#fff;
+        margin-right: 20px;
+        padding:0;
+        border:1px solid #3b8dbc;
+        background-color: #3b8dbc;
+        width: 80px;height:35px;line-height: 35px;
+        text-align: center;
+        text-indent: 0;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 7px;
+    }
+    .contents-list li{color:#777}
+    .exports:hover{
+        color: #ccc;
     }
 </style>
 <div>
@@ -93,9 +136,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <li><a href="<?= Url::to(['index','status'=>4])?>">已完成</a></li>
     </ul>
 </div>
-    <hr style="border-bottom:1px solid #000;"/>
+   
 <div class="contents">
-    <ul class="contents-header">
+    <ul class="contents-header" style="background: #ccc;">
         <li></li>
         <li>名称</li>
         <li>单价</li>
@@ -124,32 +167,33 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li>
                         <div class='list-img'><img src="<?= $v['cover'] ?>" style="width: 120px;height=100px"/></div>
                     </li>
-                    <li><?= $v['goods_name'] ?></li>
-                    <li><?= $v['price'] ?></li>
-                    <li><?= $v['num'] ?></li>
-                    <li><?= $v['price'] * $v['num'] ?></li>
+                    <li style="color:#777"><?= $v['goods_name'] ?></li>
+                    <li style="color:#777"><?= $v['price'] ?></li>
+                    <li style="color:#777"><?= $v['num'] ?></li>
+                    <li style="color:#777"><?= $v['price'] * $v['num'] ?></li>
                 </ul>
             <?php endforeach; ?>
-        </div>
-        <div class="order-detail">
-            <p style="float: left">总额:<?= $order->total_amount ?>元</p>
-            <p style="float:left">茶豆币抵扣数:<?= $order->beans_amount?></p>
-            <a href="<?= Url::to(['excel','id'=>$order->Id])?>" style="float: right;margin-right: 20px;margin-top: 9px;text-align: right" class="btn btn-xs btn-info">导出</a>
-            <?php if($order->status == 2):?>
-            <button class="btn btn-xs btn-primary" data-href="<?= Url::to(['sed']) ?>" id="data-sed" data-target="#sedModal"
-                    data-id=<?= $order->Id?> data-toggle="modal" style="float: right;margin-right: 20px;margin-top: 9px">确认发货</button>
-            <?php endif;?>
-            <?php if($order->status == 1):?>
+            <div class="order-detail">
+                <p style="float: left">总额:<?= $order->total_amount ?>元</p>
+                <p style="float:left">茶豆币抵扣数:<?= $order->beans_amount?></p>
+                <a href="<?= Url::to(['excel','id'=>$order->Id])?>" style="" class="exports">导出</a>
+                <?php if($order->status == 2):?>
+                <button class="fahuo" data-href="<?= Url::to(['sed']) ?>" id="data-sed" data-target="#sedModal"
+                        data-id=<?= $order->Id?> data-toggle="modal" style="">确认发货</button>
+                <?php endif;?>
+                <?php if($order->status == 1):?>
                 <p style="float: right;margin-right: 20px">待付款</p>
-            <?php endif;?>
-            <?php if($order->status == 3):?>
+                <?php endif;?>
+                <?php if($order->status == 3):?>
                 <p style="float: right;margin-right: 20px">待收货</p>
-            <?php endif;?>
-            <?php if($order->status == 4):?>
+                <?php endif;?>
+                <?php if($order->status == 4):?>
                 <p style="float: right;margin-right: 20px">已完成</p>
-            <?php endif;?>
+                <?php endif;?>
+            </div>
         </div>
-        <hr style="border-bottom:1px dashed #cccccc;"/>
+        
+    
     <?php endforeach; ?>
 </div>
 <div>

@@ -22,12 +22,13 @@ class Base{
                 \Yii::$app->request->post('time','') : \Yii::$app->request->get('time');
         if(strlen($time) == 23)
         {
-            $data['startTime'] = substr($time,0,10);
-            $data['endTime'] = substr($time,13);
+            $data['startTime'] = substr($time,0,10).' 00:00:00';
+            $data['endTime'] = substr($time,13).' 23:59:59';
             return $data;
         }
-        $data['startTime'] = date('Y-m-d',time()-60*60*24*7);
-        $data['endTime'] = date('Y-m-d');
+        $data['startTime'] = date('Y-m-d',time()-60*60*24*7).' 00:00:00';
+        $data['endTime'] = date('Y-m-d').' 23:59:59';
+
         return $data;
     }
 

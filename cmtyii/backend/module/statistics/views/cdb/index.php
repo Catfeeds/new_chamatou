@@ -14,12 +14,14 @@ $this->title = '';
             <a href="<?php echo \yii\helpers\Url::to(['user/index'])?>"><li>用户报表</li></a>
             <a href="<?php echo \yii\helpers\Url::to(['b2b/index'])?>"><li>商城报表</li></a>
             <a href="<?php echo \yii\helpers\Url::to(['cdb/index'])?>"><li class="lr_action">茶豆报表</li></a>
+            <a href="<?php echo \yii\helpers\Url::to(['b2b/goods','sort'=>1])?>"><li>商品销量</li></a>
+            <a href="<?php echo \yii\helpers\Url::to(['b2b/store-buy','sort'=>1])?>"><li>茶楼采购</li></a>
         </ul>
     </div>
     <div class="col-sm-12" style="margin-top: 10px; padding-top: 10px; background-color: #ffffff">
         <div class="col-sm-12" style="padding-bottom:5px;border-bottom: 1px solid #cccccc">
             <div class="col-sm-6" style="line-height: 40px;">
-                <h4>用户统计</h4>
+                <h4>茶豆币统计</h4>
             </div>
             <div class="col-sm-6 ">
                 <div class="pull-right">
@@ -48,7 +50,7 @@ $this->title = '';
                 </div>
             </div>
         </div>
-        <div class="col-sm-12" style="margin-top: 5px;">
+        <div class="col-sm-12" style="margin-top: 5px; height: 400px;padding-top: 100px;">
             <div class="col-sm-3" style="padding: 5px 20px;">
 
                 <div style="background-image:url('/images/img_b_1.png');background-size:100% 130px;height: 130px; padding-top: 20px; background-color: #65b7ff;text-align: right;border-radius: 5px;padding-left: 25px;padding-right: 25px;">
@@ -106,9 +108,6 @@ $this->title = '';
                 </div>
             </div>
         </div>
-        <div style="background-color: #ffffff;margin-top:190px;padding-top: 20px;overflow-x: scroll;width: 100%; border-top: 1px solid #eeeeee; ">
-            <div id="main" style="min-width:980px;  height:600px;"></div>
-        </div>
     </div>
 </div>
 <style>
@@ -138,56 +137,7 @@ $this->title = '';
     }
 </style>
 <script>
-    var myChart = echarts.init(document.getElementById('main'));
-    var  option = {
 
-        color: ['#3398DB'],
-        title : {
-            text: '茶码头用户增长报表图',
-            subtext: '<?=$output['time']['startTime']?>--<?=$output['time']['endTime']?>'
-        },
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['增长值'],
-            top:10,
-        },
-        grid:{
-
-            left:80,
-            right:80,
-        },
-        toolbox: {
-            show : true,
-            feature : {
-                dataView : {show: true, readOnly: false},
-                magicType : {show: true, type: ['line', 'bar']},
-                restore : {show: true},
-                saveAsImage : {show: true}
-            }
-        },
-        calculable : true,
-        xAxis : [
-            {
-                type : 'category',
-                data : []
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'增长值',
-                type:'line',
-                data:[]
-            }
-        ]
-    };
-    myChart.setOption(option);
 
     $('#time').daterangepicker({
         locale:{

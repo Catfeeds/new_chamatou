@@ -1,7 +1,12 @@
 <?php
 $this->title = '';
 ?>
-<script src="js/echarts.min.js"></script>
+<script src="/js/echarts.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/js/bootstrap-daterangepicker-master/moment.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-daterangepicker-master/daterangepicker.js"></script>
+<link rel="stylesheet" href="/js/bootstrap-daterangepicker-master/daterangepicker.css">
 <div class="container-fluid" style="margin: 0px; padding: 0px; margin-top: -30px;">
     <div class="lr_nav">
         <ul>
@@ -9,17 +14,39 @@ $this->title = '';
             <a href="<?php echo \yii\helpers\Url::to(['user/index'])?>"><li>用户报表</li></a>
             <a href="<?php echo \yii\helpers\Url::to(['b2b/index'])?>"><li class="lr_action">商城报表</li></a>
             <a href="<?php echo \yii\helpers\Url::to(['cdb/index'])?>"><li>茶豆报表</li></a>
+            <a href="<?php echo \yii\helpers\Url::to(['b2b/goods','sort'=>1])?>"><li>商品销量</li></a>
+            <a href="<?php echo \yii\helpers\Url::to(['b2b/store-buy','sort'=>1])?>"><li>茶楼采购</li></a>
         </ul>
     </div>
     <div class="col-sm-12" style="margin-top: 10px; padding-top: 10px; background-color: #ffffff">
-        <div class="col-sm-12" style="padding-bottom:12px;border-bottom: 1px solid #cccccc">
-            <div class="col-sm-6">
-                用户统计
+        <div class="col-sm-12" style="padding-bottom:5px;border-bottom: 1px solid #cccccc">
+            <div class="col-sm-6" style="line-height: 40px;">
+                <h4>商城报表</h4>
             </div>
             <div class="col-sm-6 ">
                 <div class="pull-right">
-                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                    时间
+                    <div class="form-inline">
+                        <div class="form-group has-feedback">
+                            <?php
+                                yii\widgets\ActiveForm::begin([
+                                        'id'=>'lr_form',
+                                        'action'=>\yii\helpers\Url::to(['b2b/index']),
+                                        'options'=>[
+                                            'class'=>'input-group',
+                                        ],
+                                        'method'=>'get'
+                                ]);
+                            ?>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                </span>
+                                <input type="text" style="width: 200px;" class="form-control" id="time" name="time" aria-describedby="inputGroupSuccess3Status">
+                            <?php
+                            \yii\widgets\ActiveForm::end();
+                            ?>
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,8 +59,8 @@ $this->title = '';
                     </div>
                     <div class="col-sm-8">
                         <div class="pull-right">
-                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;">912596</span>
-                            <span style="font-size: 16px; color: #ffffff; display: block;">商户合计总数</span>
+                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;"><?=$output['number']['monthSalesSumNum']?></span>
+                            <span style="font-size: 16px; color: #ffffff; display: block;">本月销售额</span>
                         </div>
                     </div>
                 </div>
@@ -46,8 +73,8 @@ $this->title = '';
                     </div>
                     <div class="col-sm-8">
                         <div class="pull-right">
-                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;">0</span>
-                            <span style="font-size: 16px; color: #ffffff; display: block;">本月新增</span>
+                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;"><?=$output['number']['salesSumNum']?></span>
+                            <span style="font-size: 16px; color: #ffffff; display: block;">累计销售额</span>
                         </div>
                     </div>
                 </div>
@@ -60,8 +87,8 @@ $this->title = '';
                     </div>
                     <div class="col-sm-8">
                         <div class="pull-right">
-                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;">120</span>
-                            <span style="font-size: 16px; color: #ffffff; display: block;">本周新增</span>
+                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;"><?=$output['number']['goodsSumNum']?></span>
+                            <span style="font-size: 16px; color: #ffffff; display: block;">商品总数量</span>
                         </div>
                     </div>
                 </div>
@@ -74,8 +101,8 @@ $this->title = '';
                     </div>
                     <div class="col-sm-8">
                         <div class="pull-right">
-                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;">120</span>
-                            <span style="font-size: 16px; color: #ffffff; display: block;">逾期总数</span>
+                            <span style="font-size: 48px; color: #ffffff; display: block;text-align: right;"><?=$output['number']['categorySumNum']?></span>
+                            <span style="font-size: 16px; color: #ffffff; display: block;">商品品类数量</span>
                         </div>
                     </div>
                 </div>
@@ -83,49 +110,6 @@ $this->title = '';
         </div>
         <div style="background-color: #ffffff;margin-top:190px;padding-top: 20px;overflow-x: scroll;width: 100%; border-top: 1px solid #eeeeee; ">
             <div id="main" style="min-width:980px;  height:600px;"></div>
-            <div class="col-sm-12" style="padding-bottom:12px;border-bottom: 1px solid #cccccc">
-                <div class="col-sm-6">
-                    <h5>期间增加的商家列表</h5>
-                </div>
-                <div class="col-sm-6 ">
-                </div>
-            </div>
-            <table class="table ">
-                <tr>
-                    <th style="text-align: center">编号</th>
-                    <th style="text-align: center">名称</th>
-                    <th style="text-align: center">添加时间</th>
-                    <th style="text-align: center">联系人</th>
-                    <th style="text-align: center">联系电话</th>
-                    <th style="text-align: center">授信金额</th>
-                    <th style="text-align: center">茶豆币余额</th>
-                </tr>
-                <tr>
-                    <td style="text-align: center">1</td>
-                    <td style="text-align: center">懒人茶楼</td>
-                    <td style="text-align: center">2015-12-12 12:45:59</td>
-                    <td style="text-align: center">曹双</td>
-                    <td style="text-align: center">15982707139</td>
-                    <td style="text-align: center">￥393.96</td>
-                    <td style="text-align: center">393</td>
-                </tr><tr>
-                    <td style="text-align: center">1</td>
-                    <td style="text-align: center">懒人茶楼</td>
-                    <td style="text-align: center">2015-12-12 12:45:59</td>
-                    <td style="text-align: center">曹双</td>
-                    <td style="text-align: center">15982707139</td>
-                    <td style="text-align: center">￥393.96</td>
-                    <td style="text-align: center">393</td>
-                </tr><tr>
-                    <td style="text-align: center">1</td>
-                    <td style="text-align: center">懒人茶楼</td>
-                    <td style="text-align: center">2015-12-12 12:45:59</td>
-                    <td style="text-align: center">曹双</td>
-                    <td style="text-align: center">15982707139</td>
-                    <td style="text-align: center">￥393.96</td>
-                    <td style="text-align: center">393</td>
-                </tr>
-            </table>
         </div>
     </div>
 </div>
@@ -161,8 +145,8 @@ $this->title = '';
 
         color: ['#3398DB'],
         title : {
-            text: '茶码头商户增长报表图',
-            subtext: 'lrdouble'
+            text: '茶码头商城营业额报表图',
+            subtext: '<?=$output['time']['startTime']?>--<?=$output['time']['endTime']?>'
         },
         tooltip : {
             trigger: 'axis'
@@ -189,7 +173,7 @@ $this->title = '';
         xAxis : [
             {
                 type : 'category',
-                data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+                data : [<?php foreach ($output['statistics']['timeList'] as $value){ echo "'".$value."',";}?>]
             }
         ],
         yAxis : [
@@ -199,22 +183,42 @@ $this->title = '';
         ],
         series : [
             {
-                name:'增长值',
+                name:'营业额',
                 type:'line',
-                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-                markPoint : {
-                    data : [
-                        {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183},
-                        {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name : '平均值'}
-                    ]
-                }
+                data:[<?php foreach ($output['statistics']['dataList'] as $value){ echo $value.",";}?>]
             }
         ]
     };
     myChart.setOption(option);
+
+    $('#time').daterangepicker({
+        locale:{
+            format: 'YYYY-MM-DD',
+            applyLabel: '确定',
+            cancelLabel: '取消',
+            fromLabel: '开始',
+            toLabel: '结束',
+            customRangeLabel: '自定义',
+            daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+        },
+        format: 'YYYY-MM-DD',
+        startDate: '<?=$output['time']['startTime']?>',
+        endDate: '<?=$output['time']['endTime']?>',
+        alwaysShowCalendars: true,
+        opens: "left",
+        ranges: {
+            '今日': [moment(), moment()],
+            '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            '本月': [moment().startOf('month'), moment().endOf('month')],
+            '最近七天': [moment().subtract(6, 'days'), moment()],
+            '最近三十天': [moment().subtract(29, 'days'), moment()],
+            '最近六十天': [moment().subtract(59, 'days'), moment()],
+            '最近九十月': [moment().subtract(3,'month'), moment()],
+        }
+    }, function (start, end, label) {
+
+        $('#lr_form').submit();
+    });
 </script>
+

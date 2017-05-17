@@ -14,6 +14,8 @@ $this->title = '';
             <a href="<?php echo \yii\helpers\Url::to(['user/index'])?>"><li class="lr_action">用户报表</li></a>
             <a href="<?php echo \yii\helpers\Url::to(['b2b/index'])?>"><li>商城报表</li></a>
             <a href="<?php echo \yii\helpers\Url::to(['cdb/index'])?>"><li>茶豆报表</li></a>
+            <a href="<?php echo \yii\helpers\Url::to(['b2b/goods','sort'=>1])?>"><li>商品销量</li></a>
+            <a href="<?php echo \yii\helpers\Url::to(['b2b/store-buy','sort'=>1])?>"><li>茶楼采购</li></a>
         </ul>
     </div>
     <div class="col-sm-12" style="margin-top: 10px; padding-top: 10px; background-color: #ffffff">
