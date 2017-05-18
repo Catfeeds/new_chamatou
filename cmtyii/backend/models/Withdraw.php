@@ -58,6 +58,6 @@ class Withdraw extends \yii\db\ActiveRecord
 
     public function getStore()
     {
-        return $this->hasOne(SpStore::className(), ['shoper_id' => 'shoper_id']);
+        return $this->hasOne(SpStore::className(), ['id' => 'store_id']);
     }
 }

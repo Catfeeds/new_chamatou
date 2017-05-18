@@ -4,6 +4,7 @@ namespace backend\models\search;
 
 use backend\models\Shoper;
 use backend\models\SpStore;
+use backend\module\statistics\models\Base;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -19,6 +20,7 @@ class WithdrawSearch extends Withdraw
     public $shoper_bank_user;
     public $shoper_card_no;
     public $shoper_phone;
+    public $shoper_boss;
 
     /**
      * @inheritdoc
@@ -26,8 +28,9 @@ class WithdrawSearch extends Withdraw
     public function rules()
     {
         return [
-            [['Id', 'shoper_id', 'status', 'add_time'], 'integer'],
+            [['Id', 'shoper_id', 'status'], 'integer'],
             [['amount'], 'number'],
+            [['add_time'],'safe'],
             [['note','store_sp_name','shoper_bank','shoper_bank_user','shoper_card_no','shoper_phone'], 'safe'],
         ];
     }
@@ -55,10 +58,7 @@ class WithdrawSearch extends Withdraw
     public function search($params)
     {
         $query = Withdraw::find();
-        $query->alias('w')
-            ->select(['w.*', 'shoper.bank', 'shoper.bank_user', 'shoper.card_no', 'shoper.phone', 'store.sp_name'])
-            ->leftJoin(['shoper'=> Shoper::tableName()], 'shoper.id = w.shoper_id')
-            ->leftJoin(['store'=>SpStore::tableName()], 'store.shoper_id =  shoper.id');
+        $query->joinWith('shoper')->joinWith('store');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -67,45 +67,52 @@ class WithdrawSearch extends Withdraw
         $dataProvider->setSort([
             'attributes' =>[
                 'store_sp_name' => [
-                    'asc' => ['store.sp_name' => SORT_ASC],
-                    'desc' => ['store.sp_name' => SORT_DESC],
+                    'asc' => ['sp_name' => SORT_ASC],
+                    'desc' => ['sp_name' => SORT_DESC],
+                    'label' => 'Store Sp Name'
+                ],
+                'status' => [
+                    'asc' => ['status' => SORT_ASC],
+                    'desc' => ['status' => SORT_DESC],
                     'label' => 'Store Sp Name'
                 ],
                 'shoper_bank' => [
-                    'asc' => ['shoper.bank' => SORT_ASC],
-                    'desc' => ['shoper.bank' => SORT_DESC],
+                    'asc' => ['bank' => SORT_ASC],
+                    'desc' => ['bank' => SORT_DESC],
                     'label' => 'Shoper Bank'
                 ],
                 'shoper_bank_user' => [
-                    'asc' => ['shoper.bank_user' => SORT_ASC],
-                    'desc' => ['shoper.bank_user' => SORT_DESC],
+                    'asc' => ['bank_user' => SORT_ASC],
+                    'desc' => ['bank_user' => SORT_DESC],
                     'label' => 'Shoper Bank User'
                 ],
                 'shoper_card_no' => [
-                    'asc' => ['shoper.card_no' => SORT_ASC],
-                    'desc' => ['shoper.card_no' => SORT_DESC],
+                    'asc' => ['card_no' => SORT_ASC],
+                    'desc' => ['card_no' => SORT_DESC],
                     'label' => 'Shoper Card No'
                 ],
             ]
         ]);
         $this->load($params);
-
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-
             return $dataProvider;
         }
+        if(isset($params['WithdrawSearch']['add_time'])){
+            $time = Base::toGetTime($params['WithdrawSearch']['add_time']);
+            $this->add_time = $params['WithdrawSearch']['add_time'];
+            $query->andFilterWhere(['>', '{{%withdraw}}.add_time', strtotime($time['startTime'])]);
+            $query->andFilterWhere(['<', '{{%withdraw}}.add_time', strtotime($time['endTime'])]);
+        }
 
-        // grid filtering conditions
         $query->andFilterWhere([
-            'Id' => $this->Id,
             'shoper_id' => $this->shoper_id,
             'amount' => $this->amount,
-            'w.status' => $this->status,
-            'add_time' => $this->add_time,
+            '{{%withdraw}}.status' => $this->status,
         ]);
-
+        $query->andFilterWhere(['like', 'sp_name', $this->store_sp_name]);
+        $query->andFilterWhere(['like', 'phone', $this->shoper_phone]);
+        $query->andFilterWhere(['like', 'boss', $this->shoper_boss]);
+        $query->andFilterWhere(['like', 'card_no', $this->shoper_card_no]);
         $query->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;

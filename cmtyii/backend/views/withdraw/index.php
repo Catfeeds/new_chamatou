@@ -11,7 +11,10 @@ use common\widgets\GridViewLrdouble;
 $this->title = Yii::t('app', 'Withdraws');
 
 ?>
-<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px;">
+<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;">
+    <div class="col-sm-12" style="border-bottom: 1px solid #eeeeee;margin-bottom: 10px;">
+        <h4><?=$this->title?></h4>
+    </div>
     <?= GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -58,43 +61,66 @@ $this->title = Yii::t('app', 'Withdraws');
             ],
             [
                 'attribute' => 'status',
+                'format'=>'raw',
                 'value' => function ($model) {
                     switch ($model->status) {
                         case 0:
-                            return '待审核';
+                            return "<b class='badge' style='background-color: #ff5f00' >待审核</b>";
                         case 1:
-                            return '已打款';
+                            return "<b class='badge' style='background-color: #9dd23a' >已打款</b>";
                         case 2:
-                            return '拒绝';
+                            return "<b class='badge' style='background-color: #324259' >已拒绝</b>";
                     }
                 },
                 'filter' => [
                     0 => '待审核',
                     1 => '已打款',
-                    2 => '拒绝',
+                    2 => '已拒绝',
                 ]
             ],
-            'note',
             [
+                'label' => '备注',
+                'attribute' => 'note',
+                'format'=>'raw',
+                'value' => function($model){
+                    return "<div style='width:100px;overflow: hidden'>".$model->note."</div>";
+                }
+            ],
+            [
+                'header'=>'操作',
                 'class' => 'yii\grid\ActionColumn',
-                'template' => "{via}{refuse}{delete}",
+                'template' => "{note}{via}{refuse}",
                 'buttons' => [
                         'via' => function($url, $model, $key){
-                            $options = [
-                                'title' => Yii::t('app', '通过'),
-                                'aria-label' => Yii::t('app', 'access'),
-                                'data-pjax' => '0',
-                            ];
-                            return Html::a('<span class="">通过|</span>', $url, $options);
+                            if($model->status == 0){
+                                $options = [
+                                    'title' => Yii::t('app', '打款'),
+                                    'aria-label' => Yii::t('app', 'access'),
+                                    'data-pjax' => '0',
+                                ];
+                                return "<a href='#' class='btn btn-xs btn-default' style='margin-right: 5px;' onclick=\"alertInput('确认打款','请输入打款金额！','$url',true)\"> 打款</a>";
+                            }
                         },
                         'refuse' => function($url, $model, $key){
+                            if($model->status == 0){
+                                $options = [
+                                    'title' => Yii::t('app', '拒绝'),
+                                    'aria-label' => Yii::t('app', 'access'),
+                                    'data-pjax' => '0',
+                                ];
+                                return "<a href='#' class='btn btn-xs btn-default' style='margin-right: 5px;' onclick=\"alertInput('确认拒绝','请输入拒绝原因！','$url',true)\"> 拒绝</a>";
+                            }
+                        },
+                    'note' => function($url, $model, $key){
+                        if($model->status !== 0){
                             $options = [
-                                'title' => Yii::t('app', '拒绝'),
+                                'title' => Yii::t('app', '查看详情备注'),
                                 'aria-label' => Yii::t('app', 'access'),
                                 'data-pjax' => '0',
                             ];
-                            return Html::a('<span class="">拒接</span>', $url, $options);
+                            return "<a href='".\yii\helpers\Url::to(['withdraw/note','id'=>$model->Id])."' class='btn btn-xs btn-default' data-toggle='modal' data-target='#myModal' > 查看备注</a>";
                         }
+                    }
                 ]
 
             ],

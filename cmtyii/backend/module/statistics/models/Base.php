@@ -16,10 +16,12 @@ class Base{
      * 时间转换
      * @return mixed
      */
-    public static function toGetTime()
+    public static function toGetTime($time = '')
     {
-        $time = empty(\Yii::$app->request->get('time')) ?
-                \Yii::$app->request->post('time','') : \Yii::$app->request->get('time');
+        if($time == ''){
+            $time = empty(\Yii::$app->request->get('time')) ?
+                    \Yii::$app->request->post('time','') : \Yii::$app->request->get('time');
+        }
         if(strlen($time) == 23)
         {
             $data['startTime'] = substr($time,0,10).' 00:00:00';

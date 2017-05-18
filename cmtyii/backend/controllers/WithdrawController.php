@@ -9,6 +9,7 @@ use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * WithdrawController implements the CRUD actions for Withdraw model.
@@ -125,29 +126,51 @@ class WithdrawController extends Controller
     /**
      * 通过提现
      * @param $id
-     * @return \yii\web\Response
+     * @return array
      */
     public function actionVia($id)
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
         //TODO:: 判断用户账户是否充足，并进行扣款
         $model->status = 1;
-        $model->save();
-        return $this->redirect(['index']);
+        $model->note = Yii::$app->request->get('inputValue');
+        if($model->save()){
+            return ['code'=>1,'message'=>'记录成功！'];
+        }
+        $message = $model->getFirstErrors();
+        $message = reset($message);
+        return ['code'=>0,'message'=>$message];
     }
 
     /**
      * 拒绝提现
      * @param $id
-     * @return \yii\web\Response
+     * @return array
      */
     public function actionRefuse($id)
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
         //TODO:: 判断用户账户是否充足，并进行退款,还有个备注的提交
         $model->status = 2;
-        $model->note  = Yii::$app->request->post('note');
-        $model->save();
-        return $this->redirect(['index']);
+        $model->note  = Yii::$app->request->get('inputValue');
+        if($model->save()){
+            return ['code'=>1,'message'=>'记录成功！'];
+        }
+        $message = $model->getFirstErrors();
+        $message = reset($message);
+        return ['code'=>0,'message'=>$message];
+    }
+
+    /**
+     * 查看备注
+     * @return string
+     */
+    public function actionNote()
+    {
+        $this->layout = false;
+        $model = $this->findModel(Yii::$app->request->get('id'));
+        return $this->render('note',['model'=>$model]);
     }
 }

@@ -212,3 +212,94 @@ use dmstr\widgets\Alert;
 <!-- Add the sidebar's background. This div must be placed
      immediately after the control sidebar -->
 <div class='control-sidebar-bg'></div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+    <style>
+        .modal-dialog{
+            top:30%;
+        }
+    </style>
+<link rel="stylesheet" href="js/sweetalert-master/dist/sweetalert.css">
+<script src="js/sweetalert-master/dist/sweetalert.min.js"></script>
+<script>
+    /**
+     * 弹出一个确认输入框
+     * @param title
+     * @param text
+     * @param url
+     * @param nullTrue
+     */
+    function alertInput(title, text, url, nullTrue=false) {
+        swal({
+                title: title,
+                text: text,
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText:"确认",
+                cancelButtonText:"取消",
+                animation: "slide-from-top",
+                inputPlaceholder: text,
+            },
+            function(inputValue){
+                if (inputValue === false) return false;
+
+                if (inputValue === "") {
+                    if(nullTrue === true){
+                        swal.showInputError("You need to write something!");
+                        return false
+                    }
+                }
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {inputValue: inputValue},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === 1) {
+                            swal({
+                                    title: "成功",
+                                    text: data.message,
+                                    type: "success",
+                                    showCancelButton: false,
+                                    closeOnConfirm: false,
+                                    showLoaderOnConfirm: true,
+                                },
+                                function () {
+                                    window.location.reload();
+                                });
+                        }else{
+                            swal({
+                                    title: "失败",
+                                    text: data.message,
+                                    type: "error",
+                                    showCancelButton: false,
+                                    closeOnConfirm: false,
+                                    showLoaderOnConfirm: true,
+                                },
+                                function () {
+                                    window.location.reload();
+                                });
+                        }
+                    }
+                });
+            });
+    }
+    window.onload = function () {
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+//            $(this).find('.modal-dialog').empty();
+
+        });
+    }
+</script>
