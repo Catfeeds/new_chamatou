@@ -26,7 +26,7 @@
 
   <div class="mainBox">
     <div class="" v-for="data in Data" :key="data.key">
-      <router-link :to="{ name: 'teaDeta', params: { teaId: data.id}}" >
+      <router-link :to="{ name: 'teaDeta', params: { teaId: data.id}}">
         <div class="mainList pLR  ">
           <div class="mainImgBox">
             <img v-if="data.teaPic" v-bind:src='data.teaPic' alt="">
@@ -61,23 +61,15 @@
 </div>
 </template>
 <script type="text/javascript">
-window.onload = function() {
-  var swiper = new Swiper('.swiper-container', {
-    pagination: '.swiper-pagination',
-    paginationClickable: true,
-    pagination: '.swiper-pagination',
-    loop: true,
-    autoplay: 3000
-  });
-  alert(this.$route.query.flag,'onload')
-}
+var SWIPERFLAG = false;//加载swiper的开关，默认为false，window.onload之后改为TRUE，以解决router跳转时swiper不加载的问题
+
 import Swiper from '../../../static/lib/swiper-3.4.2.jquery.min.js';
 export default {
   data() {
     return {
-      thisProvince:'',//省
-      thisLat:'',//获取的纬度
-      thisLon:'',//获取的经度
+      thisProvince: '', //省
+      thisLat: '', //获取的纬度
+      thisLon: '', //获取的经度
       iSsuccess: true,
       isLoading: true,
       location: '正在为您定位，请您稍等。。。', //地址
@@ -101,7 +93,7 @@ export default {
         var thatProvince = addComp.city
         //console.log(addComp.province + ", " + addComp.city + ", " + addComp.street + ", " + addComp.district + ", " + addComp.streetNumber);
         //console.log(thatProvince);
-        _this.thisProvince = thatProvince ;
+        _this.thisProvince = thatProvince;
         _this.location = thisLocation;
         // localStorage.setItem('province',JSON.stringify(addComp.province));
         // window.localStorage.setItem('thisLocation',JSON.stringify(thisLocation));
@@ -117,35 +109,35 @@ export default {
     fun() {
       var _this = this;
       //获取当时的地理位置经纬度
-        wx.getLocation({
-          success: function(res) {
-            //console.log('mounted');
-            _this.changeD(res.longitude, res.latitude)
-          },
-          cancel: function(res) {
-            _this.$message({
-              message: res,
-              duration: '800',
-              type: 'error' //成功 'success'  , 失败 'eroor' , 警告 'warning'
-            });
-          }
-        });
+      wx.getLocation({
+        success: function(res) {
+          //console.log('mounted');
+          _this.changeD(res.longitude, res.latitude)
+        },
+        cancel: function(res) {
+          _this.$message({
+            message: res,
+            duration: '800',
+            type: 'error' //成功 'success'  , 失败 'eroor' , 警告 'warning'
+          });
+        }
+      });
     },
     //根据定位获取茶楼
-    getTeaData: function (){
+    getTeaData: function() {
       var _this = this
       //console.log('thatProvince:'+_this.thisProvince);
       this.ajax(_this.port.getTeaData, {
-        lat:_this.thisLat,
-        lon:_this.thisLon,
-        address:_this.thisProvince
+        lat: _this.thisLat,
+        lon: _this.thisLon,
+        address: _this.thisProvince
       }, 'GET', function(res) {
         //console.log(res);
-        if(res.status == 1){
+        if (res.status == 1) {
           _this.Data = res.data
-        }else if (res.status == 0) {
+        } else if (res.status == 0) {
           _this.$message.error(res.msg);
-        }else {
+        } else {
           _this.$message({
             message: '噢哦~!服务器好像开小差了，请待会儿重试吧....',
             type: 'warning'
@@ -160,14 +152,16 @@ export default {
     //do something after mounting vue instance
     //console.log('Im dwon');
     var _this = this;
-    // var swiper = new Swiper('.swiper-container', {
-    //   pagination: '.swiper-pagination',
-    //   paginationClickable: true,
-    //   pagination: '.swiper-pagination',
-    //   loop: true,
-    //   autoplay: 3000
-    // });
-//第一次获取地理位置
+    if(SWIPERFLAG){
+        var swiper = new Swiper('.swiper-container', {
+          pagination: '.swiper-pagination',
+          paginationClickable: true,
+          pagination: '.swiper-pagination',
+          loop: true,
+          autoplay: 3000
+        });
+    }
+    //第一次获取地理位置
     _this.ajax(_this.port.configData, {}, 'GET', function(res) {
       wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -201,9 +195,19 @@ export default {
       });
     })
 
-}
-}
 
+  }
+}
+window.onload = function() {
+  var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    paginationClickable: true,
+    pagination: '.swiper-pagination',
+    loop: true,
+    autoplay: 3000
+  });
+  SWIPERFLAG = true;
+}
 </script>
 
 <style media="screen">
@@ -231,6 +235,7 @@ body {
 
 
 
+
 /*        定位模块：     */
 
 .locationBox {
@@ -246,6 +251,7 @@ body {
   font-size: 0.34rem;
   margin-right: 0.2rem
 }
+
 
 
 
@@ -305,6 +311,7 @@ body {
   width: 2.9rem;
   color: #666;
 }
+
 
 
 
