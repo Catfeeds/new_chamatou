@@ -5,6 +5,15 @@ use yii\helpers\Url;
 $this->title = '分类列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    .table-bordered{
+        border-color:#ddd !important;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        
+        border: 1px solid #ddd !important;
+    }
+</style>
     <div class="wrapper">
         <header class="panel-heading">
         <span class="tools pull-right">

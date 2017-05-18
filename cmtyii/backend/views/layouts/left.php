@@ -1,5 +1,7 @@
 <aside class="main-sidebar">
-
+<style>
+   
+</style>
     <section class="sidebar">
 
         <!-- Sidebar user panel -->

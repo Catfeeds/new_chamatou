@@ -7,34 +7,83 @@ use yii\bootstrap\ActiveForm;
 $this->title = '商品列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    .table-bordered{
+        border-color:#ddd !important;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+       
+        border: 1px solid #ddd !important;
+        vertical-align: middle !important;
+        text-align: center !important;
+    }
+    .btn{
+       width: 60px;height:35px;font-size: 14px;padding: 0;line-height: 35px;margin-right: 5px;
+     }
+    select{
+        width: 150px !important;
+    }
+</style>
+<style>
+    .lr_nav{
+        background-color: #ffffff;
+        width: 100%;
+        height: 60px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    .lr_nav ul{
+        padding: 0;
+    }
+    .lr_nav ul li{
+        float: left;
+        list-style: none;
+        width: 100px;
+        height: 54px;
+        line-height: 60px;
+        font-size: 15px;
+        text-align: center;
+        color: #323232;
+    }
+    .lr_nav ul .lr_action{
+        border-bottom: 4px solid #0062ae;
+        color: #2f3f58;
+    }
+    .lr_nav ul :hover{
+        border-bottom: 4px solid #0062ae;
+        color: #2f3f58;
+    }
+    
+</style>
 
-<header class="panel-heading">
-    商品列表
-    <span class="tools">
-                <span class="tools">
-                   <?= Html::a('新增分类', ['category/add'], ['class' => 'btn btn-link']) ?>
-                </span>
-                <span class="tools">
-                    <?= Html::a('新增商品', ['goods/add'], ['class' => 'btn btn-link']) ?>
-                </span>
-        <?php
+    <div class="lr_nav">
+        <ul>
+            <a href="<?= Url::to(['goods/index'])?>"><li class="lr_action ">商品列表</li></a>
+            <a href="<?= Url::to(['category/add'])?>"><li >新增分类</li></a>
+            <a href="<?= Url::to(['goods/add'])?>"><li >新增商品</li></a>
+        </ul>
+        <div style="float: right">
+            <?php
         $form = ActiveForm::begin([
             'layout' => 'inline',
             'method' => 'get',
             'action' => Url::to(['index']),
             'options' => [
-                'style' => 'margin-bottom:1em'
+            'style' => 'margin-bottom:1em'
             ],
-        ]); ?>
+            ]); ?>
+    
+            <span style="color:#999">商品名称：</span><?php echo $form->field($searchModel, 'goods_name')->textInput(['placeholder' => '商品名称']); ?>
+            <span style="color:#999;margin-left: 10px;">商品分类：</span><?php echo $form->field($searchModel, 'cat_id')->dropDownList($cate); ?>
+            <span style="color:#999;margin-left: 10px;">是否上架：</span><?php echo $form->field($searchModel, 'status')->dropDownList(['0'=>'全部','1'=>'上架','2'=>'下架']); ?>
+            <?php echo Html::submitInput('搜索', ['class' => 'btn btn-primary']); ?>
+            <?php ActiveForm::end(); ?>
+        </div>
+    </div>
+    
 
-        <?php echo $form->field($searchModel, 'goods_name')->textInput(['placeholder' => '商品名称']); ?>
-        <?php echo $form->field($searchModel, 'cat_id')->dropDownList($cate); ?>
-        <?php echo $form->field($searchModel, 'status')->dropDownList(['0'=>'全部','1'=>'上架','2'=>'下架']); ?>
-        <?php echo Html::submitInput('搜索', ['class' => 'btn btn-primary']); ?>
-        <?php ActiveForm::end(); ?>
 
-    </span>
-</header>
+
 <div class="adv-table">
     <table class="table table-striped table-bordered">
         <thead>
@@ -52,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php foreach ($models as $v): ?>
             <tr>
                 <td>
-                    <img src="<?= $v->cover ?>" width="40px" height="30px" class="pic" style="cursor: pointer;">
+                    <img src="<?= $v->cover ?>" width="80px" height="60px" class="pic" style="cursor: pointer;">
                 </td>
                 <td><?= $v->goods_name ?></td>
                 <td><?= $v->cate->cate_name ?></td>
@@ -71,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endforeach; ?>
         </tbody>
     </table>
-
+</div>
     <?php
     echo LinkPager::widget([
         'pagination' => $pager,
@@ -81,7 +130,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'prevPageLabel' => '上一页',
         'maxButtonCount' => 5,
     ]); ?>
-</div>
 
 <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
