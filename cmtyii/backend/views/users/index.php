@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <a href="<?= Url::to([($title == '用户充值记录') ? 'usersrecharge' : 'usersreduce'])?>">
     <div class="text-center m-t-lg clearfix wrapper-lg animated fadeInRightBig" id="galleryLoading">
         <h1><i class="fa fa-warning" style="color: red;font-size: 40px"></i></h1>
-        <h4 class="text-muted">该用户暂时没有任何记录,点击此处回到用户列表页</h4>
+        <h4 class="text-muted">该用户暂时没有任何记录,点击此处回到列表</h4>
         <p class="m-t-lg"></p>
     </div>
     </a>

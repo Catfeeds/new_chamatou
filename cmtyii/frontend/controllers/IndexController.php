@@ -84,7 +84,7 @@ class IndexController extends BaseController
             ->asArray()->all();
        // var_dump($teas);die;
         if(!$teas){
-            return ['status'=>0,'msg'=>'你所在的省份没有发现茶楼'];
+            return ['status'=>0,'msg'=>'你所在的城市没有发现茶楼'];
         }
         foreach ($teas as $k=>$v){
             $pic = \Yii::$app->db->createCommand("select path from t_shoper_img where store_id = :store_id",
