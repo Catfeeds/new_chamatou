@@ -30,7 +30,7 @@
             [
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
+                    ['label' => '统计中心', 'url' => ['/statistics/store/index'], 'icon'=>'dashboard'],
                     [
                         'label' => '权限管理',
                         'url' => '#',
@@ -66,7 +66,7 @@
                             ['label' => '订单管理', 'url' => ['order/index'],],
                         ]
                     ],
-                    ['label' => '统计中心', 'url' => ['/statistics/store/index']],
+
                     ['label' => '业务员管理', 'url' => ['/salesman']],
                     [
                             'label' => '授信',
