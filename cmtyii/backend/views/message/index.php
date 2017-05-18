@@ -2,28 +2,24 @@
 
 use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
-use yii\grid\GridView;
+use common\widgets\GridViewLrdouble;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\MessageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Messages');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="message-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-
-    <?= GridView::widget([
+<div class="message-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;">
+    <div class="col-sm-12" style="border-bottom: 1px solid #eeeeee;margin-bottom: 10px;">
+        <h4><?=$this->title?></h4>
+    </div>
+    <?= GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-//            'id',
             [
                 'attribute' => 'shoper_id',
                 'value' => 'storeName.sp_name',
@@ -79,8 +75,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             1 => '已读',
                     ]
             ],
-
-
             [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => "{view}{delete}",

@@ -118,7 +118,7 @@ $this->title = Yii::t('app', 'Withdraws');
                                 'aria-label' => Yii::t('app', 'access'),
                                 'data-pjax' => '0',
                             ];
-                            return "<a href='".\yii\helpers\Url::to(['withdraw/note','id'=>$model->Id])."' class='btn btn-xs btn-default' data-toggle='modal' data-target='#myModal' > 查看备注</a>";
+                            return "<a href='".\yii\helpers\Url::to(['withdraw/note','id'=>$model->Id])."' class='btn btn-xs btn-default' data-toggle='modal' data-target='#myModal' > 查看详情备注</a>";
                         }
                     }
                 ]

@@ -63,7 +63,7 @@ class Message extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'delete_tag' => Yii::t('app', 'Delete Tag'),
             'delete_time' => Yii::t('app', 'Delete Time'),
-            'title' => Yii::t('app', 'Title'),
+            'title' => Yii::t('app', '留言主题'),
         ];
     }
 

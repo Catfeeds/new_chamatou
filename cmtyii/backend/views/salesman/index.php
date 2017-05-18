@@ -11,13 +11,20 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Salesmen');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="salesman-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<div class="salesman-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;">
+    <div class="col-sm-12" style="border-bottom: 1px solid #eeeeee;margin-bottom: 10px;">
+        <div class="col-sm-6">
+            <h4 style="margin-left: -25px;"><?=$this->title?></h4>
+        </div>
+        <div class="col-sm-6">
+            <div class="pull-right">
+                <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+            </div>
+        </div>
+    </div>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

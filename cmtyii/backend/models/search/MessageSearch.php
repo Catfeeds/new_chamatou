@@ -42,6 +42,7 @@ class MessageSearch extends Message
      */
     public function search($params)
     {
+
         $query = Message::find();
         $query->where(['delete_tag' => 0]);
         // add conditions that should always apply here

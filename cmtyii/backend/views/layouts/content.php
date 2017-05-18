@@ -303,3 +303,11 @@ use dmstr\widgets\Alert;
         });
     }
 </script>
+<style>
+    .grid-view th{
+        text-align: center;
+    }
+    .grid-view .form-control{
+        height: 28px;
+    }
+</style>
