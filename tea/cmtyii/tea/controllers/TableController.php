@@ -18,12 +18,10 @@ class TableController extends ObjectController
      */
     public function actionAddTable()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $table = new Table();
-            if ($table->addTable($post))
-            {
+            if ($table->addTable($post)) {
                 return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $table->getFirstErrors();
@@ -37,15 +35,12 @@ class TableController extends ObjectController
      */
     public function actionEditTable()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $table = Table::findOne($post['id']);
-            if($table)
-            {
-                if($table->editTable($post))
-                {
-                    return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($table) {
+                if ($table->editTable($post)) {
+                    return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
                 }
                 $msg = $table->getFirstErrors();
                 return ['code' => 0, 'msg' => reset($msg)];
@@ -60,15 +55,12 @@ class TableController extends ObjectController
      */
     public function actionDelTable()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $table = Table::findOne($post['id']);
-            if($table)
-            {
-                if($table->delTable())
-                {
-                    return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($table) {
+                if ($table->delTable()) {
+                    return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
                 }
                 $msg = $table->getFirstErrors();
                 return ['code' => 0, 'msg' => reset($msg)];
@@ -83,16 +75,14 @@ class TableController extends ObjectController
      */
     public function actionAddtabletype()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $tableType = new TableType();
-            if($tableType->addTableType($post))
-            {
-                return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($tableType->addTableType($post)) {
+                return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $tableType->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
     }
 
@@ -102,15 +92,12 @@ class TableController extends ObjectController
      */
     public function actionEdittabletype()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $tableType = TableType::findOne($post['id']);
-            if($tableType)
-            {
-                if($tableType->editTableType($post))
-                {
-                    return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($tableType) {
+                if ($tableType->editTableType($post)) {
+                    return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
                 }
                 $msg = $tableType->getFirstErrors();
                 return ['code' => 0, 'msg' => reset($msg)];
@@ -125,18 +112,15 @@ class TableController extends ObjectController
      */
     public function actionDeltabletype()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $id = Yii::$app->request->post('id');
             $tableType = TableType::findOne($id);
-            if($tableType)
-            {
-                if($tableType->delTableType())
-                {
-                    return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($tableType) {
+                if ($tableType->delTableType()) {
+                    return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
                 }
                 $msg = $tableType->getFirstErrors();
-                return ['code'=>0,'msg'=>reset($msg)];
+                return ['code' => 0, 'msg' => reset($msg)];
             }
             return ['code' => 0, 'msg' => Yii::t('app', 'table')['table_type_edit_id_null']];
         }
@@ -149,11 +133,11 @@ class TableController extends ObjectController
     public function actionDesktopstatus()
     {
         $table = new Table();
-        $data  = $table->getDeskStatus(Yii::$app->request->get('type'));
-        return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data['data'],
-                    'sanzuoNum'  =>$data['classification']['sanzuoNum'],
-                    'baoxiangNum'=>$data['classification']['baoxiangNum'],
-                    'he'         =>$data['classification']['he'],
+        $data = $table->getDeskStatus(Yii::$app->request->get('type'));
+        return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data['data'],
+            'sanzuoNum' => $data['classification']['sanzuoNum'],
+            'baoxiangNum' => $data['classification']['baoxiangNum'],
+            'he' => $data['classification']['he'],
         ];
     }
 
@@ -164,9 +148,12 @@ class TableController extends ObjectController
     public function actionGettableorder()
     {
         $model = Table::findOne(Yii::$app->request->get('table_id'));
-        $data  = $model->getOrderAndGoods();
+        $data = $model->getOrderAndGoods();
         $data['merge_order'] = $model->getMergeOrder($data['id']);
-        return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data];
+        foreach ($data['merge_order'] as $key => $value) {
+            $data['beans_amount']+=$value['beans_amount'];
+        }
+        return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
     }
 
 
@@ -177,8 +164,8 @@ class TableController extends ObjectController
     public function actionGetTableBook()
     {
         $model = Table::findOne(Yii::$app->request->get('table_id'));
-        $data  = $model->getBook();
-        return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data];
+        $data = $model->getBook();
+        return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
     }
 
     /**
@@ -186,13 +173,12 @@ class TableController extends ObjectController
      */
     public function actionBeginTableBook()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $model = new Book();
-            if($model->add(Yii::$app->request->post()))
-                return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($model->add(Yii::$app->request->post()))
+                return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             $msg = $model->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
     }
 
@@ -201,19 +187,17 @@ class TableController extends ObjectController
      */
     public function actionCloseTableBook()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $model = Table::findOne(Yii::$app->request->post('table_id'));
-            $book  = $model->getBookAR();
-            if($book)
-            {
+            $book = $model->getBookAR();
+            if ($book) {
                 $book->status = 2;
-                if($book->save())
-                    return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+                if ($book->save())
+                    return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
                 $msg = $book->getFirstErrors();
-                return ['code'=>0,'msg'=>reset($msg)];
+                return ['code' => 0, 'msg' => reset($msg)];
             }
-            return ['code'=>0,'msg'=>Yii::t('app','book_close_flase')];
+            return ['code' => 0, 'msg' => Yii::t('app', 'book_close_flase')];
         }
     }
 
@@ -222,19 +206,17 @@ class TableController extends ObjectController
      */
     public function actionBeginTableOrder()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $model = new Order();
-            if($model->add(Yii::$app->request->post()))
-            {
-                return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($model->add(Yii::$app->request->post())) {
+                return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $model->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         } elseif (Yii::$app->request->isGet) {
             $model = new UsersForm();
-            $data  = $model->getList();
-            return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data];
+            $data = $model->getList();
+            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
         }
     }
 
@@ -243,20 +225,17 @@ class TableController extends ObjectController
      */
     public function actionBeginTableOrderAndBook()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $model = new Order();
-            $book  = new Book();
-            if($book->endBook($post))
-            {
-                if($model->add($post))
-                {
-                    return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            $book = new Book();
+            if ($book->endBook($post)) {
+                if ($model->add($post)) {
+                    return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
                 }
             }
             $msg = $model->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
     }
 
@@ -267,21 +246,17 @@ class TableController extends ObjectController
      */
     public function actionTableTurn()
     {
-        if (Yii::$app->request->isGet)
-        {
+        if (Yii::$app->request->isGet) {
             $model = new Table();
             $data = $model->getTableTypeFreeTable(Yii::$app->request->get('type_id'));
-            return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data];
-        }
-        else
-        {
+            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
+        } else {
             $model = new Table();
-            if($model->tableTurn(Yii::$app->request->post()))
-            {
-                return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($model->tableTurn(Yii::$app->request->post())) {
+                return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $model->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
 
     }
@@ -292,21 +267,17 @@ class TableController extends ObjectController
      */
     public function actionTableGoodsTurn()
     {
-        if (Yii::$app->request->isGet)
-        {
+        if (Yii::$app->request->isGet) {
             $model = new Table();
             $data = $model->getTableTypeUseTable(Yii::$app->request->get('type_id'));
-            return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data];
-        }
-        else
-        {
+            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
+        } else {
             $model = new Table();
-            if($model->tableGoodsTurn(Yii::$app->request->post()))
-            {
-                return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            if ($model->tableGoodsTurn(Yii::$app->request->post())) {
+                return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $model->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
 
     }
@@ -316,17 +287,15 @@ class TableController extends ObjectController
      */
     public function actionAddGoods()
     {
-        if(Yii::$app->request->isPost)
-        {
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $tableM = Table::findOne($post['table_id']);
-            $orderM  = $tableM->getOrderAR();
-            if($orderM->addGoods($post['goodsList']))
-            {
-                return ['code'=>1,'msg'=>Yii::t('app','global')['true']];
+            $orderM = $tableM->getOrderAR();
+            if ($orderM->addGoods($post['goodsList'])) {
+                return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $orderM->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
     }
 
@@ -335,20 +304,17 @@ class TableController extends ObjectController
      */
     public function actionMerge()
     {
-        if(Yii::$app->request->isGet)
-        {
+        if (Yii::$app->request->isGet) {
             $table = new Table();
-            $data  = $table->getDeskStatus(1);
-            return ['code'=>1,'msg'=>Yii::t('app','global')['true'],'data'=>$data];
-        }
-        else
-        {
+            $data = $table->getDeskStatus(1);
+            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
+        } else {
             $table = new Table();
-            if ($table->tableMerge(Yii::$app->request->post())){
+            if ($table->tableMerge(Yii::$app->request->post())) {
                 return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
             }
             $msg = $table->getFirstErrors();
-            return ['code'=>0,'msg'=>reset($msg)];
+            return ['code' => 0, 'msg' => reset($msg)];
         }
     }
 }

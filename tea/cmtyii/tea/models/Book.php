@@ -38,7 +38,7 @@ class Book extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id', 'add_time', 'radd_time', 'status', 'arrive_time', 'send_time'], 'integer'],
+            [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id','store_id','add_time', 'radd_time', 'status', 'arrive_time', 'send_time'], 'integer'],
             [['deposit'], 'number'],
             [['username'], 'string', 'max' => 32],
             [['phone'], 'string', 'max' => 15],
@@ -97,6 +97,7 @@ class Book extends \yii\db\ActiveRecord
     public function add($data)
     {
         $data['shoper_id']  = Yii::$app->session->get('shoper_id');
+        $data['store_id']  = Yii::$app->session->get('store_id');
         $data['add_time']   = time();
         $data['arrive_time']= strtotime($data['arrive_time']);
         $data['send_time']= strtotime($data['send_time']);

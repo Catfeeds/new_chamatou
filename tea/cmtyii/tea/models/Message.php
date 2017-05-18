@@ -56,14 +56,14 @@ class Message extends \yii\db\ActiveRecord
             'Id' => 'ID',
             'shoper_id' => 'Shoper ID',
             'type' => 'Type',
-            'content' => 'Content',
-            'phone' => 'Phone',
-            'username' => 'Username',
+            'content' => '内容',
+            'phone' => '手机号',
+            'username' => '用户名',
             'add_time' => 'Add Time',
             'status' => 'Status',
             'delete_tag' => 'Delete Tag',
             'delete_time' => 'Delete Time',
-            'title' => 'Title',
+            'title' => '标题',
         ];
     }
 

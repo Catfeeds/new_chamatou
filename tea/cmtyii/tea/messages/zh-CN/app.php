@@ -86,4 +86,11 @@ return[
 
     'phone_exist'                   =>'用户已经存在',
 
+    'b2b_goods_exist'               =>'商品不存在',
+    'b2b_goods_stack'               =>'商品库存不足',
+    'b2b_goods_num_not_0'           =>'商品库存不能为空',
+    'b2b_address_exist'             =>'收货地址不存在',
+
+    'withdraw_total_not'                =>'茶币余额不足'
+
 ];

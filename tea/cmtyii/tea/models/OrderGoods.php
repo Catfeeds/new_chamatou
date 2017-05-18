@@ -21,6 +21,9 @@ use Yii;
  * @property string $sum_price
  * @property string $add_time
  * @property integer $is_goods
+ * @property integer $store_id
+ * @property integer $shoper_id
+ * @property integer $type
  */
 class OrderGoods extends \yii\db\ActiveRecord
 {
@@ -38,7 +41,7 @@ class OrderGoods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'goods_id', 'num', 'give', 'is_give', 'add_time', 'is_goods'], 'integer'],
+            [['order_id','store_id','shoper_id', 'goods_id', 'num', 'give', 'type','is_give', 'add_time', 'is_goods'], 'integer'],
             [['price', 'sum_price'], 'number'],
             [['goods_name', 'spec', 'note'], 'string', 'max' => 255],
         ];

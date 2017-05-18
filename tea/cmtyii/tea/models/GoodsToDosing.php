@@ -112,4 +112,14 @@ class GoodsToDosing extends \yii\db\ActiveRecord
         }
         return '-';
     }
+    /**
+     * 获取库存
+     * @param $goods_id
+     * @return array|bool|null
+     */
+    public static function getGoodsRelate($goods_id)
+    {
+        $data = self::find()->andWhere(['goods_id'=>$goods_id])->all();
+        return $data;
+    }
 }

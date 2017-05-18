@@ -22,6 +22,24 @@ class IndexController extends BaseController
     //用户访问就去请求授权接口
     public function actionIndex()
     {
+        /**
+         * 进入此认证页面的两种方式
+         * 1.从公众号点击去喝茶菜单进入 此方式没有任何参数 进入到用户首页
+         * 2.用户在店面扫点单二维码进入 此方式带有商家ID/店铺ID和扫码标识(type=qr) 进入到茶楼商品列表页
+         */
+        //首先删除session中的商家ID/店铺ID和扫码标识  避免从公众号进入也会直接到点单页面
+        \Yii::$app->session->remove('shoper_id');
+        \Yii::$app->session->remove('store_id');
+        \Yii::$app->session->remove('type');
+        //如果请求中带有参数并商家ID和店铺ID,说明是在公众号外面扫码点单,将参数存入session,扫码标识type存入缓存
+        $data = \Yii::$app->request->get();
+        if($data){
+            if($data['type'] == 'qr'){
+                \Yii::$app->session->set('shoper_id',$data['shoper_id']);
+                \Yii::$app->session->set('store_id',$data['store_id']);
+                \Yii::$app->session->set('type',$data['type']);
+            }
+        }
         return \Yii::$app->wechat->authorizeRequired()->send();
     }
 
@@ -49,8 +67,8 @@ class IndexController extends BaseController
         //将用户信息保存到session中
         \Yii::$app->session->set('wx_user',$userinfo);
         \Yii::$app->session->set('openid',$userinfo['openid']);
-        //跳转到用户h端首页
-        return $this->redirect("http://127.0.0.1.tunnel.qydev.com/wx");
+        //,否则跳转到用户端首页
+        return $this->redirect("http://test5.angkebrand.com/wx");
     }
     /**
      * 首页附近茶楼列表  目前只推荐省类的茶楼
@@ -111,8 +129,15 @@ class IndexController extends BaseController
         return $data;
     }
 
-    public function actionN()
+    //该接口根据缓存数据判断用户是否是扫码进入 如果是扫码进入 返回商家ID和店铺ID并返回qr参数表示扫码进入
+    public function actionType()
     {
-        header("Location: http://test5.angkebrand.com/wx");
+        $shoper_id = \Yii::$app->session->get('shoper_id');
+        $store_id = \Yii::$app->session->get('store_id');
+        $qr = \Yii::$app->session->get('type');
+        if($qr){
+            return ['status'=>1,'data'=>['shoper_id'=>$shoper_id,'store_id'=>$store_id,'qr'=>1]];
+        }
+        return ['status'=>1,'data'=>['shoper_id'=>'','store_id'=>'','qr'=>0]];
     }
 }

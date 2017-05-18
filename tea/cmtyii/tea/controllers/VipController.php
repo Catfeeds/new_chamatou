@@ -101,15 +101,13 @@ class VipController extends ObjectController
         {
             $data = Vip::find()->where(['shoper_id'=>Yii::$app->session->get('shoper_id'),'id'=>Yii::$app->request->get('vip_id')])->asArray()->one();
             $ret['list']         = $data;
-            $ret['wx_paly_img']  = Config::get('wx_play_img');
-            $ret['zfb_play_img'] = Config::get('zfb_play_img');
             return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$ret];
         }
         else
         {
             $post = Yii::$app->request->post();
             $model = new Vip();
-            $paly_list = $model->paly($post);
+            $paly_list = $model->pay($post);
             if($paly_list) {
                 return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$paly_list];
             }
@@ -154,5 +152,12 @@ class VipController extends ObjectController
             }
             return ['code' => 0, 'msg' => Yii::t('app', 'global')['false']];
         }
+    }
+
+    public function actionConsume()
+    {
+        $consume = new Vip();
+        $data = $consume->consume(Yii::$app->request->get());
+        return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$data];
     }
 }

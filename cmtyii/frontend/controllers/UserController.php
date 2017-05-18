@@ -159,7 +159,11 @@ class UserController extends BaseController
      */
     public function actionVip()
     {
-        $vip_count = Vip::find()->where("user_id = $this->user_id")->count();
+        $user = \Yii::$app->session->get('wx_user');
+        if($user['phone'] == ""){
+            return ['status'=>1,'vip_num'=>0];
+        }
+        $vip_count = Vip::find()->where("phone = {$user['phone']}")->count();
         return ['status'=>1,'vip_num'=>$vip_count];
     }
 
@@ -169,8 +173,9 @@ class UserController extends BaseController
      */
     public function actionViplist()
     {
+        $user = \Yii::$app->session->get('wx_user');
         $vip_list = UserVip::find()
-            ->where("user_id = $this->user_id")
+            ->where("phone = {$user['phone']}")
             ->select(['card_no','vip_amount','shoper_id'])
             ->all();
        if(!$vip_list){

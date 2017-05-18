@@ -76,4 +76,21 @@ class Salesman extends \yii\db\ActiveRecord
         $model->shop_total-=1;
         return $model->save();
     }
+
+    /**
+     * 获取业务员
+     * @param $salesman_id
+     * @return string
+     */
+    public static function getUsernameById($salesman_id = '')
+    {
+        if ($salesman_id == '') {
+            return '';
+        }
+        $data = self::findOne($salesman_id);
+        if ($data) {
+            return $data->username;
+        }
+        return '';
+    }
 }
