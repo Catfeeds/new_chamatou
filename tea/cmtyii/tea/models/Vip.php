@@ -42,7 +42,7 @@ class Vip extends \yii\db\ActiveRecord
     {
         return [
             [['shoper_id', 'phone', 'username', 'card_no', 'birthday'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
-            [['shoper_id', 'user_id', 'sex'], 'integer', 'message' => Yii::t('app', 'table')['param_type_error'], 'on' => ['add']],
+            [['shoper_id','user_id', 'sex'], 'integer', 'message' => Yii::t('app', 'table')['param_type_error'], 'on' => ['add']],
             [['phone'], 'unique', 'on' => ['add'], 'message' => Yii::t('app', 'vip')['phone_exits']],
             [['phone'], 'match','pattern'=>'/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/','on' => ['add']],
             [['notes', 'address'], 'safe'],
@@ -178,7 +178,7 @@ class Vip extends \yii\db\ActiveRecord
      * @param $data
      * @return array|bool
      */
-    public function paly($data)
+    public function pay($data)
     {
         $vipModel = self::find()->where('shoper_id=:shoper_id and id = :id',
             [':shoper_id'=>Yii::$app->session->get('shoper_id'),':id'=>$data['vip_id']])->one();
@@ -187,6 +187,7 @@ class Vip extends \yii\db\ActiveRecord
             $data['add_time']       = time();
             $data['vip_id']         = $vipModel->id;
             $data['shoper_id']      = Yii::$app->session->get('shoper_id');
+            $data['tea_user_id']    = Yii::$app->session->get('tea_user_id');
             $data['paly_on']        = $this->payNo();
             $data['zs']             = empty($data['zs']) ? 0 :$data['zs'];
             $data['pay_up_amount']  = $vipModel->vip_amount;
@@ -246,7 +247,8 @@ class Vip extends \yii\db\ActiveRecord
 
         $data['username'] = empty($data['username']) ? '' :$data['username'];
         $data['phone']    = empty($data['phone'])     ? '' :$data['phone'];
-        $model = self::find()->where('shoper_id = :shoper_id and username like :username and phone  like :phone',[
+        $model = self::find()
+            ->where('shoper_id = :shoper_id and username like :username and phone  like :phone',[
             ':shoper_id'=>Yii::$app->session->get('shoper_id'),
             ':username' =>"%".$data['username']."%",
             ':phone'    =>"%".$data['phone']."%"])->select(['id'])->asArray()->all();
@@ -272,5 +274,87 @@ class Vip extends \yii\db\ActiveRecord
             $data[$key]['sum']      = number_format($value['amount'] + $value['zs'] + $value['pay_up_amount'],2);
         }
         return ['dateList'=>$data,'page'=>['pageCount'=>$page->getPageCount(),'dataCount'=>$dataCount]];
+    }
+
+    /**
+     * 根据手机号查询会员卡
+     * @param $phone
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getVipByPhone($phone,$select=[])
+    {
+        if($phone){
+            $data = self::find()->andWhere(['phone'=>$phone])
+                        ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                        ->select($select)
+                        ->one();
+            return $data;
+
+        }
+        return [];
+    }
+
+    /**
+     * 根据ID查询姓名
+     * @param $id
+     * @param array $select
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getUsernameById($id,$select=[])
+    {
+        if($id){
+            $data = self::find()->andWhere(['id'=>$id])
+                        ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                        ->select($select)
+                        ->one();
+            return $data;
+
+        }
+        return [];
+    }
+
+    /**
+     * 会员消费记录
+     * @param $pn
+     * @return mixed
+     */
+    public function consume($pn)
+    {
+        $model = Order::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                              ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                              ->andWhere(['!=','vip_user_id',0])
+                                ->andWhere(['merge_order_id'=>0]);
+        if(isset($pn['start_time']) && !empty($pn['start_time']))
+        {
+            $model = $model->andWhere(['>','end_time',strtotime($pn['start_time'])]);
+        }
+
+        if(isset($pn['end_time'])  && !empty($pn['end_time']))
+        {
+            $model = $model->andWhere(['<','end_time',strtotime($pn['end_time'])]);
+        }
+
+        if(isset($pn['user_id']) && !empty($pn['user_id']))
+        {
+            $model = $model->andWhere(['user_id'=>$pn['user_id']]);
+        }
+        $count = $model->count();
+        $pages = new Pagination(['totalCount'=>$count,'pageSize'=>Yii::$app->params['pageSize']]);
+        $list = $model->offset($pages->offset)->limit($pages->limit)->asArray()->all();
+        foreach ($list as $key=>$value)
+        {
+            $list[$key]['start_time'] = date('Y-m-d H:i:s',$value['start_time']);
+            $list[$key]['end_time'] = date('Y-m-d H:i:s',$value['end_time']);
+            $list[$key]['user_id'] = UsersForm::getUserNameById($value['user_id']);
+            $list[$key]['xfsc'] = Time::ToHour($value['start_time'],$value['end_time']);
+            $list[$key]['goods_sum_price'] = $value['total_amount'] - $value['table_amount'];
+            $vip = Vip::getUsernameById($value['vip_user_id']) ;
+            $list[$key]['vip_name'] =  $vip['username'];
+        }
+
+        $datas['pageCount'] = $count;
+        $datas['pageNum'] = $pages->getPageCount();
+        $datas['list'] = $list;
+        return $datas;
     }
 }

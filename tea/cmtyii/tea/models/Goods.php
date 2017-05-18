@@ -232,6 +232,13 @@ class Goods extends \yii\db\ActiveRecord
             $tran = Yii::$app->db->beginTransaction();
             try {
 
+                /**
+                 * 未知BUG 作者预留lrdouble
+                 */
+                if (!$this->save()) {
+                    throw  new \Exception('error goods save!');
+                }
+
                 if ($dosing) {
                     $this->is_stock = 0;
                     /*
@@ -242,7 +249,6 @@ class Goods extends \yii\db\ActiveRecord
                         $goodsToDosingData['dosing_id'] = $value['id'];
                         $goodsToDosingData['number'] = $value['count'];
                         $goodsToDosing = new GoodsToDosing();
-
                         if (!$goodsToDosing->add($goodsToDosingData)) {
                             $message = $goodsToDosing->getFirstErrors();
                             $message = reset($message);
@@ -250,10 +256,6 @@ class Goods extends \yii\db\ActiveRecord
                             throw new \Exception('error dosing save!');
                         }
                     }
-                }
-
-                if (!$this->save()) {
-                    throw  new \Exception('error goods save!');
                 }
 
                 $tran->commit();
@@ -442,6 +444,29 @@ class Goods extends \yii\db\ActiveRecord
         }else{
             $stock = GoodsToDosing::getGoodsStock($model->id);
             return $stock;
+        }
+    }
+    /**
+     * 获取这个商品的库存类型
+     * @param string $goods_id
+     * @return array|bool|int|null
+     */
+    public function getGoodsStockType($goods_id = '')
+    {
+        if($goods_id == ''){
+            $goods_id = $this->id;
+        }
+        $model = self::findOne($goods_id);
+        if($model->is_stock == Goods::IS_STOCK_TRUE){
+            return 'goods';
+        } else {
+
+            $stock = GoodsToDosing::getGoodsStock($model->id);
+            if ($stock == '-') {
+                return 'null';
+            } else {
+                return 'dosing';
+            }
         }
     }
 }

@@ -1,10 +1,20 @@
 <?php
 return [
     'adminEmail' => 'admin@example.com',
-    'pageSize'   => 2,# 分页 一页的显示数量
+    'pageSize'   => 10,# 分页 一页的显示数量
     'minTime'    => 0,# 茶坊忽略的时间 分钟
-
+    'wxPay'=>[
+        'appid'=>'wx3a8c350faa88e646',
+        'secret'=>'9fee3d531dcd68e50c19c4941a033fb8',
+        'mch_id'=>'1241023702',
+        'pay_url'=>'https://api.mch.weixin.qq.com/pay/unifiedorder',
+        'api_key'=>'6393246e2aecabb5caf267f3cabc1b7f',
+        'spbill_create_ip'=>'118.178.132.84',
+        'notify_url'=>'http://15982707139.tunnel.2bdata.com/b2b/order/wx-pay-ret',
+        'trade_type'=>'NATIVE',
+    ],
     //添加角色的列表
+    /* 数据库中添加的数据*/
     'rbacInitList'       =>[
         [
             'name'=>'公共模块',
@@ -12,19 +22,14 @@ return [
                 [
                     'name'=>'交班',
                     'list'=>[
-                      ['name'=>'交班','value' => '1','select'=>0],
+                      ['name'=>'交班','value' => 'jiaoban','select'=>0],
+                      ['name'=>'交班记录','value' => 'jiaoban/list','select'=>0]
                     ],
                 ],
                 [
-                    'name'=>'个人交班记录',
+                    'name'=>'消息',
                     'list'=>[
-                        ['name'=>'个人交班记录' ,'value'=>'2','select'=>0],
-                    ],
-                ],
-                [
-                    'name'=>'查看全部交班记录',
-                    'list'=>[
-                        ['name'=>'查看全部交班记录' ,'value'=>'3','select'=>0],
+                        ['name'=>'消息' ,'value'=>'information','select'=>0],
                     ],
                 ]
             ],
@@ -33,54 +38,53 @@ return [
             'name'=>'营业管理',
             'list'=>[
                 [
+                    'name'=>'营业桌台显示',
+                    'list'=>[
+                        ['name'  =>'营业桌台显示', 'value'   =>'business/desktopstatus', 'select'=>0],
+                    ],
+                ]
+                ,
+                [
                     'name'=>'预定',
                     'list'=>[
-                        ['name'  =>'新增预约', 'value'   =>'table/begin-table-order', 'select'=>0],
-                        ['name'  =>'查看已预约', 'value'   =>'table/begin-table-order-and-book', 'select'=>0],
-                        ['name'  =>'取消预约', 'value'   =>'table/gettableorder', 'select'=>0],
+                        ['name'  =>'预定', 'value'   =>'business/book', 'select'=>0],
                     ],
                 ],
                 [
                     'name'=>'开单台座管理',
                     'list'=>[
-                        ['name'  =>'开台', 'value'   =>'table/begin-table-order11', 'select'=>0],
-                        ['name'  =>'更换台座', 'value'   =>'table/begin-table-order-and-book22', 'select'=>0],
-                        ['name'  =>'合并账单', 'value'   =>'table/gettableorder33', 'select'=>0],
-                        ['name'  =>'商品转配', 'value'   =>'table/gettableorder44', 'select'=>0],
-                        ['name'  =>'商品取消', 'value'   =>'table/gettableorder55', 'select'=>0],
-                        ['name'  =>'商品转台', 'value'   =>'table/gettableorder66', 'select'=>0],
-                        ['name'  =>'增加消费', 'value'   =>'table/gettableorder77', 'select'=>0],
-                        ['name'  =>'查看', 'value'   =>'table/gettableorder88', 'select'=>0],
+                        ['name'  =>'开台', 'value'   =>'business/begin-table-order', 'select'=>0],
+                        ['name'  =>'更换台座', 'value'   =>'business/table/table-turn', 'select'=>0],
+                        ['name'  =>'合并账单', 'value'   =>'business/merge', 'select'=>0],
+                        ['name'  =>'商品转配', 'value'   =>'business/goods-giv', 'select'=>0],
+                        ['name'  =>'商品取消', 'value'   =>'business/goods-close', 'select'=>0],
+                        ['name'  =>'商品转台', 'value'   =>'business/table-goods-turn', 'select'=>0],
+                        ['name'  =>'增加消费', 'value'   =>'business/add-goods', 'select'=>0],
+                        ['name'  =>'查看',    'value'   =>'business/orderInfo', 'select'=>0],
                     ],
                 ],
                 [
                     'name'=>'吧台消费',
                     'list'=>[
-                        ['name'  =>'吧台消费', 'value'   =>'table/begin-table-order99', 'select'=>0],
+                        ['name'  =>'吧台消费', 'value'   =>'order/btxf', 'select'=>0],
                     ],
                 ],
                 [
-                    'name'=>'分类管理',
+                    'name'=>'台桌类型管理',
                     'list'=>[
-                        ['name'  =>'编辑', 'value'   =>'table/begin-table-order111', 'select'=>0],
-                        ['name'  =>'删除', 'value'   =>'table/begin-table-order-and-boo22k', 'select'=>0],
-                        ['name'  =>'新增', 'value'   =>'table/gettableorde232r', 'select'=>0],
+                        ['name'  =>'台桌类型管理', 'value'   =>'business/table-type', 'select'=>0]
                     ],
                 ],
                 [
                     'name'=>'台座管理',
                     'list'=>[
-                        ['name'  =>'新增台座', 'value'   =>'table/begin-table121-order', 'select'=>0],
-                        ['name'  =>'编辑台桌', 'value'   =>'table/begin-table-or32152der-and-book', 'select'=>0],
-                        ['name'  =>'删除台桌', 'value'   =>'table/gettableorde1455r', 'select'=>0],
+                        ['name'  =>'台座管理', 'value'   =>'business/table', 'select'=>0]
                     ],
                 ],
                 [
                     'name'=>'结账',
                     'list'=>[
-                        ['name'  =>'手动优惠', 'value'   =>'table/begin-table-ord21425er', 'select'=>0],
-                        ['name'  =>'结账', 'value'   =>'table/begin-table-order-and-bo5145ok', 'select'=>0],
-                        ['name'  =>'免单', 'value'   =>'table/gettableorder4154', 'select'=>0],
+                        ['name'  =>'结账', 'value'   =>'business/order', 'select'=>0]
                     ],
                 ]
             ]
@@ -91,17 +95,17 @@ return [
                 [
                     'name'=>'添加会员',
                     'list'=>[
-                        ['name'  =>'添加会员', 'value'   =>'table/begin-table-o122514rder', 'select'=>0]
+                        ['name'  =>'添加会员', 'value'   =>'vip/create', 'select'=>0],
+                        ['name'  =>'会员删除', 'value'   =>'vip/delete', 'select'=>0]
                     ],
                 ],
                 [
                     'name'=>'会员列表',
                     'list'=>[
-                        ['name'  =>'编辑', 'value'   =>'table/begin-table-orde212r', 'select'=>0],
-                        ['name'  =>'删除', 'value'   =>'table/begin-table-order-a121nd-book', 'select'=>0],
-                        ['name'  =>'充值', 'value'   =>'table/gettableorde5142r', 'select'=>0],
-                        ['name'  =>'充值记录', 'value'   =>'table/gettableorde1454r', 'select'=>0],
-                        ['name'  =>'消费记录', 'value'   =>'table/gettableorde1454r', 'select'=>0]
+                        ['name'  =>'会员列表', 'value'   =>'vip/list-vip', 'select'=>0],
+                        ['name'  =>'充值', 'value'   =>'vip/pay', 'select'=>0],
+                        ['name'  =>'充值记录', 'value'   =>'vip/pay-list', 'select'=>0],
+                        ['name'  =>'消费记录', 'value'   =>'vip/consume', 'select'=>0]
                     ],
                 ]
             ]
@@ -110,45 +114,29 @@ return [
             'name'=>'库存管理',
             'list'=>[
                 [
-                    'name'=>'商品管理',
-                    'list'=>[
-                        ['name'  =>'查看商品列表', 'value'   =>'table/begin-table121-order11', 'select'=>0],
-                        ['name'  =>'计入库存', 'value'   =>'table/begin-table-order121', 'select'=>0],
-                        ['name'  =>'编辑商品', 'value'   =>'table/begin-table-orde121r', 'select'=>0],
-                        ['name'  =>'绑定原料', 'value'   =>'table/begin-table-order2121', 'select'=>0],
-                        ['name'  =>'删除', 'value'   =>'table/begin-table-order51454', 'select'=>0],
-                        ['name'  =>'查看销售流水', 'value'   =>'table/begin-table-or1454der', 'select'=>0],
+                    'name' => '库存列表',
+                    'list' => [
+                        ['name' => '库存列表', 'value' => 'erp/goods-list', 'select' => 0]
                     ],
                 ],
                 [
-                    'name'=>'原料管理',
+                    'name'=>'入库',
                     'list'=>[
-                        ['name'  =>'入库', 'value'   =>'table/begin-4-order', 'select'=>0],
-                        ['name'  =>'盘存', 'value'   =>'table/begin-table-4', 'select'=>0],
-                        ['name'  =>'编辑', 'value'   =>'table/begin-table-orderdasd', 'select'=>0],
-                        ['name'  =>'报废', 'value'   =>'table/begin-table-o41rder', 'select'=>0],
-                        ['name'  =>'查看使用详情', 'value'   =>'table/begin-454-order', 'select'=>0],
-                        ['name'  =>'添加单位', 'value'   =>'table/begin-tabl242e-order', 'select'=>0],
-                        ['name'  =>'新增原料', 'value'   =>'table/begin-4-order', 'select'=>0],
-                        ['name'  =>'查看原料库存', 'value'   =>'table/begin-ta45ble-order', 'select'=>0],
+                        ['name'  =>'入库', 'value'   =>'erp/push', 'select'=>0],
+                        ['name'  =>'入库记录', 'value'   =>'erp/push-log', 'select'=>0]
                     ],
                 ],
                 [
-                    'name'=>'入库记录',
+                    'name'=>'盘存',
                     'list'=>[
-                        ['name'  =>'入库记录', 'value'   =>'table/begin-table-454', 'select'=>0]
-                    ],
-                ],
-                [
-                    'name'=>'盘存记录',
-                    'list'=>[
-                        ['name'  =>'盘存记录', 'value'   =>'table/begin-table-54', 'select'=>0]
+                        ['name'  =>'盘存', 'value'   =>'erp/pan-dian', 'select'=>0]
                     ]
                 ],
                 [
-                    'name'=>'出库记录',
+                    'name'=>'出库',
                     'list'=>[
-                        ['name'  =>'出库记录', 'value'   =>'table/begin-457-order', 'select'=>0]
+                        ['name'  =>'出库', 'value'   =>'erp/pop', 'select'=>0],
+                        ['name'  =>'出库记录', 'value'   =>'erp/pop-log', 'select'=>0]
                     ],
                 ]
             ]
@@ -159,7 +147,7 @@ return [
                 [
                     'name'=>'消费单',
                     'list'=>[
-                        ['name'  =>'消费单', 'value'   =>'table/begin-757-order', 'select'=>0]
+                        ['name'  =>'消费单', 'value'   =>'spending/list', 'select'=>0]
                     ],
                 ]
             ]
@@ -170,7 +158,7 @@ return [
                 [
                     'name'=>'留言模块',
                     'list'=>[
-                        ['name'  =>'留言模块', 'value'   =>'table/begin-77-order', 'select'=>0]
+                        ['name'  =>'留言模块', 'value'   =>'message', 'select'=>0]
                     ],
                 ]
             ]
@@ -179,17 +167,11 @@ return [
             'name'=>'提现管理',
             'list'=>[
                 [
-                    'name'=>'查看提现申请列表',
+                    'name'=>'查看编辑',
                     'list'=>[
-                        ['name'  =>'查看提现申请列表', 'value'   =>'table/888-table-order', 'select'=>0]
+                        ['name'  =>'查看编辑', 'value'   =>'withdraw', 'select'=>0]
                     ],
-                ],
-                [
-                    'name'=>'申请提现',
-                    'list'=>[
-                        ['name'  =>'申请提现', 'value'   =>'table/begin-978-order', 'select'=>0]
-                    ],
-                ],
+                ]
             ]
         ],
         [
@@ -198,18 +180,7 @@ return [
                 [
                     'name'=>'B2B商城',
                     'list'=>[
-                        ['name'  =>'B2B商城', 'value'   =>'table/begin-87887-order', 'select'=>0]
-                    ],
-                ]
-            ]
-        ],
-        [
-            'name'=>'授信管理',
-            'list'=>[
-                [
-                    'name'=>'授信管理',
-                    'list'=>[
-                        ['name'  =>'授信管理', 'value'   =>'table/begin-575788-order', 'select'=>0]
+                        ['name'  =>'B2B商城', 'value'   =>'b2b', 'select'=>0]
                     ],
                 ]
             ]
@@ -220,7 +191,7 @@ return [
                 [
                     'name'=>'报表管理',
                     'list'=>[
-                        ['name'  =>'报表管理', 'value'   =>'table/begin-8454-order', 'select'=>0]
+                        ['name'  =>'报表管理', 'value'   =>'statement/actual-data', 'select'=>0]
                     ],
                 ]
             ]
@@ -229,53 +200,69 @@ return [
             'name'=>'设置',
             'list'=>[
                 [
-                'name'=>'生成二维码',
-                'list'=>[
-                    ['name'  =>'生成二维码', 'value'   =>'table/begin-table587524-order', 'select'=>0]
-                ],
+                    'name' => '生成二维码',
+                    'list' => [
+                        ['name' => '生成二维码', 'value' => 'qrcode/store', 'select' => 0]
+                    ],
                 ],
                 [
                     'name'=>'优惠配置',
                     'list'=>[
-                        ['name'  =>'优惠配置', 'value'   =>'table/begin-58754578-order', 'select'=>0]
+                        ['name'  =>'优惠配置', 'value'   =>'discount/config', 'select'=>0]
                     ],
                 ],
                 [
-                    'name'=>'员工管理',
+                    'name'=>'角色管理',
                     'list'=>[
-                        ['name'  =>'员工管理', 'value'   =>'table/begin-78985454-order', 'select'=>0]
+                        ['name'  =>'角色管理', 'value'   =>'role/index', 'select'=>0]
+                    ],
+                ],
+                [
+                    'name'=>'商品管理',
+                    'list'=>[
+                        ['name'  =>'商品管理', 'value'   =>'goods/config', 'select'=>0]
+                    ],
+                ],
+                [
+                    'name'=>'单位管理',
+                    'list'=>[
+                        ['name'  =>'单位管理', 'value'   =>'unit/config', 'select'=>0]
                     ]
                 ],
                 [
-                    'name'=>'单位配置',
+                    'name'=>'原料配置',
                     'list'=>[
-                        ['name'  =>'单位配置', 'value'   =>'table/begin-table-o878415rder', 'select'=>0]
+                        ['name'  =>'原料配置', 'value'   =>'dosing/config', 'select'=>0]
                     ]
                 ],
                 [
-                    'name'=>'交班配置',
+                    'name'=>'员工操作',
                     'list'=>[
-                        ['name'  =>'交班配置', 'value'   =>'table/begin-table-8781458', 'select'=>0]
+                        ['name'  =>'员工操作', 'value'   =>'users/config', 'select'=>0]
                     ]
                 ],
                 [
-                    'name'=>'权限管理',
+                    'name'=>'预留金',
                     'list'=>[
-                        ['name'  =>'权限管理', 'value'   =>'table/begin-871587-order', 'select'=>0]
+                        ['name'  =>'预留金', 'value'   =>'jiaoban/index', 'select'=>0]
                     ]
                 ]
             ]
         ],
     ],
-
+    'notRbacUrlList'=>[
+        'role/get-roles'=>1,
+    ],
     /* 判断权限下所包含的URL*/
     'rbacUrlList' =>[
-
-
         # 设置中心
         'role/init'  =>'role/index',//设置--初始化所有的权限列表
         'role/get-roles'  =>'role/index',//设置--获取当前用户所有权限
-
+        'role/add'  =>'role/index',//角色添加
+        'role/edit'  =>'role/index',//角色添加
+        'role/one'  =>'role/index',//角色添加
+        'role/del'  =>'role/index',//角色添加
+        'jiaoban/index'  =>'jiaoban/index',//设置--交班金额设置
         'qrcode/store'=>'qrcode/store', //设置--生成二维码
         'goods/goods-cate-and-goods'=>'goods/config',//设置--获取商品的分类
         'goods/goods-cate'=>'goods/config',//设置--获取商品的分类
@@ -286,9 +273,8 @@ return [
         'goods/edit'=>'goods/config',//设置--商品的分类 修改
         'goods/del'=>'goods/config',//设置--商品的分类 删除
         'goods/get-cate-goods-page'=>'goods/config',//设置--分类下的商品
-
         'unit/get-all'=>'unit/config',//设置--获取商品的单位
-        'unit/get-one'=>'unit/config',//设置--获取商品的单位
+        'unit/get-one'=>'unit/config',//设置--获取商品的i
         'unit/add'=>'unit/config',//设置--商品的单位 添加
         'unit/edit'=>'unit/config',//设置--商品的单位 修改
         'unit/del'=>'unit/config',//设置--商品的单位 删除
@@ -298,16 +284,17 @@ return [
         'dosing/get-all'=>'dosing/config' ,//设置--商品原料 获取所有
         'dosing/get-all-page'=>'dosing/config' ,//设置--商品原料 获取所有带分页
         'dosing/get-one'=>'dosing/config' ,//设置--商品原料 获取一个
-
         'users/add'=>'users/config',//设置--添加管理员
+        'users/del'=>'users/config',//设置--添加管理员
+        'users/edit'=>'users/config',//设置--添加管理员
+        'users/get-role'=>'users/config',//设置--添加管理员
         'users/get-list'=>'users/config',//设置--获取管理员列表
-
+        'users/get-one'=>'users/config',//设置--获取管理员列表
+        'users/one'=>'users/config',//设置--获取管理员列表
         'discount/add'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/edit'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/del'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/get-list'=>'discount/config',//设置 -- 优惠操作 添加
-
-
         'erp/goods-list'=>'erp/goods-list',//库存 -- 获取库存列表  添加
         'erp/push-one'=>'erp/push',//库存 -- 入库一个商品或原料
         'erp/push-all'=>'erp/push',//库存 -- 入库多个商品或原料
@@ -320,7 +307,7 @@ return [
         'erp/pop-documents'=>'erp/pop-log',//库存 -- 单商品出库生成单据
         'erp/pan-dian'=>'erp/pan-dian',//库存 -- 库存盘点
         'erp/pan-dian-log'=>'erp/pan-dian',//库存 -- 库存盘点
-
+        'erp/excel'=>'erp/excel',//库存 -- 导出Excel
         'table/desktopstatus'=>'business/desktopstatus',//营业桌台显示
         'table/gettableorder'=>'business/orderInfo',//查看台座消费详情
         'table/begin-table-order'=>'business/begin-table-order',//开台
@@ -328,21 +315,79 @@ return [
         'table/table-turn'=>'business/table/table-turn',//转台操作
         'table/merge'=>'business/merge',//合并台座
         'order/goods-giv'=>'business/goods-giv',//商品转配
-        'order/goods-close'=>'business/goods-close',//商品转配
-        'table/table-goods-turn'=>'business/table-goods-turn',//商品转配
-        'table/add-goods'=>'business/add-goods',//商品转配
+        'order/goods-close'=>'business/goods-close',//商品取消
+        'table/table-goods-turn'=>'business/table-goods-turn',//商品转台
+        'table/add-goods'=>'business/add-goods',//商品添加
         'goods/list-goods'=>'business/add-goods',//商品列表
         'goods/search-goods'=>'business/add-goods',//商品列表
-        'table/add-table'=>'business/add-table',//添加台座
-        'table/edit-table'=>'business/edit-table',//修改台座
-        'table/del-table'=>'business/del-table',//删除台座
+        'table/add-table'=>'business/table',//添加台座
+        'table/edit-table'=>'business/table',//修改台座
+        'table/del-table'=>'business/table',//删除台座
+        'table/addtabletype'=>'business/table-type',//添加台桌分类
+        'table/edittabletype'=>'business/table-type',//修改台桌分类
+        'table/deltabletype'=>'business/table-type',//删除台桌分类
+        'table/begin-table-book'=>'business/book',//预定权限
+        'table/get-table-book'=>'business/book',//获取预定详情
+        'table/close-table-book'=>'business/book',//取消预定
+        'order/get-vip-one'=>'business/order',//取消预定
+        'order/pay'=>'business/order',//订单结算
+        'order/btxf'=>'order/btxf',//吧台消费订单生成
+        'order/paybtxf'=>'order/btxf',//吧台订单结算
+        'b2b/default/index'=>'b2b',//b2b商场首页
+        'b2b/category/index'=>'b2b',//b2b商品分类
+        'b2b/goods/search'=>'b2b',//b2b商品搜索
+        'b2b/users/info'=>'b2b',//b2b个人信息
+        'b2b/cart/list'=>'b2b',//b2b购物车
+        'b2b/cart/del'=>'b2b',//b2b删除购物车商品
+        'b2b/cart/add'=>'b2b',//b2b添加商品到购物车
+        'b2b/cart/edit-cart-num'=>'b2b',//b2b购物车修改数量
+        'b2b/address/add'=>'b2b',//b2b购物车修改数量
+        'b2b/address/del'=>'b2b',//b2b购物车修改数量
+        'b2b/address/list'=>'b2b',//b2b购物车修改数量
+        'b2b/address/one'=>'b2b',//b2b购物车修改数量
+        'b2b/address/edit'=>'b2b',//b2b购物车修改数量
+        'b2b/address/edit-default'=>'b2b',//b2b购物车修改数量
+        'b2b/address/locations'=>'b2b',//b2b购物车修改数量
+        'b2b/order/list'=>'b2b',//b2b购物车修改数量
+        'b2b/goods/info-one'=>'b2b',//b2b购物车修改数量
+        'b2b/order/save-order'=>'b2b',//b2b购物车修改数量
+        'b2b/credit/info'=>'b2b',//b2b购物车修改数量
+        'b2b/credit/list'=>'b2b',//b2b购物车修改数量
+        'b2b/order/pay-status'=>'b2b',//b2b购物车修改数量
+        'b2b/order/pay-one'=>'b2b',//b2b购物车修改数量
+        'b2b/order/zjgm'=>'b2b',//b2b购物车修改数量
+        'spending/list'=>'spending/list',//消费单
+        'spending/one'=>'spending/list',//消费单
+        'withdraw/yl'=>'withdraw',//提现
+        'withdraw/list'=>'withdraw',//提现
+        'withdraw/add'=>'withdraw',//提现
+        'message/list-message'=>'message',//留言
+        'message/create'=>'message',//留言
+        'message/message'=>'message',//留言
+        'statement/actual-data'=>'statement/actual-data',//报表系统
+        'statement/operating-data'=>'statement/actual-data',//报表系统
+        'statement/wx-user'=>'statement/actual-data',//报表系统
+        'statement/goods'=>'statement/actual-data',//报表系统
+        'vip/list-vip'=>'vip/list-vip',//会员列表
+        'vip/search'=>'vip/list-vip',//会员列表
+        'vip/pay'=>'vip/pay',//会员充值
+        'vip/pay-list'=>'vip/pay-list',//会员充值记录
+        'vip/print'=>'vip/pay-list',//会员打印和查看详情
+        'vip/consume'=>'vip/consume',//会员消费记录
+        'vip/create'=>'vip/create',//会员添加
+        'vip/delete'=>'vip/delete',//会员删除
+        'jiaoban/init'=>'jiaoban',//交班初始化
+        'jiaoban/save'=>'jiaoban',//交班保存
+        'jiaoban/list'=>'jiaoban/list',//交班记录
+        'information/unread'=>'information',//消息通知
+        'information/read'=>'information',//消息通知
+        'information/count'=>'information',//消息通知
 
     ],
 
 
     /* 数据库中添加的数据*/
     'databaseRbacList'=>[
-
         # 设置中心
         ['name'=>'qrcode/store','description'=>'生成二维码','data'=>'setting'],
         ['name'=>'role/index','description'=>'权限管理','data'=>'setting'],
@@ -351,14 +396,16 @@ return [
         ['name'=>'dosing/config','description'=>'商品原料权限','data'=>'setting'],
         ['name'=>'discount/config','description'=>'优惠添加操作','data'=>'setting'],
         ['name'=>'users/config','description'=>'员工操作','data'=>'setting'],
-
+        ['name'=>'jiaoban/index','description'=>'交班预留金额设置','data'=>'setting'],
+        #库存管理
         ['name'=>'erp/goods-list','description'=>'库存商品列表','data'=>'repertory'],
         ['name'=>'erp/push','description'=>'库存入库','data'=>'repertory'],
         ['name'=>'erp/push-log','description'=>'库存入记录','data'=>'repertory'],
         ['name'=>'erp/pop','description'=>'库存出库','data'=>'repertory'],
         ['name'=>'erp/pop-log','description'=>'库存出库记录','data'=>'repertory'],
         ['name'=>'erp/pan-dian','description'=>'库存盘点记录','data'=>'repertory'],
-
+        ['name'=>'erp/excel','description'=>'导出Excel','data'=>'repertory'],
+        #营业模块
         ['name'=>'business/desktopstatus','description'=>'营业桌台显示','data'=>'business'],
         ['name'=>'business/add-goods','description'=>'增加消费','data'=>'business'],
         ['name'=>'business/table-goods-turn','description'=>'商品转台','data'=>'business'],
@@ -368,48 +415,32 @@ return [
         ['name'=>'business/table/table-turn','description'=>'更换台座','data'=>'business'],
         ['name'=>'business/begin-table-order','description'=>'开台','data'=>'business'],
         ['name'=>'business/orderInfo','description'=>'查看详情','data'=>'business'],
-        ['name'=>'business/del-table','description'=>'新增台座','data'=>'business'],
-        ['name'=>'business/edit-table','description'=>'编辑台桌','data'=>'business'],
-        ['name'=>'business/add-table','description'=>'删除台桌','data'=>'business'],
-
+        ['name'=>'business/table','description'=>'台桌管理','data'=>'business'],
+        ['name'=>'business/table-type','description'=>'台桌类型管理','data'=>'business'],
+        ['name'=>'business/book','description'=>'预定权限','data'=>'business'],
+        ['name'=>'business/order','description'=>'订单权限','data'=>'business'],
+        ['name'=>'order/btxf','description'=>'吧台消费','data'=>'business'],
+        #消费单
+        ['name'=>'spending/list','description'=>'消费单','data'=>'consume'],
+        #报表
+        ['name'=>'statement/actual-data','description'=>'报表系统','data'=>'statement'],
+        #提现
+        ['name'=>'withdraw','description'=>'提现管理','data'=>'withdraw'],
+        #留言
+        ['name'=>'message','description'=>'留言','data'=>'message'],
+        #公共模块
+        ['name'=>'jiaoban','description'=>'交班','data'=>'common'],
+        ['name'=>'message','description'=>'留言','data'=>'common'],
+        ['name'=>'information','description'=>'消息','data'=>'common'],
+        ['name'=>'jiaoban/list','description'=>'交班记录','data'=>'common'],
+        #B2B
+        ['name'=>'b2b','description'=>'b2b商场权限','data'=>'b2b'],
+        #会员
+        ['name'=>'vip/list-vip','description'=>'查看会员','data'=>'member'],
+        ['name'=>'vip/pay','description'=>'会员充值','data'=>'member'],
+        ['name'=>'vip/pay-list','description'=>'会员充值记录','data'=>'member'],
+        ['name'=>'vip/consume','description'=>'会员消费记录','data'=>'member'],
+        ['name'=>'vip/create','description'=>'会员添加','data'=>'member'],
+        ['name'=>'vip/delete','description'=>'会员删除','data'=>'member'],
     ]
-    /**
-     *
-     *
-     *
-     * 'list'=>[
-    [
-    'name'=>'预定',
-    'list'=>[
-    ['name'  =>'新增预约', 'value'   =>'table/begin-table-order', 'select'=>0],
-    ['name'  =>'查看已预约', 'value'   =>'table/begin-table-order-and-book', 'select'=>0],
-    ['name'  =>'取消预约', 'value'   =>'table/gettableorder', 'select'=>0],
-    ],
-    ],
-    [
-    [
-    'name'=>'吧台消费',
-    'list'=>[
-    ['name'  =>'吧台消费', 'value'   =>'table/begin-table-order99', 'select'=>0],
-    ],
-    ],
-    [
-    'name'=>'分类管理',
-    'list'=>[
-    ['name'  =>'编辑', 'value'   =>'table/begin-table-order111', 'select'=>0],
-    ['name'  =>'删除', 'value'   =>'table/begin-table-order-and-boo22k', 'select'=>0],
-    ['name'  =>'新增', 'value'   =>'table/gettableorde232r', 'select'=>0],
-    ],
-    ],
-    [
-    'name'=>'结账',
-    'list'=>[
-    ['name'  =>'手动优惠', 'value'   =>'table/begin-table-ord21425er', 'select'=>0],
-    ['name'  =>'结账', 'value'   =>'table/begin-table-order-and-bo5145ok', 'select'=>0],
-    ['name'  =>'免单', 'value'   =>'table/gettableorder4154', 'select'=>0],
-    ],
-    ]
-    ]
-     */
-
 ];

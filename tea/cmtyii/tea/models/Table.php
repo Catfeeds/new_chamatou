@@ -63,8 +63,8 @@ class Table extends \yii\db\ActiveRecord
     {
         if(!$this->hasErrors())
         {
-            $data = self::find()->where('shoper_id = :shoper_id and type_id = :type_id and table_name = :table_name and store_id = :store_id',
-                    [':shoper_id'=>Yii::$app->session->get('shoper_id'),':type_id'=>$this->type_id,':table_name'=>$this->table_name,':store_id'=>Yii::$app->session->get('store_id')])
+            $data = self::find()->where('shoper_id = :shoper_id and table_name = :table_name and store_id = :store_id',
+                    [':shoper_id'=>Yii::$app->session->get('shoper_id'),':table_name'=>$this->table_name,':store_id'=>Yii::$app->session->get('store_id')])
                     ->select(['id'])->one();
             if($data)
             {
@@ -82,8 +82,8 @@ class Table extends \yii\db\ActiveRecord
     {
         if(!$this->hasErrors())
         {
-            $data = self::find()->where('shoper_id = :shoper_id and store_id = :store_id and type_id = :type_id and table_name = :table_name and id != :id ',
-                    [':shoper_id'=>Yii::$app->session->get('shoper_id'),':store_id'=>Yii::$app->session->get('store_id'),':type_id'=>$this->type_id,':table_name'=>$this->table_name,':id'=>$this->id])
+            $data = self::find()->where('shoper_id = :shoper_id and store_id = :store_id and table_name = :table_name and id != :id ',
+                    [':shoper_id'=>Yii::$app->session->get('shoper_id'),':store_id'=>Yii::$app->session->get('store_id'),':table_name'=>$this->table_name,':id'=>$this->id])
                     ->select(['id'])->one();
             if($data)
             {
@@ -188,7 +188,6 @@ class Table extends \yii\db\ActiveRecord
             $order['total_amount'] += $value['sum_price'];
             $order['goods_list'][$key]['add_time'] = date('Y-m-d H:i:s',$value['add_time']);
         }
-
         # 格式化相应的时间
         $order['time']       = $this->ToHour($order['start_time']);
         $order['start_time'] = date('Y-m-d H:i:s',$order['start_time']);
@@ -353,7 +352,7 @@ class Table extends \yii\db\ActiveRecord
     -  Return ：        // string
     -  Others :         // 其他说明
      ***********************************************************************/
-    private function ToHour($time){
+    public function ToHour($time){
 
         $time = time() - $time;
         $d = floor($time/86400);
@@ -453,7 +452,9 @@ class Table extends \yii\db\ActiveRecord
     public function getDeskStatus($type = 0)
     {
         # 查询出所有的台座类型
-        $tableTypeModel = TableType::findAll(['shoper_id'=>Yii::$app->session->get('shoper_id'),'store_id'=>Yii::$app->session->get('store_id')]);
+        $tableTypeModel = TableType::find()
+                        ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                        ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])->all();
         $tableTypeArray = ArrayHelper::toArray($tableTypeModel);
         $classification['sanzuoNum'] = 0;
         $classification['baoxiangNum'] = 0;
@@ -701,6 +702,9 @@ class Table extends \yii\db\ActiveRecord
                     $order = $value->getOrderAR();
                     if($order)
                     {
+                        /**
+                         * 判断合并订单有没有合并订单
+                         */
                         $mergeOrder = $value->getMergeOrderAR($order->id);
                         foreach ($mergeOrder as $mkey=>$mvalue)
                         {
@@ -713,6 +717,7 @@ class Table extends \yii\db\ActiveRecord
                         }
                         $value->tableUseCost($order,$value->getTableType());
                         $order->total_amount = $order->getGoodsSumPrice();
+                        $order->table_amount = $order->redyTableAmount($order->start_time);
                         $order->merge_order_id = $tableOrder->id;
                         if($order->save() == false)
                         {

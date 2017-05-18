@@ -40,9 +40,18 @@ class StorageInfo extends \yii\db\ActiveRecord
     const STATUS_PUSH = 1;
 
     /**
+     * 回退入库
+     */
+    const STATUS_BACK_PUSH = 4;
+
+    /**
      * 出库
      */
     const STATUS_POP = 2;
+    /**
+     * 销售出库
+     */
+    const STATUS_SELL_POP = 3;
 
     /**
      * @inheritdoc
@@ -103,7 +112,7 @@ class StorageInfo extends \yii\db\ActiveRecord
                 $this->note = isset($data['note']) ? $data['note'] : '';
                 $this->buy_price = isset($data['buy_price']) ? $data['buy_price'] : 0;
                 $this->storage_number = isset($data['storage_number']) ? $data['storage_number'] : 0;
-                $this->status = StorageInfo::STATUS_PUSH;
+                $this->status = isset($data['push_type']) ? $data['push_type'] : StorageInfo::STATUS_PUSH;
                 /* 判断添加入库的类型 */
                 if ($data['type'] == 'goods') {
                     $this->type = StorageInfo::TYPE_GOODS;
@@ -168,8 +177,8 @@ class StorageInfo extends \yii\db\ActiveRecord
         $model = self::find()
             ->andWhere(['shoper_id' => Yii::$app->session->get('shoper_id')])
             ->andWhere(['store_id' => Yii::$app->session->get('store_id')])
-            ->andWhere(['status' => StorageInfo::STATUS_PUSH])
-            ->select(['id', 'users_id', 'goods_id', 'add_time', 'num', 'buy_price', 'note', 'type']);
+            ->andWhere(['in', 'status', [StorageInfo::STATUS_BACK_PUSH, StorageInfo::STATUS_PUSH]])
+            ->select(['id', 'users_id', 'goods_id', 'add_time', 'num', 'buy_price', 'note', 'type','status']);
 
         if (isset($data['start_time'])) {
             $model = $model->andWhere(['>', 'add_time', strtotime($data['start_time'])])
@@ -182,7 +191,7 @@ class StorageInfo extends \yii\db\ActiveRecord
         }
 
         /*查看是否带商品ID、带了就执行商品ID*/
-        if (isset($data['id']) && empty($data['id'])) {
+        if (isset($data['id']) && !empty($data['id'])) {
             $model = $model->andWhere(['goods_id' => $data['id']]);
         }
 
@@ -204,6 +213,12 @@ class StorageInfo extends \yii\db\ActiveRecord
                 $data[$key]['goods_name'] = Goods::getGoodsNameById($val['goods_id']);
             } elseif ($val['type'] == StorageInfo::TYPE_DOSING) {
                 $data[$key]['goods_name'] = Dosing::getDosingNameById($val['goods_id']);
+            }
+
+            if ($val['status'] == StorageInfo::STATUS_BACK_PUSH) {
+                $data[$key]['status'] = '商品回退';
+            } elseif ($val['status'] == StorageInfo::STATUS_PUSH) {
+                $data[$key]['status'] = '标准入库';
             }
         }
         $datas['pageCount'] = $count;
@@ -232,7 +247,7 @@ class StorageInfo extends \yii\db\ActiveRecord
                 $this->note = isset($data['note']) ? $data['note'] : '';
                 $this->buy_price = isset($data['buy_price']) ? $data['buy_price'] : 0;
                 $this->storage_number = isset($data['storage_number']) ? $data['storage_number'] : 0;
-                $this->status = StorageInfo::STATUS_POP;
+                $this->status = isset($data['pop_type']) ? $data['pop_type'] : StorageInfo::STATUS_POP;
                 /* 判断添加入库的类型 */
                 if ($data['type'] == 'goods') {
                     $this->type = StorageInfo::TYPE_GOODS;
@@ -298,8 +313,9 @@ class StorageInfo extends \yii\db\ActiveRecord
         $model = self::find()
             ->andWhere(['shoper_id' => Yii::$app->session->get('shoper_id')])
             ->andWhere(['store_id' => Yii::$app->session->get('store_id')])
-            ->andWhere(['status' => StorageInfo::STATUS_PUSH])
-            ->select(['id', 'users_id', 'goods_id', 'add_time', 'num', 'buy_price', 'note', 'type']);
+            ->andWhere(['in','status' ,[StorageInfo::STATUS_POP,StorageInfo::STATUS_SELL_POP]])
+            ->select(['id', 'users_id', 'goods_id', 'add_time', 'num', 'buy_price', 'note', 'type','status']);
+
         /* 判断是否带时间查询 */
         if (isset($data['start_time'])) {
             $model = $model->andWhere(['>', 'add_time', strtotime($data['start_time'])])
@@ -310,9 +326,8 @@ class StorageInfo extends \yii\db\ActiveRecord
         if (isset($data['storage_number']) && !empty($data['storage_number'])) {
             $model = $model->andWhere(['storage_number' => $data['storage_number']]);
         }
-
         /*查看是否带商品ID、带了就执行商品ID*/
-        if (isset($data['id']) && empty($data['id'])) {
+        if (isset($data['id']) && !empty($data['id'])) {
             $model = $model->andWhere(['goods_id' => $data['id']]);
         }
 
@@ -336,6 +351,13 @@ class StorageInfo extends \yii\db\ActiveRecord
             } elseif ($val['type'] == StorageInfo::TYPE_DOSING) {
                 $data[$key]['goods_name'] = Dosing::getDosingNameById($val['goods_id']);
             }
+
+            if($val['status'] == StorageInfo::STATUS_POP){
+                $data[$key]['status'] = '标准出库';
+            }elseif($val['status'] == StorageInfo::STATUS_SELL_POP){
+                $data[$key]['status'] = '销售出库';
+            }
+
         }
         $datas['pageCount'] = $count;
         $datas['pageNum'] = $page->getPageCount();
