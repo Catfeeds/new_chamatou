@@ -2,30 +2,21 @@
 
 use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
-use yii\grid\GridView;
+use common\widgets\GridViewLrdouble;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\WithdrawSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Withdraws');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
-<div class="withdraw-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <!--    <p>-->
-    <!--        --><? //= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
-    <!--    </p>-->
-    <?= GridView::widget([
+<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px;">
+    <?= GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-//            'Id',
             [
                 'attribute' => 'add_time',
                 'format' => 'datetime',
@@ -42,7 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => '店铺名称',
                 'attribute' => 'store_sp_name',
-                'value' => 'store.sp_name'
+                'value' => 'store.sp_name',
+
             ],
             [
                 'label' => '联系电话',
@@ -83,8 +75,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             'note',
-
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => "{via}{refuse}{delete}",
@@ -110,4 +100,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    <style>
+        .grid-view th{
+            text-align: center;
+        }
+        .grid-view .form-control{
+            height: 28px;
+        }
+    </style>
+
 </div>

@@ -7,7 +7,7 @@ $this->title = '';
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap-daterangepicker-master/daterangepicker.js"></script>
 <link rel="stylesheet" href="/js/bootstrap-daterangepicker-master/daterangepicker.css">
-<div class="container-fluid" style="margin: 0px; padding: 0px; margin-top: -30px;">
+<div class="container-fluid" style="margin: 0px; padding: 0px;">
     <div class="lr_nav">
         <ul>
             <a href="<?php echo \yii\helpers\Url::toRoute(['store/index'])?>"><li>商家统计</li></a>

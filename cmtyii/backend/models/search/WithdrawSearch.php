@@ -59,7 +59,6 @@ class WithdrawSearch extends Withdraw
             ->select(['w.*', 'shoper.bank', 'shoper.bank_user', 'shoper.card_no', 'shoper.phone', 'store.sp_name'])
             ->leftJoin(['shoper'=> Shoper::tableName()], 'shoper.id = w.shoper_id')
             ->leftJoin(['store'=>SpStore::tableName()], 'store.shoper_id =  shoper.id');
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

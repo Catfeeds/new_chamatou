@@ -38,7 +38,6 @@ class WithdrawController extends Controller
     {
         $searchModel = new WithdrawSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

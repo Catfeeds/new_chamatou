@@ -127,16 +127,42 @@ $this->params['breadcrumbs'][] = $this->title;
         color: #ccc;
     }
 </style>
-<div>
-    <ul class="order-status">
-        <li><a href="<?= Url::to(['index'])?>">全部</a></li>
-        <li><a href="<?= Url::to(['index','status'=>1])?>">待付款</a></li>
-        <li><a href="<?= Url::to(['index','status'=>2])?>">待发货</a></li>
-        <li><a href="<?= Url::to(['index','status'=>3])?>">待收货</a></li>
-        <li><a href="<?= Url::to(['index','status'=>4])?>">已完成</a></li>
+<style>
+    .lr_nav{
+        background-color: #ffffff;
+        width: 100%;
+        height: 60px;
+        overflow: hidden;
+    }
+    .lr_nav ul li{
+        float: left;
+        list-style: none;
+        width: 100px;
+        height: 54px;
+        line-height: 60px;
+        font-size: 15px;
+        text-align: center;
+        color: #323232;
+    }
+    .lr_nav ul .lr_action{
+        border-bottom: 4px solid #0062ae;
+        color: #2f3f58;
+    }
+    .lr_nav ul :hover{
+        border-bottom: 4px solid #0062ae;
+        color: #2f3f58;
+    }
+</style>
+
+<div class="lr_nav">
+    <ul>
+        <a href="<?= Url::to(['index'])?>"><li class="navs ">全部</li></a>
+        <a href="<?= Url::to(['index','status'=>1])?>"><li class="navs">待付款</li></a>
+        <a href="<?= Url::to(['index','status'=>2])?>"><li class="navs">待发货</li></a>
+        <a href="<?= Url::to(['index','status'=>3])?>"><li class="navs">待收货</li></a>
+        <a href="<?= Url::to(['index','status'=>4])?>"><li class="navs">已完成</li></a>
     </ul>
 </div>
-   
 <div class="contents">
     <ul class="contents-header" style="background: #ccc;">
         <li></li>
@@ -174,8 +200,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </ul>
             <?php endforeach; ?>
             <div class="order-detail">
-                <p style="float: left">总额:<?= $order->total_amount ?>元</p>
-                <p style="float:left">茶豆币抵扣数:<?= $order->beans_amount?></p>
+                <p style="float: left">总额:<strong style="font-size:16px;"><?= $order->total_amount ?></strong>元</p>
+                <p style="float:left">茶豆币抵扣数:<strong style="font-size:16px;"><?= $order->beans_amount?></strong></p>
                 <a href="<?= Url::to(['excel','id'=>$order->Id])?>" style="" class="exports">导出</a>
                 <?php if($order->status == 2):?>
                 <button class="fahuo" data-href="<?= Url::to(['sed']) ?>" id="data-sed" data-target="#sedModal"
@@ -252,7 +278,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 })
             })
-            
+            var index=0;
+            var Url = window.location.href;
+            if(Url.indexOf("status")!=-1){
+                index=Number(Url.split("&")[1].split("=")[1]);
+            }
+            $(".navs").eq(index).addClass("lr_action");
+            $(".navs").eq(index).parent().siblings().children(".navs").removeClass("lr_action");
             $(".excel").click(function(){
                 var data = $(this).attr("data-id");
                 var url  = $(this).attr("data-url");
