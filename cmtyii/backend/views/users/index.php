@@ -8,6 +8,14 @@ use kartik\date\DatePicker;
 $this->title = $title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="Constiantine_titleBox">
+    <?php if($title == '用户充值记录'):?>
+        <h2>充值列表</h2>
+    <?php endif;?>
+    <?php if($title == '用户消费记录'):?>
+        <h2>消费列表</h2>
+    <?php endif;?>
+</div>
 
 <?php  $form = ActiveForm::begin([
             'layout' => 'inline',
@@ -18,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
 ?>
-    <div style="width: 300px;float: left">
+    <div style="width: 240px;float: left">
         <?= $form->field($searchModel, 'start')->widget(DatePicker::classname(), [
             'options' => ['placeholder' => ''],
             'pluginOptions' => [
@@ -40,13 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php ActiveForm::end(); ?>
 
-<div class="adv-table">
-    <table class="table table-striped table-bordered">
+<div class="adv-table" style="margin-top:60px;">
+    <table class="table table-striped table-bordered global_boxSad" >
         <thead>
         <tr>
-            <th>用户头像</th>
-            <th>用户昵称</th>
-            <th>
+            <th class="global_txtCenter">用户头像</th>
+            <th class="global_txtCenter">用户昵称</th>
+            <th class="global_txtCenter">
                 <?php if($title == '用户充值记录'):?>
                     充值时间
                 <?php endif;?>
@@ -54,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     消费时间
                 <?php endif;?>
             </th>
-            <th>
+            <th class="global_txtCenter">
                 <?php if($title == '用户充值记录'):?>
                     充值(茶豆币)
                 <?php endif;?>
@@ -62,18 +70,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     消费(茶豆币)
                 <?php endif;?>
             </th>
-            <th>电话</th>
+            <th class="global_txtCenter">电话</th>
 
         </tr>
         </thead>
         <tbody>
         <?php foreach ($models as $v): ?>
-            <tr>
-                <td><img src="<?= $v->userInfo->photo?>" alt="" width="30px"></td>
-                <td><?= $v->userInfo->nickname?></td>
-                <td><?= date('Y-m-d H:i:s',$v->add_time)?></td>
-                <td><?= $v->num?></td>
-                <td><?= $v->userInfo->phone?></td>
+            <tr class="bodyTr">
+                <td class="global_txtCenter"><img src="<?= $v->userInfo->photo?>" alt="" width="30px"></td>
+                <td class="global_txtCenter"><?= $v->userInfo->nickname?></td>
+                <td class="global_txtCenter"><?= date('Y-m-d H:i:s',$v->add_time)?></td>
+                <td class="global_txtCenter"><?= $v->num?></td>
+                <td class="global_txtCenter"><?= $v->userInfo->phone?></td>
 
             </tr>
         <?php endforeach; ?>
@@ -98,4 +106,34 @@ echo LinkPager::widget([
     'maxButtonCount' => 5,
 ]);
 ?>
-
+<style media="screen">
+    .Constiantine_titleBox{
+        height: 50px;
+        margin-top: 15px;
+        width: 100%;
+    }
+    /*      弹性盒居中            */
+    .global_flexC{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+    }
+    .global_txtCenter{
+        text-align: center;
+    }
+    .bodyTr{
+        height: 60px;
+    }
+    .bodyTr td{
+        height: 60px;
+        padding-top: 15px !important;
+    }
+    /*      实体的阴影          */
+    .global_boxSad{
+      box-shadow: 0 0 6px #666;
+      border-radius: 5px;
+    }
+    thead{
+        border-bottom: 1px solid #ccc
+    }
+</style>

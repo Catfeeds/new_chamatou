@@ -7,6 +7,9 @@ use yii\bootstrap\ActiveForm;
 $this->title = '用户列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="Constiantine_titleBox">
+    <h2>用户列表</h2>
+</div>
     <header class="panel-heading">
         <span class="tools">
             <?php
@@ -27,27 +30,27 @@ $this->params['breadcrumbs'][] = $this->title;
     </span>
     </header>
     <div class="adv-table">
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered global_boxSad">
         <thead>
         <tr>
-            <th>头像</th>
-            <th>用户昵称</th>
-            <th>电话</th>
-            <th>茶豆币</th>
-            <th>添加时间</th>
-            <th>操作</th>
+            <th class="global_txtCenter">头像</th>
+            <th class="global_txtCenter">用户昵称</th>
+            <th class="global_txtCenter">电话</th>
+            <th class="global_txtCenter">茶豆币</th>
+            <th class="global_txtCenter">添加时间</th>
+            <th class="global_txtCenter">操作</th>
         </tr>
         </thead>
         <tbody>
         <?php foreach ($models as $v): ?>
-            <tr>
-                <td><img src="<?= $v->photo?>" alt="" width="30px"></td>
+            <tr class="bodyTr">
+                <td class="global_txtCenter"><img src="<?= $v->photo?>" alt="" width="30px"></td>
 
-                <td><?= $v->nickname?></td>
-                <td><?= $v->phone ? $v->phone : '未绑定' ?></td>
-                <td><?= $v->beans ? $v->beans : 0?></td>
-                <td><?= date('Y-m-d H:i:s',$v->add_time)?></td>
-                <td>
+                <td class="global_txtCenter"><?= $v->nickname?></td>
+                <td class="global_txtCenter"><?= $v->phone ? $v->phone : '未绑定' ?></td>
+                <td class="global_txtCenter"><?= $v->beans ? $v->beans : 0?></td>
+                <td class="global_txtCenter"><?= date('Y-m-d H:i:s',$v->add_time)?></td>
+                <td class="global_flexC">
                     <?= Html::a('充值记录',['usersrecharge','id'=>$v->id],['class'=>'btn btn-xs btn-primary'])?>
                     <?= Html::a('消费记录',['usersreduce','id'=>$v->id],['class'=>'btn btn-xs btn-info'])?>
                 </td>
@@ -73,3 +76,34 @@ echo LinkPager::widget([
     'prevPageLabel' => '上一页',
     'maxButtonCount' => 5,
  ]); ?>
+<style media="screen">
+    .Constiantine_titleBox{
+        height: 50px;
+        margin-top: 15px;
+        width: 100%;
+    }
+    /*      弹性盒居中            */
+    .global_flexC{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+    }
+    .global_txtCenter{
+        text-align: center;
+    }
+    .bodyTr{
+        height: 60px;
+    }
+    .bodyTr td{
+        height: 60px;
+        padding-top: 15px !important;
+    }
+    /*      实体的阴影          */
+    .global_boxSad{
+      box-shadow: 0 0 6px #666;
+      border-radius: 5px;
+    }
+    thead{
+        border-bottom: 1px solid #ccc
+    }
+</style>
