@@ -446,4 +446,27 @@ class Goods extends \yii\db\ActiveRecord
             return $stock;
         }
     }
+    /**
+     * 获取这个商品的库存类型
+     * @param string $goods_id
+     * @return array|bool|int|null
+     */
+    public function getGoodsStockType($goods_id = '')
+    {
+        if($goods_id == ''){
+            $goods_id = $this->id;
+        }
+        $model = self::findOne($goods_id);
+        if($model->is_stock == Goods::IS_STOCK_TRUE){
+            return 'goods';
+        } else {
+
+            $stock = GoodsToDosing::getGoodsStock($model->id);
+            if ($stock == '-') {
+                return 'null';
+            } else {
+                return 'dosing';
+            }
+        }
+    }
 }

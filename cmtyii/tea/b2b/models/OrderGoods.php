@@ -60,4 +60,5 @@ class OrderGoods extends \yii\db\ActiveRecord
             'num' => 'Num',
         ];
     }
+
 }

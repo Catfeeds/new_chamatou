@@ -25,7 +25,7 @@ class UsersController extends ObjectController
         $model = Shoper::find()
             ->andWhere(['id' => \Yii::$app->session->get('shoper_id')])
             ->andWhere(['status' => 0])
-            ->select(['credit_remain', 'withdraw_total'])
+            ->select(['credit_balance', 'withdraw_total', 'status'])
             ->one();
 
         $data = Store::find()

@@ -1,11 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lrdouble
- * Date: 2017/5/3
- * Time: 上午9:48
+ * @link http://www.lrdouble.com/
+ * @copyright Copyright (c) 2017 Double Software LLC
+ * @license http://www.lrdouble.com/license/
  */
-
 namespace tea\b2b\controllers;
 
 use tea\b2b\models\Cart;
@@ -91,4 +89,5 @@ class CartController extends ObjectController
             return ['code' => 0, 'msg' => $message];
         }
     }
+
 }

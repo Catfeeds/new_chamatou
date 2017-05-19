@@ -32,7 +32,7 @@ class VipPay extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'vip_id', 'amount', 'add_time'], 'integer'],
+            [['shoper_id', 'vip_id', 'amount', 'add_time','tea_user_id'], 'integer'],
             [['amount'], 'number'],
             [['amount'], 'match','pattern'=>'/^[1-9]\d*(\.\d+)?$/'],
             [['zs'], 'match','pattern'=>'/^[0-9]\d*(\.\d+)?$/'],

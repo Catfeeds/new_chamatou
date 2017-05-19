@@ -27,7 +27,7 @@ class Cart extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%cart}}';
+        return '{{%sp_cart}}';
     }
 
     /**
@@ -84,6 +84,21 @@ class Cart extends \yii\db\ActiveRecord
     }
 
     /**
+     * 生成订单前获取的购物车数据
+     * @param $in
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getSaveOrderList($in)
+    {
+        $data = self::find()
+            ->andWhere(['shoper_id' => Yii::$app->session->get('shoper_id')])
+            ->andWhere(['store_id' => Yii::$app->session->get('store_id')])
+            ->andWhere(['IN','Id',$in])
+            ->select([])->all();
+        $data = $this->forCartGoods($data);
+        return $data;
+    }
+    /**
      * 添加一个购车资料
      * @param $data
      * @return bool
@@ -96,8 +111,12 @@ class Cart extends \yii\db\ActiveRecord
             /* 判断库存是否足够 */
             if ($goodsModel->store < $data['goods_num']) {
                 $this->addError('id', Yii::t('app', 'b2b_goods_stack'));
+                return false;
             }
-
+            if ($data['goods_num'] < 1) {
+                $this->addError('id', Yii::t('app', 'b2b_goods_num_not_0'));
+                return false;
+            }
             $cartModel = self::find()
                 ->andWhere(['shoper_id' => Yii::$app->session->get('shoper_id')])
                 ->andWhere(['store_id' => Yii::$app->session->get('store_id')])
@@ -106,6 +125,11 @@ class Cart extends \yii\db\ActiveRecord
             /* 判断商品是否存在购物车 */
             if ($cartModel) {
                 $cartModel->goods_num = $cartModel->goods_num + $data['goods_num'];
+                /* 判断库存是否足够 */
+                if ($goodsModel->store < $cartModel->goods_num) {
+                    $this->addError('id', Yii::t('app', 'b2b_goods_stack'));
+                    return false;
+                }
                 return $cartModel->save();
             } else {
                 $data['shoper_id'] = Yii::$app->session->get('shoper_id');
@@ -135,7 +159,7 @@ class Cart extends \yii\db\ActiveRecord
                 $this->addError('id', Yii::t('app', 'b2b_goods_stack'));
                 return false;
             }
-            if($data['goods_num'] < 1){
+            if ($data['goods_num'] < 1) {
                 $this->addError('id', Yii::t('app', 'b2b_goods_num_not_0'));
                 return false;
             }
@@ -166,15 +190,18 @@ class Cart extends \yii\db\ActiveRecord
      * @param $id
      * @return bool
      */
-    public function del($id)
+    public function del($id = '')
     {
-
+        if(empty($id))
+        {
+            $id = $this->Id;
+        }
         $this->updateCart();
         $model = self::findOne($id);
         if ($model) {
-            $model->delete();
+            return $model->delete();
         }
-        return true;
+        $this->addError('id', Yii::t('app', 'b2b_goods_exist'));
     }
 
     /**

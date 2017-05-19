@@ -58,4 +58,18 @@ class GoodsCate extends \yii\db\ActiveRecord
                     ->all();
         return $data;
     }
+
+    /**
+     * 更具ID查询分类名称
+     * @param $id
+     * @return mixed
+     */
+    public static function getCateNameById($id)
+    {
+        $name = self::find()
+            ->andWhere(['id' => $id])
+            ->select(['cate_name'])
+            ->one();
+        return empty($name) ? '' : $name['cate_name'];
+    }
 }
