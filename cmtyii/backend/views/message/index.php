@@ -21,8 +21,20 @@ $this->title = Yii::t('app', 'Messages');
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => 'shoper_id',
+                'attribute' => 'store_name',
                 'value' => 'storeName.sp_name',
+            ],
+            [
+                'attribute' => 'add_time',
+                'format' => 'datetime',
+                'filter' => DateRangePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'add_time',
+                    'convertFormat' => true,
+                    'pluginOptions' => [
+                        'locale' => ['format' => 'Y-m-d'],
+                    ]
+                ])
             ],
             [
                 'attribute' => 'type',
@@ -52,18 +64,6 @@ $this->title = Yii::t('app', 'Messages');
             ],
             'phone',
             'username',
-            [
-                'attribute' => 'add_time',
-                'format' => 'date',
-                'filter' => DateRangePicker::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'add_time',
-                    'convertFormat' => true,
-                    'pluginOptions' => [
-                        'locale' => ['format' => 'Y-m-d'],
-                    ]
-                ])
-            ],
             [
                     'label' => '留言状态',
                     'attribute' => 'status',

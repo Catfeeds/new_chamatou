@@ -38,7 +38,7 @@ class Book extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id', 'add_time', 'radd_time', 'status', 'arrive_time', 'send_time'], 'integer'],
+            [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id','store_id','add_time', 'radd_time', 'status', 'arrive_time', 'send_time'], 'integer'],
             [['deposit'], 'number'],
             [['username'], 'string', 'max' => 32],
             [['phone'], 'string', 'max' => 15],
@@ -97,6 +97,7 @@ class Book extends \yii\db\ActiveRecord
     public function add($data)
     {
         $data['shoper_id']  = Yii::$app->session->get('shoper_id');
+        $data['store_id']  = Yii::$app->session->get('store_id');
         $data['add_time']   = time();
         $data['arrive_time']= strtotime($data['arrive_time']);
         $data['send_time']= strtotime($data['send_time']);
@@ -124,5 +125,42 @@ class Book extends \yii\db\ActiveRecord
             }
         }
         return false;
+    }
+
+    /**
+     * 自动关闭系统订单
+     */
+    public static function scanBookStatus()
+    {
+        $list = self::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                    ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                    ->andWhere(['status'=>0])
+                    ->all();
+        $message = new Information();
+        foreach ($list as $key=>$value){
+            $cache = Yii::$app->cache->get($value['id']);
+            if(!$cache){
+                $time = $value['send_time']-60*5;
+                if($time<time()){
+                    $tableName = Table::getTableNameById($value['table_id']);
+                    $m = $tableName.'系统将于'.date('Y-m-d H:i:s',$value['send_time']).'自动取消该预定！';
+                    $message->add(['content'=>$m,'type'=>'3']);
+                    Yii::$app->cache->set($value['id'],'1111');
+                }
+            }
+        }
+
+        $list = self::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+            ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+            ->andWhere(['<','send_time',time()])
+            ->andWhere(['status'=>0])
+            ->all();
+        foreach ($list as $key=>$value){
+            $tableName = Table::getTableNameById($value['table_id']);
+            $m = $tableName.'系统自动取消该预定！';
+            $message->add(['content'=>$m,'type'=>'3']);
+            $value->status = 2;
+            $value->save();
+        }
     }
 }

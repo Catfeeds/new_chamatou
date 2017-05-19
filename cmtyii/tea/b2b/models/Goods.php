@@ -10,6 +10,7 @@ namespace tea\b2b\models;
 use Yii;
 use yii\data\Pagination;
 use yii\data\Sort;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%goods}}".
@@ -25,6 +26,8 @@ use yii\data\Sort;
  * @property string $note
  * @property integer $status
  * @property integer $add_time
+ * @property integer $sum_sell
+ * @property integer $sum_price
  */
 class Goods extends \yii\db\ActiveRecord
 {
@@ -129,6 +132,20 @@ class Goods extends \yii\db\ActiveRecord
         return $datas;
     }
 
+    /**
+     * 获取一个资料的详情
+     * @param $goods_id
+     * @return array
+     */
+    public function getOne($goods_id)
+    {
+        if(empty($goods_id)){
+            $goods_id = $this->Id;
+        }
+        $data = ArrayHelper::toArray(self::findOne($goods_id));
+        $data['cate_name'] =  GoodsCate::getCateNameById($data['cat_id']);
+        return $data;
+    }
 
     /**
      * 根据商品ID来查询商品名称

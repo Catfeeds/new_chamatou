@@ -37,7 +37,8 @@
     "kartik-v/yii2-detail-view": "*",
     "kartik-v/yii2-widget-datepicker": "@dev",
     "yiidoc/yii2-redactor": "*",
-    "amigos/yii2-date-picker-widget": "*"
+    "2amigos/yii2-date-picker-widget": "*",
+    "2amigos/yii2-qrcode-helper": "*"
 
   },
   "require-dev": {

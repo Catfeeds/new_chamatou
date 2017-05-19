@@ -64,6 +64,7 @@ class Message extends \yii\db\ActiveRecord
             'delete_tag' => Yii::t('app', 'Delete Tag'),
             'delete_time' => Yii::t('app', 'Delete Time'),
             'title' => Yii::t('app', '留言主题'),
+            'store_name'=>'店铺名称',
         ];
     }
 
@@ -76,10 +77,23 @@ class Message extends \yii\db\ActiveRecord
         return new MessageQuery(get_called_class());
     }
 
+    /**
+     * 获取商家名称
+     * @return \yii\db\ActiveQuery
+     */
     public function getStoreName()
     {
         return $this->hasOne(SpStore::className(), ['id'=> 'store_id']);
     }
+
+    /**
+     * 获取店铺表信息
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStore(){
+        return $this->hasOne(SpStore::className(), ['id'=> 'store_id']);
+    }
+
 
     /**
      * 查看的时候调用。将留言标记为已读

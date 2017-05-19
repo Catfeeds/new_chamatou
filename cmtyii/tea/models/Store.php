@@ -67,4 +67,8 @@ class Store extends \yii\db\ActiveRecord
             'intro' => 'Intro',
         ];
     }
+    public static function getThisUserToStoreInfo()
+    {
+        return self::findOne(Yii::$app->session->get('store_id'));
+    }
 }

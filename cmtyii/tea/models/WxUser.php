@@ -52,4 +52,9 @@ class WxUser extends \yii\db\ActiveRecord
             'phone' => 'Phone',
         ];
     }
+
+    public static function getInfoById($id)
+    {
+        return self::findOne($id);
+    }
 }

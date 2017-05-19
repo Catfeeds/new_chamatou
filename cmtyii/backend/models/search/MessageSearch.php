@@ -12,6 +12,7 @@ use backend\models\Message;
  */
 class MessageSearch extends Message
 {
+    public $store_name  = '';
 
     /**
      * @inheritdoc
@@ -20,7 +21,7 @@ class MessageSearch extends Message
     {
         return [
             [['id', 'shoper_id', 'store_id', 'type', 'add_time', 'status', 'delete_tag', 'delete_time'], 'integer'],
-            [['content', 'phone', 'username', 'title'], 'safe'],
+            [['content', 'phone', 'username','store_name', 'title'], 'safe'],
         ];
     }
 
@@ -44,7 +45,7 @@ class MessageSearch extends Message
     {
 
         $query = Message::find();
-        $query->where(['delete_tag' => 0]);
+        $query->where(['delete_tag' => 0])->joinWith('store');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -74,7 +75,8 @@ class MessageSearch extends Message
         $query->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'title', $this->title]);
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'sp_name', $this->store_name]);
 
         return $dataProvider;
     }

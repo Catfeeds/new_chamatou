@@ -6,8 +6,10 @@
  */
 namespace  tea\controllers;
 
+use tea\models\RBAC;
 use tea\models\UsersForm;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * 用户控制器
@@ -56,7 +58,7 @@ class UsersController extends  ObjectController
                 $message = reset($message);
                 return ['code'=>0,'msg'=>$message];
             }
-            return ['code'=>0,'msg'=>Yii::t('app','unit_id_exist')];
+            return ['code'=>0,'msg'=>Yii::t('app','管理员不存在！')];
         }
     }
 
@@ -79,7 +81,7 @@ class UsersController extends  ObjectController
                 $message = reset($message);
                 return ['code'=>0,'msg'=>$message];
             }
-            return ['code'=>0,'msg'=>Yii::t('app','unit_id_exist')];
+            return ['code'=>0,'msg'=>Yii::t('app','管理员不存在！')];
         }
     }
 
@@ -92,8 +94,75 @@ class UsersController extends  ObjectController
         if(Yii::$app->request->isGet)
         {
             $uses = new UsersForm();
-            $uses = $uses->getList();
+            $uses = ArrayHelper::toArray($uses->getList());
+            foreach ($uses as $key=>$value)
+            {
+                $uses[$key]['role_name'] = RBAC::getUserRoleNameByUserId($value['id']);
+            }
             return ['code'=>1,'msg'=>Yii::t('app', 'global')['true'],'data'=>$uses];
         }
+    }
+
+    /**
+     * 获取所有角色
+     * @return array
+     */
+    public function actionGetRole(){
+        $data = RBAC::getRoleNameAll();
+        return ['code'=>1,'msg'=>Yii::t('app', 'global')['true'],'data'=>$data];
+    }
+
+    /**
+     * 获取一个用户的详细信息
+     * @return array
+     */
+    public function actionOne()
+    {
+        if (Yii::$app->request->isGet)
+        {
+            $users = UsersForm::findOne(Yii::$app->request->get('users_id'));
+            if($users)
+            {
+                $addRet = ArrayHelper::toArray($users);
+                $addRet['role_name'] = RBAC::getUserRoleNameByUserId($addRet['id']);
+                $addRet['add_time'] = date('Y-m-d H:i:s',$addRet['add_time']);
+                if($addRet){
+                    return ['code'=>1,'msg'=>Yii::t('app', 'global')['true'],'data'=>$addRet];
+                }
+                $message = $users->getFirstErrors();
+                $message = reset($message);
+                return ['code'=>0,'msg'=>$message];
+            }
+            return ['code'=>0,'msg'=>Yii::t('app','管理员不存在！')];
+        }
+    }
+
+    /**
+     * 退出登录
+     * @return array
+     */
+    public function actionLogout()
+    {
+        Yii::$app->session->removeAll();
+        return ['code'=>1,'msg'=>'退出成功！'];
+    }
+
+    /**
+     * 修改密码
+     * @return array
+     */
+    public function actionEditPassword()
+    {
+       if(Yii::$app->request->isPost)
+       {
+           $users = new UsersForm();
+           $ret = $users->editPassword(Yii::$app->request->post());
+           if ($ret) {
+               return ['code'=>1,'msg'=>Yii::t('app', 'global')['true']];
+           }
+           $message = $users->getFirstErrors();
+           $message = reset($message);
+           return ['code'=>0,'msg'=>$message];
+       }
     }
 }

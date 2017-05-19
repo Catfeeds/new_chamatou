@@ -18,12 +18,14 @@ use Yii;
  * @property string $bank_user
  * @property string $card_no
  * @property string $credit_remain
+ * @property string $credit_balance
  * @property integer $status
  * @property integer $salesman_id
  * @property integer $add_time
  * @property string $beans_incom
  * @property string $total_amount
  * @property string $withdraw_total
+ * @property string $b2b_sum_price
  */
 class Shoper extends \yii\db\ActiveRecord
 {
@@ -41,8 +43,8 @@ class Shoper extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shop_id', 'withdraw_type', 'status', 'salesman_id', 'add_time'], 'integer'],
-            [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total'], 'number'],
+            [['withdraw_type', 'status', 'salesman_id', 'add_time'], 'integer'],
+            [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total','credit_balance'], 'number'],
             [['boss', 'bank_user'], 'string', 'max' => 10],
             [['phone'], 'string', 'max' => 15],
             [['contract_no', 'bank', 'card_no'], 'string', 'max' => 255],
@@ -73,5 +75,17 @@ class Shoper extends \yii\db\ActiveRecord
             'total_amount' => Yii::t('app', 'Total Amount'),
             'withdraw_total' => Yii::t('app', 'Withdraw Total'),
         ];
+    }
+
+    /**
+     * 获取商家茶豆币
+     * @return mixed
+     */
+    public static  function getBeansIncom()
+    {
+        $data = self::find()->andWhere(['id'=>Yii::$app->session->get('shoper_id')])
+                    ->select(['beans_incom'])
+                    ->one();
+        return $data['beans_incom'];
     }
 }

@@ -17,7 +17,7 @@ class QrcodeController extends ObjectController{
 
     public function actionStore()
     {
-        $url = "https://blog.lrdouble.com?id=".\Yii::$app->session->get('shoper_id');
+        $url = "http://test5.angkebrand.com/index/index?shoper_id=".\Yii::$app->session->get('shoper_id')."&store_id=".\Yii::$app->session->get('store_id')."&type=qr";
         return QrCode::png($url);
     }
 }
