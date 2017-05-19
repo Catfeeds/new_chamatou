@@ -36,6 +36,7 @@
                     [
                         'label' => '权限管理',
                         'url' => '#',
+                        'icon' => ' fa-get-pocket',
                         'items' => [
                             ['label' => '管理员管理', 'url' => ['/adminuser'],],
                             ['label' => '分配', 'url' => ['/admin/assignment'],],
@@ -46,22 +47,24 @@
 
                         ],
                     ],
-                    ['label' => '门店管理', 'url' => ['/store']],
+                    ['label' => '门店管理', 'url' => ['/store'], 'icon'=>'tv'],
 //                    ['label' => '商铺管理', 'url' => ['/shoper']],
-                    ['label' => '提现管理', 'url' => ['/withdraw']],
+                    ['label' => '提现管理', 'url' => ['/withdraw'], 'icon'=>'rmb'],
                     [
                         'label' => '用户管理',
                         'url' => ['/#'],
+                        'icon'=>'user',
                         'items' => [
                              ['label' => '用户列表','url' => ['users/userslist']],
                              ['label' => '充值列表','url' => ['users/usersrecharge']],
                              ['label' => '消费列表','url' => ['users/usersreduce']],
                         ]
                     ],
-                    ['label' => '留言管理', 'url' => ['/message']],
+                    ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'],
                     [
                         'label' => 'B2B商城管理',
                         'url' => '#',
+                        'icon'=>'amazon',
                         'items' => [
                             ['label' => '商品列表', 'url' => ['goods/index'],],
                             ['label' => '品类列表', 'url' => ['category/index'],],
@@ -69,10 +72,11 @@
                         ]
                     ],
 
-                    ['label' => '业务员管理', 'url' => ['/salesman']],
+                    ['label' => '业务员管理', 'url' => ['/salesman'], 'icon'=>'user-md'],
                     [
                             'label' => '授信',
                             'url' => '#',
+                            'icon'=>'bank',
                             'items' => [
                                     ['label' => '授信订单', 'url' => ['credit/order']],
                                     ['label' => '还款记录', 'url' => ['credit/refund']],
