@@ -29,8 +29,15 @@ class Upload extends Model
         ];
     }
 
-    public static function uploadStoreImg($store_id, $dir = null)
+    /**
+     * 上传图片类
+     * @param $param
+     * @param null $dir
+     * @return array
+     */
+    public static function uploadStoreImg($param, $dir = null)
     {
+        self::delImg($param);
         $upload = new Upload();
         $uploadSuccessPath = "";
 
@@ -53,7 +60,8 @@ class Upload extends Model
                 //保存图片
                 $model = new ShoperImg();
                 $model->path = $uploadSuccessPath;
-                $model->store_id = $store_id;
+                $model->store_id = $param['storeId'];
+                $model->shoper_id = $param['shoperId'];
                 if($model->validate() && $model->save()){
 
                 }
@@ -61,5 +69,18 @@ class Upload extends Model
 
         }
         return $file_ids;
+    }
+
+    /**
+     * 删除图片
+     * 方法有点小问题！需要开启事务
+     * @param $param
+     */
+    public static function delImg($param)
+    {
+        $Model = ShoperImg::find()->andWhere(['store_id'=>$param['storeId']])->andWhere(['shoper_id'=>$param['shoperId']])->all();
+        foreach ($Model as $key=>$value){
+            $value->delete();
+        }
     }
 }

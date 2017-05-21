@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'bank_user',
             'card_no',
             'credit_remain',
-            'credit_balance',
+
             [
                 'attribute' => 'status',
                 'value'     => function ($shoperModel) {

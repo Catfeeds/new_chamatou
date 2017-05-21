@@ -28,8 +28,12 @@ class  RoleController extends ObjectController
      */
     public function actionAdd()
     {
+
         $roleArr = \Yii::$app->request->post('role_list');
         $roleName = \Yii::$app->request->post('role_name');
+        if(!$roleArr){
+            return ['code' => 0, 'msg' => '请选择角色权限'];
+        }
         $auth = \Yii::$app->authManager;
         $role = $auth->getRole(RBAC::setRoleName($roleName));
         if (empty($roleName)) {
@@ -41,7 +45,6 @@ class  RoleController extends ObjectController
         $admins = $auth->createRole(RBAC::setRoleName($roleName));
         $auth->add($admins);
         foreach ($roleArr as $key => $value) {
-
             $temp = $auth->getPermission($value);
             $auth->addChild($admins, $temp);
         }
@@ -100,7 +103,18 @@ class  RoleController extends ObjectController
                         $temp[$key]['list'][] = $vvalue;
                     }
                 }
-
+                /**
+                 * 去除第三个坐标
+                 */
+                $dataList = $temp;
+                foreach ($dataList as $key => $value) {
+                    foreach ($value['list'] as $kkey => $vvalue) {
+                        unset($temp[$key]['list'][$kkey]['list']);
+                        foreach ($vvalue['list'] as $kkkey=>$vvvalue){
+                            $temp[$key]['list'][$kkey]['list'][] = $vvvalue;
+                        }
+                    }
+                }
                 return ['code' => 1, 'msg' => '成功！', 'data' => $temp];
             }
             return ['code' => 0, 'msg' => '角色名不存在！'];

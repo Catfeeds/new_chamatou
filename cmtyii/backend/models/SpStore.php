@@ -41,9 +41,9 @@ class SpStore extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['provinces_id', 'city_id', 'area_id', 'add_detail','sp_name','sp_phone'], 'required'],
             [['shoper_id', 'provinces_id', 'city_id', 'area_id','add_time', 'salesman_id'], 'integer'],
             [['lat', 'lon'], 'number'],
-            [['provinces_id', 'city_id', 'area_id', 'add_detail'], 'required'],
             [['sp_name', 'address', 'cover', 'intro'], 'string', 'max' => 255],
             [['add_detail'], 'string', 'max' => 100],
             [['sp_phone'], 'string', 'max' => 15],
@@ -78,14 +78,23 @@ class SpStore extends \yii\db\ActiveRecord
         return $this->hasOne(Locations::className(), ['id'=>'provinces_id']);
     }
 
+
     public function getCity(){
         return $this->hasOne(Locations::className(),  ['id'=>'city_id']);
     }
 
+    /**
+     * 获取地址
+     * @return \yii\db\ActiveQuery
+     */
     public function getArea(){
         return $this->hasOne(Locations::className(),  ['id'=>'area_id']);
     }
 
+    /**
+     * 获取商家图片
+     * @return \yii\db\ActiveQuery
+     */
     public function getImg()
     {
         return $this->hasMany(ShoperImg::className(), ['store_id' => 'id']);
@@ -96,11 +105,20 @@ class SpStore extends \yii\db\ActiveRecord
         return $this->getImg()->select('path')->column();
     }
 
+    /**
+     *
+     * 获取店铺主表信息
+     * @return \yii\db\ActiveQuery
+     */
     public function getShoper()
     {
         return $this->hasOne(Shoper::className(), ['id'=> 'shoper_id']);
     }
 
+    /**
+     * 获取业务员
+     * @return \yii\db\ActiveQuery
+     */
     public function getSalesman()
     {
         return $this->hasOne(Salesman::className(), ['id'=> 'salesman_id']);

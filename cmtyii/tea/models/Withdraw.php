@@ -68,11 +68,11 @@ class Withdraw extends \yii\db\ActiveRecord
                 return false;
             }
             $shoper = Shoper::findOne(Yii::$app->session->get('shoper_id'));
-            if($shoper->beans_incom < $this->amount){
+            if($shoper->withdraw_total < $this->amount){
                 $this->addError('id','茶豆币不足！');
                 return false;
             }
-            $shoper->beans_incom = $shoper->beans_incom-$this->amount;
+            $shoper->withdraw_total = $shoper->withdraw_total-$this->amount;
             $shoper->save();
             $this->shoper_id = Yii::$app->session->get('shoper_id');
             $this->store_id = Yii::$app->session->get('store_id');

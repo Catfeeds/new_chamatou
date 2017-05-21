@@ -64,10 +64,15 @@ class SalesmanController extends Controller
     public function actionCreate()
     {
         $model = new Salesman();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if(Yii::$app->request->isPost){
+            $post = Yii::$app->request->post();
+            $post['Salesman']['add_time'] = time();
+            $post['Salesman']['shop_total'] = 0;
+            $model->scenario ='add';
+            if ($model->load($post) && $model->save()) {
+                return $this->redirect(['index']);
+            }
+        }else {
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -85,7 +90,7 @@ class SalesmanController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -101,8 +106,10 @@ class SalesmanController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
+        $model = $this->findModel($id);
+        $model->scenario ='delete';
+        $model->delete();
         return $this->redirect(['index']);
     }
 

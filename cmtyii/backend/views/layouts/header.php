@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
     <?= Html::a('<span class="logo-mini">茶</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
-    <nav class="navbar navbar-static-top" role="navigation">
+    <nav class="navbar navbar-static-top" role="navigation" style="height: 50px;">
 
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>

@@ -43,11 +43,13 @@ class Shoper extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['boss','phone','bank','card_no','bank_user'],'required'],
             [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total'], 'number'],
             [['withdraw_type', 'status', 'salesman_id', 'add_time', 'sp_status'], 'integer'],
             [['boss', 'bank_user'], 'string', 'max' => 10],
-            [['phone'], 'string', 'max' => 15],
-            [['contract_no', 'bank', 'card_no'], 'string', 'max' => 255],
+            [['phone'], 'number'],
+            [['phone'], 'string', 'max' => 15,'min'=>11],
+            [['contract_no', 'bank', 'card_no','pay_account'], 'string', 'max' => 255],
         ];
     }
 
@@ -58,7 +60,7 @@ class Shoper extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'boss' => Yii::t('app', 'Boss'),
+            'boss' => Yii::t('app', '负责人姓名'),
             'phone' => Yii::t('app', 'Phone'),
             'credit_amount' => Yii::t('app', 'Credit Amount'),
             'contract_no' => Yii::t('app', 'Contract No'),
@@ -76,7 +78,6 @@ class Shoper extends \yii\db\ActiveRecord
             'sp_status' => Yii::t('app', 'Sp Status'),
             'withdrawType.name' =>  Yii::t('app', 'Withdraw Type'),
             'yinhuan' => Yii::t('app', '当期应还'),
-            'credit_balance' => Yii::t('app', 'Credit Balance'),
             'pay_account' => Yii::t('app', 'Pay Account'),
         ];
     }

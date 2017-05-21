@@ -133,7 +133,7 @@ class Order extends \yii\db\ActiveRecord
     }
 
     /**
-     *
+     *添加一个订单
      * @param $data
      * @return bool
      */
@@ -252,7 +252,7 @@ class Order extends \yii\db\ActiveRecord
                  */
                 if ($shoper->status == 1) {
                     throw  new \Exception('授信被冻结！');
-                } elseif ($shoper->credit_balance < $goods_price_surplus) {
+                } elseif ($shoper->credit_amount < $goods_price_surplus) {
                     throw  new \Exception('授信余额不足');
                 } else {
                     $this->credtit_amout = $goods_price_surplus;
@@ -261,7 +261,7 @@ class Order extends \yii\db\ActiveRecord
                     $this->pay_time = time();
                     $this->pay_type = Order::PAY_TYPE_SHOUXING;
 
-                    $shoper->credit_balance -= $goods_price_surplus;
+                    $shoper->credit_amount -= $goods_price_surplus;
 
                 }
             } elseif ($data['pay_type'] == Order::PAY_TYPE_WXPAY) {

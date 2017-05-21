@@ -30,10 +30,28 @@ class Salesman extends \yii\db\ActiveRecord
     {
         return [
             [['shop_total', 'add_time'], 'integer'],
+            [['username','phone'],'required'],
             [['add_time'], 'required'],
             [['username'], 'string', 'max' => 10],
-            [['phone'], 'string', 'max' => 15],
+            [['phone'], 'string','max'=>11,'min'=>11],
+            [['phone'], 'number'],
+            [['phone'],'unique'],
+            [['username'],'validateDelete','on'=>['delete']]
         ];
+    }
+
+    /**
+     * 判断账号能否被删除
+     * @param $a
+     * @param $p
+     */
+    public function validateDelete($a,$p)
+    {
+        if(!$this->hasErrors()){
+            if($this->shop_total != 0){
+                $this->addError($a,'不能被删除');
+            }
+        }
     }
 
     /**
@@ -55,11 +73,11 @@ class Salesman extends \yii\db\ActiveRecord
         if(empty($old_id) && !empty($id)){
             return Salesman::incShopTotal($id);
         }
+
         if(!empty($old_id) && !empty($id) && $old_id != $id){
             return Salesman::decShopTotal($old_id) &&
                 Salesman::incShopTotal($id);
         }
-
         return null;
     }
 
@@ -76,6 +94,7 @@ class Salesman extends \yii\db\ActiveRecord
         $model->shop_total-=1;
         return $model->save();
     }
+
 
     /**
      * 获取业务员

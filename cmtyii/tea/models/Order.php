@@ -297,6 +297,15 @@ class Order extends \yii\db\ActiveRecord
                 $zhuOrder->total_amount += $order_num;
                 $order_num -= $data['beans_amount'];
                 /**
+                 * 茶豆币操作
+                 */
+                $shoperBeans = Shoper::findOne(Yii::$app->session->get('shoper_id'));
+                $shoperBeans->withdraw_total = $shoperBeans->withdraw_total + $data['beans_amount'];
+                $shoperBeans->beans_incom = $shoperBeans->beans_incom + $data['beans_amount'];
+                if(!$shoperBeans->save()){
+                    throw new \Exception('茶豆币保存失败！');
+                }
+                /**
                  * 判断是否使用免单功能！
                  */
                 if ($param['is_exempt'] == 1) {
@@ -429,6 +438,16 @@ class Order extends \yii\db\ActiveRecord
                 }
                 $zhuOrder = self::findOne($data['id']);
                 $order_num -= $data['beans_amount'];
+
+                /**
+                 * 茶豆币操作
+                 */
+                $shoperBeans = Shoper::findOne(Yii::$app->session->get('shoper_id'));
+                $shoperBeans->withdraw_total = $shoperBeans->withdraw_total + $data['beans_amount'];
+                $shoperBeans->beans_incom = $shoperBeans->beans_incom + $data['beans_amount'];
+                if(!$shoperBeans->save()){
+                    throw new \Exception('茶豆币保存失败！');
+                }
                 /**
                  * 判断是否使用免单功能！
                  */

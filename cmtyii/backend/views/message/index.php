@@ -78,6 +78,14 @@ $this->title = Yii::t('app', 'Messages');
             [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => "{view}{delete}",
+                    'buttons'=>[
+                        'view'=>function($url,$model){
+                                return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>查看</a>";
+                        },'delete'=>function($url){
+                            return "<a class=\"btn btn-default btn-xs \" href='$url' data-confirm=\"你确定删除吗?\" data-method=\"post\">删除</a>";
+    }
+                    ],
+
             ],
         ],
     ]); ?>

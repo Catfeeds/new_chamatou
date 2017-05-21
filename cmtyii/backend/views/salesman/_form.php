@@ -10,15 +10,15 @@ use yii\widgets\ActiveForm;
 
 <div class="salesman-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'fieldConfig' => [
+            'template' => "{label}{input}\n{error}",
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'shop_total')->textInput() ?>
-
-    <?= $form->field($model, 'add_time')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

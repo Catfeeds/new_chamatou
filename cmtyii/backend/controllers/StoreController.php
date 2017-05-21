@@ -14,26 +14,14 @@ use backend\models\search\SpStorerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * StoreController implements the CRUD actions for SpStore model.
  */
 class StoreController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all SpStore models.
@@ -69,14 +57,34 @@ class StoreController extends Controller
      */
     public function actionCreate()
     {
-        $model = new StoreForm();
+        $storeModel = new StoreForm();
+        $shoperModel = new ShoperForm();
         $uploadModel = new Upload();
 
-        if ($model->load(Yii::$app->request->post()) && $model->addStore()) {
-            return $this->redirect(['shoper/create', 'store_id' => $model->id]);
-        } else {
+        /**
+         * 开启数据保存的事务
+         */
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            if ($shoperModel->load(Yii::$app->request->post())) {
+                if($shoperRet = $shoperModel->createShoper()){
+                    $post = Yii::$app->request->post();
+                    $post['StoreForm']['shoper_id'] = $shoperRet['id'];
+                    $post['StoreForm']['salesman_id'] = $shoperRet['salesman_id'];
+                    if ($storeModel->load($post) && $storeModel->addStore()) {
+                        $transaction->commit();
+                        return $this->redirect(['store/index']);
+                    }
+                    throw new \Exception('store表保存失败！');
+                }
+                throw new \Exception('shoper表保存失败！');
+            }
+            throw new \Exception('');
+        }catch (\Exception $exception){
+            $transaction->rollBack();
             return $this->render('create', [
-                'model' => $model,
+                'storeModel' => $storeModel,
+                'shoperModel'=>$shoperModel,
                 'uploadModel' => $uploadModel
             ]);
         }
@@ -90,14 +98,34 @@ class StoreController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = StoreForm::store($id);
+        $storeModel = StoreForm::store($id);
+        $shoperModel = ShoperForm::findOne($storeModel->shoper_id);
         $uploadModel = new Upload();
 
-        if ($model->load(Yii::$app->request->post()) && $model->updateStore()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        /**
+         * 开启数据保存的事务
+         */
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            if ($shoperModel->load(Yii::$app->request->post())) {
+                if($shoperRet = $shoperModel->updateShoper()){
+                    $post = Yii::$app->request->post();
+                    $post['StoreForm']['shoper_id'] = $shoperRet['id'];
+                    $post['StoreForm']['salesman_id'] = $shoperRet['salesman_id'];
+                    if ($storeModel->load($post) && $storeModel->addStore()) {
+                        $transaction->commit();
+                        return $this->redirect(['store/index']);
+                    }
+                    throw new \Exception('store表保存失败！');
+                }
+                throw new \Exception('shoper表保存失败！');
+            }
+            throw new \Exception('');
+        }catch (\Exception $exception){
+            $transaction->rollBack();
             return $this->render('update', [
-                'model' => $model,
+                'storeModel' => $storeModel,
+                'shoperModel'=>$shoperModel,
                 'uploadModel' => $uploadModel
             ]);
         }
@@ -131,53 +159,61 @@ class StoreController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * 查找店铺主表信息
+     * @param $id
+     * @return SpStore|static
+     * @throws NotFoundHttpException
+     */
     protected function findShoperModel($id)
     {
         $model = $this->findModel($id);
         if (($model = Shoper::findOne(['id'=>$model->shoper_id])) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page does not exist.'.$id);
         }
     }
 
-    public function actionBindShoper($id)
-    {
-        $storeBindForm = new StoreBindForm();
-        $storeBindForm->store_id = $id;
-        $model = new ShoperForm();
-
-        if(Yii::$app->request->post('storeBindForm') ){
-             if($storeBindForm->load(Yii::$app->request->post()) &&  $storeBindForm->bind()){
-                 return $this->redirect(['index']);
-             }
-        }
-        if ($model->load(Yii::$app->request->post())) {
-
-        } else {
-            return $this->render('bind_shoper', [
-                'model' => $model,
-                'storeBindForm' => $storeBindForm,
-                'store_id' => $id
-            ]);
-        }
-    }
 
     /**
-     * 店铺绑定销售人员
-     * @param $id
-     * @return string
+     * 账号开启与封停操作
+     * @return array
      */
-    public function actionSalesman($id)
+    public function actionSpstatus()
     {
-        $model = ShoperSalesmanForm::build($id);
-
-        if($model->load(Yii::$app->request->post()) && $model->saveSalesman()){
-            return $this->redirect(['view', 'id'=>$id]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = Shoper::findOne(Yii::$app->request->get('shoper_id'));
+        if($model){
+            if($model->sp_status == 0){
+                $model->sp_status = 1;
+                return $model->save() ? ['code'=>1,'message'=>'封停成功!']:['code'=>0,'message'=>'封停失败！'];
+            }else{
+                $model->sp_status = 0;
+                return $model->save() ? ['code'=>1,'message'=>'开启成功!']:['code'=>0,'message'=>'开启失败！'];
+            }
         }
+    }
 
-        return $this->render('@app/views/salesman/shoper', [
-            'model' => $model,
-        ]);
+    public function actionShouxinhuankuan()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = Shoper::findOne(Yii::$app->request->get('shoper_id'));
+        $inputValue = Yii::$app->request->get('inputValue');
+        if($model){
+            $yhjiner = $model->credit_remain - $model->credit_amount;
+            if($inputValue == 0)
+            {
+                    return ['code'=>0,'message'=>'还款金额不足！'];
+            }
+            if($inputValue < $yhjiner || $inputValue <= 0)
+            {
+                return ['code'=>0,'message'=>'还款金额不足！'];
+            }
+            $model->credit_amount = $model->credit_amount + $yhjiner;
+            $model->status = 0;
+            return $model->save() ? ['code'=>1,'message'=>'还款成功!']:['code'=>0,'message'=>'还款失败！'];
+        }
     }
 }

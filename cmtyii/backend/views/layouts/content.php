@@ -3,11 +3,10 @@ use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
 
 ?>
-<div class="content-wrapper">
+<div class="content-wrapper" style="background-color: #f1f1f1">
     <section class="content-header">
 
     </section>
-
     <section class="content" style="margin-top: -28px;">
         <?= Alert::widget() ?>
         <?= $content ?>
@@ -224,11 +223,6 @@ use dmstr\widgets\Alert;
     </div>
 </div>
 
-    <style>
-        .modal-dialog{
-            top:30%;
-        }
-    </style>
 <link rel="stylesheet" href="js/sweetalert-master/dist/sweetalert.css">
 <script src="js/sweetalert-master/dist/sweetalert.min.js"></script>
 <script>
@@ -250,13 +244,14 @@ use dmstr\widgets\Alert;
                 cancelButtonText:"取消",
                 animation: "slide-from-top",
                 inputPlaceholder: text,
+                showLoaderOnConfirm: true,
             },
             function(inputValue){
                 if (inputValue === false) return false;
 
                 if (inputValue === "") {
                     if(nullTrue === true){
-                        swal.showInputError("You need to write something!");
+                        swal.showInputError("请输入值!");
                         return false
                     }
                 }
@@ -302,12 +297,119 @@ use dmstr\widgets\Alert;
 
         });
     }
+    /**
+     * 弹出确认
+     * @param title
+     * @param text
+     * @param url
+     */
+    function alertWarning(title, text, url) {
+        swal({
+                title: title,
+                text: text,
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText:"确认",
+                cancelButtonText:"取消",
+            },
+            function(){
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code === 1) {
+                            swal("成功!", data.message, "success");
+                            setTimeout(function(){
+                                window.location.reload();
+                            },1000)
+                        } else {
+                            swal("失败", data.message, "error");
+                        }
+                    }
+                });
+            });
+    }
 </script>
+
 <style>
     .grid-view th{
         text-align: center;
+        font-size: 14px;
+    }
+    .grid-view td{
+        text-align: center;
+        font-size: 13px;
     }
     .grid-view .form-control{
-        height: 28px;
+        height: 25px;
     }
+    .grid-view{
+        padding: 5px;
+    }
+</style>
+
+<style media="screen">
+    .C_msgBox{
+        background-color: #fff;
+        width: 80%;
+        margin: 15px auto 0;
+        box-shadow: 0 0 6px #666;
+        border-radius: 5px;
+        margin-top:50px;
+    }
+    .C_titleBox{
+        height: 50px;
+        line-height: 50px;
+        margin:0;
+        padding-left: 30px;
+        background-color: #dd4b39;
+        color: #fff;
+    }
+    .C_Row:nth-child(odd){background-color: #fff}
+    .C_Row:nth-child(even){background-color: #ecf0f5}
+    .C_Row{
+        width: 100%;
+        display: flex;
+        border-top:dotted 2px #ccc;
+        height:50px;
+        justify-content: space-around;
+        align-items: center;
+        padding: 5px 0;
+    }
+    .C_Row span,.C_Row input{
+        width: 30%;
+        height: 40px;
+        display: block;
+        line-height: 40px;
+        text-align: center;
+    }
+    .C_Row span i{
+        float: left;
+    }
+    .global_borLeft{
+        background-color: #dd4b39;
+        display: inline-block;
+        height: 40px;
+        width: 5px;
+        border-radius: 3px;
+    }
+
+
+
+    /*      input的内向阴影      */
+    .global_IptSad{
+        border-radius: 0.16rem;
+        -webkit-box-shadow: 0 5px 5px -4px #d6d6d6 inset;
+        -moz-box-shadow: 0 5px 5px -4px #d6d6d6 inset;
+        -o-box-shadow: 0 5px 5px -4px #d6d6d6 inset;
+        -ms-box-shadow: 0 5px 5px -4px #d6d6d6 inset;
+        box-shadow: 0 5px 5px -4px #d6d6d6 inset;
+        background-color: rgba(238, 238, 238, 0.9);
+        border: solid 1px #ccc;
+        background-color: #fff;
+    }
+
 </style>

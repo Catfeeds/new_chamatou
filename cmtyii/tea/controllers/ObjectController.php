@@ -49,7 +49,7 @@ class ObjectController extends Controller
         /* 开发模拟用户登录 */
         $user = new Users();
 //        $user->login(['phone'=>'15982707139','password'=>'15982707139']);
-        $user->login(['phone' => '15888888888', 'password' => 'xiaozhang']);
+//        $user->login(['phone' => '15888888888', 'password' => 'xiaozhang']);
         /* 开发更新权限表 */
 //        RBAC::initAuth();
 

@@ -18,7 +18,6 @@ use Yii;
  * @property string $bank_user
  * @property string $card_no
  * @property string $credit_remain
- * @property string $credit_balance
  * @property integer $status
  * @property integer $salesman_id
  * @property integer $add_time
@@ -44,7 +43,7 @@ class Shoper extends \yii\db\ActiveRecord
     {
         return [
             [['withdraw_type', 'status', 'salesman_id', 'add_time'], 'integer'],
-            [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total','credit_balance'], 'number'],
+            [['credit_amount', 'credit_remain', 'beans_incom', 'total_amount', 'withdraw_total'], 'number'],
             [['boss', 'bank_user'], 'string', 'max' => 10],
             [['phone'], 'string', 'max' => 15],
             [['contract_no', 'bank', 'card_no'], 'string', 'max' => 255],
@@ -84,8 +83,8 @@ class Shoper extends \yii\db\ActiveRecord
     public static  function getBeansIncom()
     {
         $data = self::find()->andWhere(['id'=>Yii::$app->session->get('shoper_id')])
-                    ->select(['beans_incom'])
+                    ->select(['withdraw_total'])
                     ->one();
-        return $data['beans_incom'];
+        return $data['withdraw_total'];
     }
 }

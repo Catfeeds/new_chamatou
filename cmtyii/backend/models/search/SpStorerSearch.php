@@ -12,8 +12,23 @@ use backend\models\SpStore;
  */
 class SpStorerSearch extends SpStore
 {
+
+    /**
+     * 省
+     * @var
+     */
     public $province_name;
+
+    /**
+     * 市
+     * @var
+     */
     public $city_name;
+
+    /**
+     * 区
+     * @var
+     */
     public $area_name;
 
     /**

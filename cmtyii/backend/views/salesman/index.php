@@ -26,18 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
 
     </p>
-    <?= GridView::widget([
+    <?= \common\widgets\GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
-            'username',
-            'phone',
-            'shop_total',
             [
-                    'attribute' => 'add_time',
-                    'format' => 'date',
+                'attribute' => 'add_time',
+                'format' => 'datetime',
                 'filter' => DateRangePicker::widget([
                     'model' => $searchModel,
                     'attribute' => 'add_time',
@@ -47,8 +43,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ])
             ],
+            'username',
+            'phone',
+            'shop_total',
+            [
+                    'class' => 'yii\grid\ActionColumn',
+                    'header'=>'操作',
+                    'template' => "{update}{delete}",
+                    'buttons'=>[
+                                'update'=>function($url,$model){
+                                    return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>修改</a>";
+                                },
+                                'delete'=>function($url,$model){
+                                    if($model->shop_total <= 0){
+                                        return "<a class=\"btn btn-default btn-xs \" href='$url' data-confirm=\"你确定删除吗?\" data-method=\"post\">删除</a>";
+                                    }
+                                }
+                    ]
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ],
         ],
     ]); ?>
 </div>

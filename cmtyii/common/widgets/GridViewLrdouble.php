@@ -40,6 +40,6 @@ class GridViewLrdouble extends GridView{
      * @var array
      */
     public $tableOptions = [
-        'class' => 'table table-bordered table-hover'
+        'class' => 'table table-bordered table-hover table-striped'
     ];
 }

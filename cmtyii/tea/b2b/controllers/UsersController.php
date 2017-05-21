@@ -25,7 +25,7 @@ class UsersController extends ObjectController
         $model = Shoper::find()
             ->andWhere(['id' => \Yii::$app->session->get('shoper_id')])
             ->andWhere(['status' => 0])
-            ->select(['credit_balance', 'withdraw_total', 'status'])
+            ->select(['credit_amount', 'withdraw_total', 'status'])
             ->one();
 
         $data = Store::find()
@@ -33,6 +33,7 @@ class UsersController extends ObjectController
             ->andWhere(['id' => \Yii::$app->session->get('store_id')])
             ->one();
         $datas = ArrayHelper::toArray($model);
+        $datas['credit_balance'] = $datas['credit_amount'];
         $datas['cart'] = Cart::getCount();
         $datas['order'] = Order::getCount();
         $datas['sp_name'] = $data['sp_name'];

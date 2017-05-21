@@ -28,6 +28,10 @@ class StoreForm extends SpStore
             ->column();
     }
 
+    /**
+     * 添加店铺
+     * @return StoreForm|bool|null
+     */
     public function addStore()
     {
         if(!$this->validate()){
@@ -40,18 +44,21 @@ class StoreForm extends SpStore
         $this->lat = $lat_lon['lat'];
         $this->lon = $lat_lon['lon'];
         $this->add_time = time();
+
         $this->save();
-        Upload::uploadStoreImg($this->id);
+        Upload::uploadStoreImg(['storeId'=>$this->id,'shoperId'=>$this->shoper_id]);
         return $this ? $this : null;
     }
 
+    /**
+     * 更新店铺
+     * @return StoreForm|bool|null
+     */
     public function updateStore()
     {
         if(!$this->validate()){
             return false;
         }
-
-
         $lat_lon = Locations::address2ll($this->add_detail, $this->city_id, $this->provinces_id);
 
         $this->address = Locations::byIdAddress($this->provinces_id, $this->city_id, $this->area_id, $this->add_detail);

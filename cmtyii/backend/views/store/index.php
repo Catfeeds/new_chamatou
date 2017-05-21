@@ -14,24 +14,35 @@ use yii\helpers\Url;
 $this->title = Yii::t('app', '门店管理');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="sp-store-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', '添加门店'), ['create'], ['class' => 'btn btn-success']) ?>
-
-        <?= Html::a(Yii::t('app', '添加商铺'), ['shoper/create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
+    <!--    标题开始-->
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 15px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;">店铺列表</span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            <p class="pull-right" style="margin-top: 5px;"><?= Html::a(Yii::t('app', '添加新门店'), ['create'], ['class' => 'btn btn-success']) ?></p>
+        </div>
+    </div>
+    <!--    标题结束-->
+    <div class="" style="background-color: #ffffff;border: 1px solid #d6d6d6;">
+        <?= \common\widgets\GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
                     'attribute' => 'add_time',
-                    'format' => ['date', 'Y-m-d H:i:s'],
+                    'format' => ['datetime'],
                     'filter'    => DateRangePicker::widget([
                         'model'         => $searchModel,
                         'attribute'     => 'add_time',
@@ -44,75 +55,69 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'sp_name',
             'address',
-            [
-                'label' => '省',
-                'attribute' => 'province_name',
-                'value' => 'province.name',
-            ],
-            [
-                'label' => '市',
-                'attribute' => 'city_name',
-                'value' => 'city.name'
-            ],
-            [
-                'label' => '区',
-                'attribute' => 'area_name',
-                'value' => 'area.name'
-            ],
-            'add_detail',
             'sp_phone',
-//            'cover',
-            'intro',
             [
-                    'label' => '销售人员',
-                    'attribute' => 'salesman_username',
-                    'value' => 'salesman.username'
+                'label' => '授信总额',
+                'attribute' => 'credit_remain',
+                'value' => 'shoper.credit_remain'
             ],
-
+            [
+                'label' => '授信余额',
+                'attribute' => 'credit_amount',
+                'value' => 'shoper.credit_amount'
+            ],
+            [
+                'label' => '授信状态',
+                'attribute' => 'shoper.status',
+                'format'=>'raw',
+                'value' => function($model){
+                    if($model['shoper']['status'] == 0){
+                        return '<span class="badge" style="background-color: #9dd23a">正常</span>';
+                    }else{
+                        return '<span class="badge" style="background-color: #dd4b39">逾期</span>';
+                    }
+                }
+            ],
+            [
+                'label' => '店铺状态',
+                'attribute' => 'shoper.sp_status',
+                'format'=>'raw',
+                'value' => function($model){
+                    if($model['shoper']['sp_status'] == 0){
+                        return '<span class="badge" style="background-color: #9dd23a">正常</span>';
+                    }else{
+                        return '<span class="badge" style="background-color: #dd4b39">封停</span>';
+                    }
+                }
+            ],
+            [
+                'label' => '销售',
+                'attribute' => 'salesman_username',
+                'value' => 'salesman.username'
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{salesman}{shouxin}{shoper}{view} {update} {delete} {bind-shoper}',
+                'template'=>'{spstatus}{shouxinhuankuan}{view} {update} {delete}',
                 'buttons'=>
                     [
-                        'bind-shoper'=>function($url,$model,$key)
-                        {
-                            $options=[
-                                'title'=>Yii::t('yii', '绑定'),
-                                'aria-label'=>Yii::t('yii','绑定'),
-                                'data-method'=>'post',
-                                'data-pjax'=>'0',
-                            ];
-                            return Html::a('<span class="glyphicon glyphicon-check"></span>',$url,$options);
-
-                        },
-                        'shoper'=> function($url, $model, $key)
-                        {
-                            if(!isset($model->shoper_id)){
-                                return '';
+                        'spstatus'=>function($url,$model){
+                            $url = Url::toRoute(['store/spstatus','shoper_id'=>$model['shoper']['id']]);
+                            if($model['shoper']['sp_status'] == 0){
+                                return "<a href='#' onclick=\"alertWarning('账号封停操作?','确认你的操作无误？','$url')\" class='btn btn-xs btn-default' style='margin-right: 5px;'>封停</a>";
+                            }else{
+                                return "<a href='#' onclick=\"alertWarning('账号封停开启操作?','确认你的操作无误？','$url')\" class='btn btn-xs btn-default' style='margin-right: 5px;'>开启</a>";
                             }
-                            $options=[
-                                'title'=>Yii::t('yii', '商户管理'),
-                                'aria-label'=>Yii::t('yii','商户管理'),
-                                'data-method'=>'post',
-                                'data-pjax'=>'0',
-                            ];
-                            $url = Url::toRoute(['shoper/view', 'id'=> $model->shoper_id]);
-                            return Html::a('<span class="">商铺|</span>',$url,$options);
-                        },
-                        'shouxin' => function($url, $model, $key)
-                        {
-                            $url = Url::toRoute(['credit/order', 'store_id'=>$model->id]);
-                            return Html::a('<span class="">授信|</span>', $url);
-                        },
-                        'salesman' => function($url, $model, $key)
-                        {
-                            return Html::a('<span class="">销售|</span>',
-                                Url::toRoute(['store/salesman', 'id'=>$model->id])
-                                );
-                        }
 
+                        },
+                        'shouxinhuankuan' => function($url, $model, $key)
+                        {
+                            $url = Url::toRoute(['store/shouxinhuankuan','shoper_id'=>$model['shoper']['id']]);
+                            $whjinger = $model['shoper']['credit_remain'] - $model['shoper']['credit_amount'];
+                            return "<a href='#' onclick=\"alertInput('还款表单','本期最低还款金额为:$whjinger','$url',true)\" class='btn btn-xs btn-default' style='margin-right: 5px;'>还款</a>";
+                        }
                     ],
             ],
         ],
     ]); ?>
+    </div>
 </div>

@@ -26,7 +26,7 @@ class CreditController extends ObjectController
     public function actionInfo()
     {
         $shoper = Shoper::find()->andWhere(['id' => \Yii::$app->session->get('shoper_id')])
-            ->select(['credit_remain', 'credit_balance','status'])->one();
+            ->select(['credit_remain', 'credit_amount','status'])->one();
         $data = ArrayHelper::toArray($shoper);
         $day = date('d');
 
@@ -40,7 +40,7 @@ class CreditController extends ObjectController
         } else {
             $m = date('m');
         }
-        $data['credit_huan'] = $data['credit_remain'] - $data['credit_balance'];
+        $data['credit_huan'] = $data['credit_remain'] - $data['credit_amount'];
         $data['time'] = $m . '月10日';
         return ['code'=>1,'msg'=>'','data'=>$data];
     }

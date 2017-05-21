@@ -10,30 +10,40 @@ namespace backend\models\form;
 
 
 use backend\models\Shoper;
-use backend\models\SpUsers;
 
 class ShoperForm extends Shoper
 {
-
+    /**
+     * 添加店铺主表信息
+     * @return array|bool
+     */
     public function createShoper()
     {
-        if(!$this->validate()){
+        if (!$this->validate()) {
             return false;
         }
-
-        $this->createShoperAdmin();
-        return $this->save();
+        $this->credit_amount = $this->credit_remain;
+        $this->add_time = time();
+        if($this->save()){
+            return ['id'=>$this->id,'salesman_id'=>$this->salesman_id];
+        }
+        return false;
     }
 
-    public function createShoperAdmin()
+    /**
+     * 更新店铺的主表信息
+     * @return array|bool
+     */
+    public function updateShoper()
     {
-        $spUser = new SpUsers();
-        $spUser->user = 'admin';
-        $spUser->phone = $this->phone;
-        $spUser->add_time = time();
-        $spUser->password = md5('123456');
-        $spUser->is_admin = 1;
-        $spUser->status = 0;
-        return $spUser->save();
+        if (!$this->validate()) {
+            return false;
+        }
+        //$this->credit_amount = $this->credit_remain;
+        //$this->add_time = time();
+        if($this->save()){
+            return ['id'=>$this->id,'salesman_id'=>$this->salesman_id];
+        }
+        return false;
     }
 }
