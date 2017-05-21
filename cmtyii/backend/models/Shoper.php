@@ -48,6 +48,7 @@ class Shoper extends \yii\db\ActiveRecord
             [['withdraw_type', 'status', 'salesman_id', 'add_time', 'sp_status'], 'integer'],
             [['boss', 'bank_user'], 'string', 'max' => 10],
             [['phone'], 'number'],
+            [['phone'], 'unique'],
             [['phone'], 'string', 'max' => 15,'min'=>11],
             [['contract_no', 'bank', 'card_no','pay_account'], 'string', 'max' => 255],
         ];

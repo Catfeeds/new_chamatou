@@ -128,13 +128,20 @@ class RBAC
     public static function validateRole($route)
     {
         /**
-         * 坚持不许要权限的
+         * 检查是不是超级管理员！
+         */
+        if(\Yii::$app->session->get('is_admin')){
+            return true;
+        }
+        /**
+         * 检查不许要权限的
          */
         $notRbacUrlList = \Yii::$app->params['notRbacUrlList'];
 
         if (isset($notRbacUrlList[$route])) {
             return true;
         }
+
         /**
          * 检查需要的权限的
          */
@@ -154,6 +161,21 @@ class RBAC
 
         $auto = \Yii::$app->authManager;
         $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+        if(empty($rbacDataList) && \Yii::$app->session->get('is_admin') == 1){
+            $rbacDataList = $auto->getPermissions();
+            $admins = $auto->getRole(self::setRoleName('超级管理员'));
+            if (!$admins) {
+                $admins = $auto->createRole(self::setRoleName('超级管理员'));
+                $auto->add($admins);
+                $auto->assign($admins, \Yii::$app->user->id);
+            }
+
+            foreach ($rbacDataList as $key => $value) {
+                    $auto->addChild($admins, $value);
+            }
+            unset($rbacDataList);
+            $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+        }
         unset($auto);
 
         $roleList = [

@@ -112,4 +112,19 @@ class Salesman extends \yii\db\ActiveRecord
         }
         return '';
     }
+
+    /**
+     * 返回搜索需要的下拉菜单
+     * @return array
+     */
+    public static function getFilter()
+    {
+        $list = self::find()->all();
+        $data = [];
+        foreach ($list as $key=>$value){
+            $data[$value['id']] = $value['username'];
+        }
+        return $data;
+    }
+
 }

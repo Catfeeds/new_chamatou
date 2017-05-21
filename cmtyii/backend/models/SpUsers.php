@@ -58,4 +58,23 @@ class SpUsers extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
         ];
     }
+
+    /**
+     * 添加一个管理员！
+     * @param $user
+     * @return bool
+     */
+    public static function addUser($user)
+    {
+        $model = new SpUsers();
+        $model->phone = $user['phone'];
+        $model->user = $user['user'];
+        $model->store_id = $user['storeId'];
+        $model->shoper_id = $user['shoperId'];
+        $model->add_time = time();
+        $model->is_admin = 1;
+        $model->status = 0;
+        $model->password = md5('123456');
+        return $model->save();
+    }
 }

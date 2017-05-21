@@ -65,7 +65,7 @@ class SalesmanSearch extends Salesman
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'phone', $this->phone]);
+             ->andFilterWhere(['like', 'phone', $this->phone]);
 
         return $dataProvider;
     }

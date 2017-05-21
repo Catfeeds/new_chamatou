@@ -77,6 +77,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
                     $this->is_admin  = $user->is_admin;
                     $this->status    = $user->status;
                     $this->store_id  = $user->store_id;
+                    $this->is_admin  = $user->is_admin;
                     return true;
                 }
                 $this->addError($attribute,$this->userLangu['password']);
@@ -127,7 +128,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     public function getByPhone($phone = '')
     {
         $user = self::find()
-                    ->select(['id', 'phone', 'user', 'password','shoper_id','status','store_id'])
+                    ->select(['id', 'phone', 'user', 'password','shoper_id','status','store_id','is_admin'])
                     ->where('phone = :phone', [':phone' => $phone])
                     ->one();
         return $user;
@@ -167,6 +168,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
            if(!$this->hasErrors())
            {
                 $userSessionData['tea_user_id'] = $this->id;
+                $userSessionData['is_admin'] = $this->is_admin;
                 $userSessionData['shoper_id']   = $this->shoper_id;
                 $userSessionData['store_id']   = $this->store_id;
                 $sesstion = new Session();

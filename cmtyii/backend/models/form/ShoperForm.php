@@ -15,7 +15,7 @@ class ShoperForm extends Shoper
 {
     /**
      * 添加店铺主表信息
-     * @return array|bool
+     * @return $this|bool
      */
     public function createShoper()
     {
@@ -25,7 +25,7 @@ class ShoperForm extends Shoper
         $this->credit_amount = $this->credit_remain;
         $this->add_time = time();
         if($this->save()){
-            return ['id'=>$this->id,'salesman_id'=>$this->salesman_id];
+            return $this;
         }
         return false;
     }
@@ -39,8 +39,6 @@ class ShoperForm extends Shoper
         if (!$this->validate()) {
             return false;
         }
-        //$this->credit_amount = $this->credit_remain;
-        //$this->add_time = time();
         if($this->save()){
             return ['id'=>$this->id,'salesman_id'=>$this->salesman_id];
         }

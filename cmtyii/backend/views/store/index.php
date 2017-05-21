@@ -91,13 +91,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+
                 'label' => '销售',
-                'attribute' => 'salesman_username',
-                'value' => 'salesman.username'
+                'attribute' => 'salesman_id',
+                'value' => 'salesman.username',
+                'filter'=>\backend\models\Salesman::getFilter(),
+
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{spstatus}{shouxinhuankuan}{view} {update} {delete}',
+                'template'=>'{spstatus}{shouxinhuankuan}{update}',
                 'buttons'=>
                     [
                         'spstatus'=>function($url,$model){
@@ -114,6 +117,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             $url = Url::toRoute(['store/shouxinhuankuan','shoper_id'=>$model['shoper']['id']]);
                             $whjinger = $model['shoper']['credit_remain'] - $model['shoper']['credit_amount'];
                             return "<a href='#' onclick=\"alertInput('还款表单','本期最低还款金额为:$whjinger','$url',true)\" class='btn btn-xs btn-default' style='margin-right: 5px;'>还款</a>";
+                        },
+                        'update'=>function($url,$model,$key){
+                            return "<a href='$url' class='btn btn-xs btn-default' style='margin-right: 5px;'>编辑</a>";
                         }
                     ],
             ],

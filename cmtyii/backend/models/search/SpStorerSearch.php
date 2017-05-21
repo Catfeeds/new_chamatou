@@ -31,6 +31,8 @@ class SpStorerSearch extends SpStore
      */
     public $area_name;
 
+
+
     /**
      * @inheritdoc
      */
@@ -38,7 +40,7 @@ class SpStorerSearch extends SpStore
     {
         return [
             [['id', 'shoper_id', 'provinces_id', 'city_id', 'area_id'], 'integer'],
-            [['sp_name', 'address', 'add_detail', 'sp_phone', 'cover', 'intro', 'province_name','city_name', 'area_name', 'add_time'], 'safe'],
+            [['salesman_id','sp_name', 'address', 'add_detail', 'sp_phone', 'cover', 'intro', 'province_name','city_name', 'area_name', 'add_time'], 'safe'],
             [['lat', 'lon'], 'number'],
         ];
     }
@@ -65,6 +67,7 @@ class SpStorerSearch extends SpStore
         $query->joinWith(['province as province'])->where(['province.level'=>1]);
         $query->joinWith(['city as city'])->where(['city.level'=>2]);
         $query->joinWith(['area as area'])->where(['area.level'=>3]);
+        $query->joinWith('salesman');
 
         // add conditions that should always apply here
 
@@ -108,6 +111,7 @@ class SpStorerSearch extends SpStore
             'city_id' => $this->city_id,
             'area_id' => $this->area_id,
             'add_time' => $this->add_time,
+            'salesman_id'=>$this->salesman_id,
         ]);
 
         $query->andFilterWhere(['like', 'sp_name', $this->sp_name])

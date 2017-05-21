@@ -7,6 +7,7 @@ use backend\models\form\ShoperSalesmanForm;
 use backend\models\form\StoreBindForm;
 use backend\models\form\StoreForm;
 use backend\models\Shoper;
+use backend\models\SpUsers;
 use backend\models\Upload;
 use Yii;
 use backend\models\SpStore;
@@ -71,9 +72,15 @@ class StoreController extends Controller
                     $post = Yii::$app->request->post();
                     $post['StoreForm']['shoper_id'] = $shoperRet['id'];
                     $post['StoreForm']['salesman_id'] = $shoperRet['salesman_id'];
-                    if ($storeModel->load($post) && $storeModel->addStore()) {
-                        $transaction->commit();
-                        return $this->redirect(['store/index']);
+                    if ($storeModel->load($post) && $storeId = $storeModel->addStore()) {
+                        $user['shoperId'] = $shoperRet['id'];
+                        $user['storeId'] = $storeId['id'];
+                        $user['user'] = $shoperRet['boss'];
+                        $user['phone'] = $shoperRet['phone'];
+                        if($data = SpUsers::addUser($user)){
+                            $transaction->commit();
+                            return $this->redirect(['store/index']);
+                        }
                     }
                     throw new \Exception('store表保存失败！');
                 }
@@ -81,6 +88,7 @@ class StoreController extends Controller
             }
             throw new \Exception('');
         }catch (\Exception $exception){
+            var_dump($exception->getMessage());
             $transaction->rollBack();
             return $this->render('create', [
                 'storeModel' => $storeModel,

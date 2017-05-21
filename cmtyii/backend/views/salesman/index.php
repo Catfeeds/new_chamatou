@@ -45,16 +45,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'username',
             'phone',
-            'shop_total',
+            [
+                'attribute'=>'shop_total',
+                'value'=>function($model){
+                    return \frontend\models\Store::find()->andWhere(['salesman_id'=>$model->id])->count();
+                }
+            ],
             [
                     'class' => 'yii\grid\ActionColumn',
                     'header'=>'操作',
-                    'template' => "{update}{delete}",
+                    'template' => "{chakan}{update}{delete}",
                     'buttons'=>[
+                                'chakan'=>function($url,$model){
+                                    $arr['add_time']='';
+                                    $arr['sp_name']='';
+                                    $arr['address']='';
+                                    $arr['sp_phone']='';
+                                    $arr['salesman_id']=$model->id;
+                                    $url = \yii\helpers\Url::toRoute(['store/index','SpStorerSearch'=>$arr]);
+                                    return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>查看店铺列表</a>";
+                                },
                                 'update'=>function($url,$model){
                                     return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>修改</a>";
                                 },
                                 'delete'=>function($url,$model){
+                                    $model->shop_total = \frontend\models\Store::find()->andWhere(['salesman_id'=>$model->id])->count();
                                     if($model->shop_total <= 0){
                                         return "<a class=\"btn btn-default btn-xs \" href='$url' data-confirm=\"你确定删除吗?\" data-method=\"post\">删除</a>";
                                     }

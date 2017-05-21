@@ -28,6 +28,7 @@ class Session extends Model
         Yii::$app->session->set('tea_user_id',$user['tea_user_id']);
         Yii::$app->session->set('shoper_id',$user['shoper_id']);
         Yii::$app->session->set('store_id',$user['store_id']);
+        Yii::$app->session->set('is_admin',$user['is_admin']);
 
     }
 

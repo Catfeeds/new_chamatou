@@ -68,7 +68,6 @@ class SalesmanController extends Controller
             $post = Yii::$app->request->post();
             $post['Salesman']['add_time'] = time();
             $post['Salesman']['shop_total'] = 0;
-            $model->scenario ='add';
             if ($model->load($post) && $model->save()) {
                 return $this->redirect(['index']);
             }
