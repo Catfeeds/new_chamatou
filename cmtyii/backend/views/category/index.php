@@ -42,14 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $v['id'] ?></td>
                         <td><?= $v['cate_name'] ?></td>
                         <td>
-<<<<<<< HEAD
-                            <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info btn2']); ?>
-                            <a style="margin-left: 10px;" data-href="<?= Url::to(['del', 'id' => $v['id']]) ?>" data-target="#delModal"
-                               data-toggle="modal" class="btn btn-danger btn-xs deleteBtn btn2">删除</a>
-=======
                             <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info']); ?>
-                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-default' style='margin-right: 5px;'>删除</a>
->>>>>>> 5f6d5ad2824ae90011faf3fb6102e657a516ace6
+                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-default btn2' style='margin-right: 5px;'>删除</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -57,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </table>
         </div>
     </div>
-<<<<<<< HEAD
+
 <?php
 $this->registerJs('
     $(function () {
@@ -75,7 +69,3 @@ $this->registerJs('
     line-height: 20px;
 }
 </style>
-=======
-
-
->>>>>>> 5f6d5ad2824ae90011faf3fb6102e657a516ace6
