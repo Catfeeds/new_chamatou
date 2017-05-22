@@ -69,6 +69,11 @@ class CategoryController extends Controller
      */
     public function actionDel($id)
     {
+        $goodsNum = \backend\models\Goods::find()->where(['cat_id'=>$id])->count();
+        if($goodsNum > 0){
+            \Yii::$app->session->setFlash('error', '改分类下有有商品存在!不能删除!');
+            return $this->redirect(['index']);
+        }
         $model = GoodsCat::findOne($id);
         if ($model->delete()) {
             \Yii::$app->session->setFlash('success', '删除成功');

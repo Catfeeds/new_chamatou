@@ -262,11 +262,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     layer.msg("请输入订单编号",{time:1000});
                     return false;
                 }
-                var reg = /^\d+$/;
-                if(!reg.test(data)){
-                    layer.msg("请输入正确的订单编号",{time:1000});
-                    return false;
-                }
+              
                 $.ajax({
                     type : "get",
                     url  :  url,
