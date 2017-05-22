@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </span>
     </header>
     <div class="adv-table">
-    <table class="table table-striped table-bordered global_boxSad">
+    <table class="table table-striped table-bordered">
         <thead>
         <tr>
             <th class="global_txtCenter">头像</th>
@@ -67,16 +67,26 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     </a>
 <?php endif;?>
-<?php
-echo LinkPager::widget([
-    'pagination' => $pager,
-    'firstPageLabel' => '首页',
-    'lastPageLabel'  => '尾页',
-    'nextPageLabel'  => '下一页',
-    'prevPageLabel' => '上一页',
-    'maxButtonCount' => 5,
- ]); ?>
+<div class="LinkPagerBox">
+    <?php
+    echo LinkPager::widget([
+        'pagination' => $pager,
+        'firstPageLabel' => '首页',
+        'lastPageLabel'  => '尾页',
+        'nextPageLabel'  => '下一页',
+        'prevPageLabel' => '上一页',
+        'maxButtonCount' => 5,
+     ]); ?>
+</div>
 <style media="screen">
+.LinkPagerBox{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.adv-table{
+    background-color: #fff;
+}
     .Constiantine_titleBox{
         height: 50px;
         margin-top: 15px;
@@ -90,7 +100,9 @@ echo LinkPager::widget([
     }
     .global_txtCenter{
         text-align: center;
+        line-height: 40px !important;
     }
+
     .bodyTr{
         height: 60px;
     }

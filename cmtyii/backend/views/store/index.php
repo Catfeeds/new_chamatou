@@ -127,3 +127,8 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     </div>
 </div>
+<style>
+	.grid-view .form-control{
+		height: 35px!important;
+	}
+</style>

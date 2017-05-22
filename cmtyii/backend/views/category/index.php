@@ -10,9 +10,12 @@ $this->params['breadcrumbs'][] = $this->title;
         border-color:#ddd !important;
     }
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        
+
         border: 1px solid #ddd !important;
         text-align: center;
+    }
+    .panel-heading{
+    	height: 38px;
     }
 </style>
     <div class="wrapper">
@@ -39,9 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $v['id'] ?></td>
                         <td><?= $v['cate_name'] ?></td>
                         <td>
-                            <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info']); ?>
+                            <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info btn2']); ?>
                             <a style="margin-left: 10px;" data-href="<?= Url::to(['del', 'id' => $v['id']]) ?>" data-target="#delModal"
-                               data-toggle="modal" class="btn btn-danger btn-xs deleteBtn">删除</a>
+                               data-toggle="modal" class="btn btn-danger btn-xs deleteBtn btn2">删除</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -76,3 +79,12 @@ $this->registerJs('
         })
     });
 ', \yii\web\View::POS_END);
+?>
+<style media="screen">
+.btn2{
+    width: 40px;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+}
+</style>

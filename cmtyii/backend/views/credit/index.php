@@ -62,3 +62,23 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
+<style>
+	.credit-consume-index{
+		padding-bottom: 20px;
+		position: relative;
+	}
+	.summary{
+		position: absolute;
+		left: 20px;
+		bottom: 0;
+	}
+	.table{
+		border:1px solid #f4f4f4
+	}
+	.content-wrapper{
+		background: #fff!important;
+	}
+	a{
+		padding: 0 10px;
+	}
+</style>

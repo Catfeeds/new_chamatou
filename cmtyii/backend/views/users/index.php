@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
 <div class="adv-table" style="margin-top:60px;">
-    <table class="table table-striped table-bordered global_boxSad" >
+    <table class="table table-striped table-bordered" >
         <thead>
         <tr>
             <th class="global_txtCenter">用户头像</th>
@@ -78,10 +78,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php foreach ($models as $v): ?>
             <tr class="bodyTr">
                 <td class="global_txtCenter"><img src="<?= $v->userInfo->photo?>" alt="" width="30px"></td>
-                <td class="global_txtCenter"><?= $v->userInfo->nickname?></td>
-                <td class="global_txtCenter"><?= date('Y-m-d H:i:s',$v->add_time)?></td>
-                <td class="global_txtCenter"><?= $v->num?></td>
-                <td class="global_txtCenter"><?= $v->userInfo->phone?></td>
+                <td class="global_txtCenter"><span><?= $v->userInfo->nickname?></span></td>
+                <td class="global_txtCenter"><span><?= date('Y-m-d H:i:s',$v->add_time)?></span></td>
+                <td class="global_txtCenter"><span><?= $v->num?></span></td>
+                <td class="global_txtCenter"><span><?= $v->userInfo->phone?></span></td>
 
             </tr>
         <?php endforeach; ?>
@@ -96,17 +96,27 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     </a>
 <?php endif;?>
-<?php
-echo LinkPager::widget([
-    'pagination' => $pager,
-    'firstPageLabel' => '首页',
-    'lastPageLabel'  => '尾页',
-    'nextPageLabel'  => '下一页',
-    'prevPageLabel' => '上一页',
-    'maxButtonCount' => 5,
-]);
-?>
+<div class="LinkPagerBox">
+    <?php
+    echo LinkPager::widget([
+        'pagination' => $pager,
+        'firstPageLabel' => '首页',
+        'lastPageLabel'  => '尾页',
+        'nextPageLabel'  => '下一页',
+        'prevPageLabel' => '上一页',
+        'maxButtonCount' => 5,
+    ]);
+    ?>
+</div>
 <style media="screen">
+.LinkPagerBox{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.adv-table{
+    background-color: #fff;
+}
     .Constiantine_titleBox{
         height: 50px;
         margin-top: 15px;
@@ -121,12 +131,19 @@ echo LinkPager::widget([
     .global_txtCenter{
         text-align: center;
     }
+    .global_txtCenter img{
+        margin-top: 8px;
+    }
+    .global_txtCenter span{
+        margin-top: 13px;
+        display: block;
+    }
     .bodyTr{
-        height: 60px;
+        height: 40px;
     }
     .bodyTr td{
-        height: 60px;
-        padding-top: 15px !important;
+        height: 40px;
+        padding-top: 0 !important;
     }
     /*      实体的阴影          */
     .global_boxSad{

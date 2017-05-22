@@ -19,8 +19,8 @@ class SalesmanSearch extends Salesman
     public function rules()
     {
         return [
-            [['id',  'add_time'], 'integer'],
-            [['username', 'phone'], 'safe'],
+            [['id'], 'integer'],
+            [['username','add_time' ,'phone'], 'safe'],
         ];
     }
 
@@ -59,7 +59,6 @@ class SalesmanSearch extends Salesman
         }
 
         if(isset($params['SalesmanSearch']['add_time'])){
-
             $time = Base::toGetTime($params['SalesmanSearch']['add_time']);
             $this->add_time = $params['SalesmanSearch']['add_time'];
             $query->andFilterWhere(['>', 'add_time', strtotime($time['startTime'])]);
