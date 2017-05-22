@@ -42,35 +42,22 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $v['id'] ?></td>
                         <td><?= $v['cate_name'] ?></td>
                         <td>
+<<<<<<< HEAD
                             <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info btn2']); ?>
                             <a style="margin-left: 10px;" data-href="<?= Url::to(['del', 'id' => $v['id']]) ?>" data-target="#delModal"
                                data-toggle="modal" class="btn btn-danger btn-xs deleteBtn btn2">删除</a>
+=======
+                            <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info']); ?>
+                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-default' style='margin-right: 5px;'>删除</a>
+>>>>>>> 5f6d5ad2824ae90011faf3fb6102e657a516ace6
                         </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
-        <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">提示：Notice!</h4>
-                    </div>
-                    <div class="modal-body">
-                        亲！你确认要删除吗？你确定不后悔?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">再想想
-                        </button>
-                        <a href="" id="deleteTrue" class="btn btn-primary">从不后悔</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+<<<<<<< HEAD
 <?php
 $this->registerJs('
     $(function () {
@@ -88,3 +75,7 @@ $this->registerJs('
     line-height: 20px;
 }
 </style>
+=======
+
+
+>>>>>>> 5f6d5ad2824ae90011faf3fb6102e657a516ace6
