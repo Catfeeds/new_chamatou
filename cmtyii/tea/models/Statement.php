@@ -145,8 +145,13 @@ class Statement
                 }
             }
         }
-        $data['szl']['sz']['bili'] = round($data['szl']['sz']['shiyongzhong'] / $data['szl']['sz']['sum'] * 100, 2);
-        $data['szl']['bj']['bili'] = round($data['szl']['bj']['shiyongzhong'] / $data['szl']['bj']['sum'] * 100, 2);
+        if($data['szl']['sz']['sum'] * 100 != 0){
+            $data['szl']['sz']['bili'] = round($data['szl']['sz']['shiyongzhong'] / $data['szl']['sz']['sum'] * 100, 2);
+        }
+
+        if ($data['szl']['bj']['sum'] * 100 != 0){
+            $data['szl']['bj']['bili'] = round($data['szl']['bj']['shiyongzhong'] / $data['szl']['bj']['sum'] * 100, 2);
+        }
         $book = Book::find()->andWhere(['shoper_id' => \Yii::$app->session->get('shoper_id')])
             ->andWhere(['store_id' => \Yii::$app->session->get('store_id')])
             ->andWhere(['>', 'add_time', strtotime($start_time)])

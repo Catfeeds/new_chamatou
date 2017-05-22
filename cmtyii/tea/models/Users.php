@@ -72,13 +72,17 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             {
                 if($user->password == $this->setPassword($this->password))
                 {
-                    $this->shoper_id = $user->shoper_id;
-                    $this->id        = $user->id ;
-                    $this->is_admin  = $user->is_admin;
-                    $this->status    = $user->status;
-                    $this->store_id  = $user->store_id;
-                    $this->is_admin  = $user->is_admin;
-                    return true;
+                    $shoperModel = Shoper::findOne($user->shoper_id);
+                    if($shoperModel->sp_status == 0){
+                        $this->shoper_id = $user->shoper_id;
+                        $this->id        = $user->id ;
+                        $this->is_admin  = $user->is_admin;
+                        $this->status    = $user->status;
+                        $this->store_id  = $user->store_id;
+                        $this->is_admin  = $user->is_admin;
+                        return true;
+                    }
+                    $this->addError($attribute,'该商家已被封停！');
                 }
                 $this->addError($attribute,$this->userLangu['password']);
             }

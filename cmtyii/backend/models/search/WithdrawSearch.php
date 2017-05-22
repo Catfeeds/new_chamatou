@@ -97,6 +97,7 @@ class WithdrawSearch extends Withdraw
         if (!$this->validate()) {
             return $dataProvider;
         }
+
         if(isset($params['WithdrawSearch']['add_time'])){
             $time = Base::toGetTime($params['WithdrawSearch']['add_time']);
             $this->add_time = $params['WithdrawSearch']['add_time'];

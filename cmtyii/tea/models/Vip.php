@@ -43,7 +43,7 @@ class Vip extends \yii\db\ActiveRecord
         return [
             [['shoper_id', 'phone', 'username', 'card_no', 'birthday'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
             [['shoper_id','user_id', 'sex'], 'integer', 'message' => Yii::t('app', 'table')['param_type_error'], 'on' => ['add']],
-            [['phone'], 'unique', 'on' => ['add'], 'message' => Yii::t('app', 'vip')['phone_exits']],
+            [['phone'], 'validatePhone', 'on' => ['add']],
             [['phone'], 'match','pattern'=>'/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/','on' => ['add']],
             [['notes', 'address'], 'safe'],
             [['sex'], 'in', 'range' => [1, 2], 'on' => 'add'],
@@ -56,7 +56,8 @@ class Vip extends \yii\db\ActiveRecord
     public function validatePhone($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $data = self::find()->where('phone = :phone and shoper_id = :shoper_id', [':phone' => $this->phone,':shoper_id'=>Yii::$app->session->get('shoper_id')])->select(['id'])->one();
+            $data = self::find()->where('phone = :phone and shoper_id = :shoper_id',
+                [':phone' => $this->phone,':shoper_id'=>Yii::$app->session->get('shoper_id')])->select(['id'])->one();
             if ($data) {
                 $this->addError($attribute, Yii::t('app', 'vip')['phone_exits']);
             }

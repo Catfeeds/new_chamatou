@@ -1,0 +1,100 @@
+
+body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input, textarea, th, td, select {
+	margin: 0;
+	padding: 0;
+}
+
+* {
+	box-sizing: border-box;
+}
+table{
+	border-collapse:collapse;
+}
+body{
+	font-family: "Microsoft YaHei";
+	font-size: 0.2rem;
+	color: blue;
+  background: #fffefc;
+
+}
+
+
+ul, li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #232323;
+}
+.overflow{
+  overflow: hidden;
+}
+input, textarea {
+	outline: none;
+	box-shadow: none;
+}
+select{
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	border: 0;
+	outline: none;
+	box-shadow: none;
+	background: none;
+}
+textarea {
+	resize: none;
+	overflow: auto;
+}
+
+.clearfix {
+	zoom: 1;
+}
+
+.clearfix:after {
+	content: ".";
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
+
+.fl {
+	float: left
+}
+
+.fr {
+	float: right
+}
+
+.tl {
+	text-align: left;
+}
+
+.tc {
+	text-align: center
+}
+
+.tr {
+	text-align: right;
+}
+
+.ellipse {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.loading3{position:fixed;z-index:9999;top:0;left:0;right:0;bottom:0;width:200px;height:80px;background: #fff;margin: auto;line-height: 80px;
+  box-shadow: 0px 0px 12px #666;
+  -webkit-box-shadow: 0px 0px 12px #666;
+  -moz-box-shadow: 0px 0px 12px #666;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+.loading3 img{margin: 24px;}
+.loading3 span{position:absolute;top:50%;left:50%;margin:-40px 0 0 -100px;width:200px;height:80px;background:url(./images/icon8.gif) no-repeat 35px;display:inline-block;background-color:#fff;border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;line-height:80px;padding-left:75px;box-shadow:0 0 10px rgba(0,0,0,.1);color:#666}
+.prompt{position:fixed;top:20%;left:50%;margin:-50px 0 0 -150px;z-index:999999;box-shadow:0 0 10px rgba(255,0,0,.4);border:1px solid #e64c2e;background:#ffeae5;padding:15px;font-size:14px;color:#333;width:300px;line-height:24px;text-align:center;filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity:0;opacity:0;visibility:hidden}
+.prompt.in{filter:alpha(opacity=1);-moz-opacity:1;-khtml-opacity:1;opacity:1;visibility:inherit}

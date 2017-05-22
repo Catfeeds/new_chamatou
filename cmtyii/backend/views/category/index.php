@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
         
         border: 1px solid #ddd !important;
+        text-align: center;
     }
 </style>
     <div class="wrapper">
@@ -39,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $v['cate_name'] ?></td>
                         <td>
                             <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info']); ?>
-                            <a data-href="<?= Url::to(['del', 'id' => $v['id']]) ?>" data-target="#delModal"
+                            <a style="margin-left: 10px;" data-href="<?= Url::to(['del', 'id' => $v['id']]) ?>" data-target="#delModal"
                                data-toggle="modal" class="btn btn-danger btn-xs deleteBtn">删除</a>
                         </td>
                     </tr>
