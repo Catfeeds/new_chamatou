@@ -1,6 +1,9 @@
+<!--
+    ============= 订单详情模块 =============
+    这个页面简单，一目了然，不需要多的注释了。
+-->
 <template>
 <div id="orderDeta">
-
   <div class="sureOrder">
     <div class="tableBox" style="border:none;display:block">
       <div class="orderDetaNum pLR">
@@ -75,13 +78,6 @@ export default {
   //方法盒子
   methods: {
 
-  },
-  mounted: function mounted() {
-    //do something after mounting vue instance
-    // test: {
-    //   this.orderId = this.$route.params.id;
-    //   console.log(this.orderId);
-    // }
   },
   created: function created() {
     //do something after creating vue instance

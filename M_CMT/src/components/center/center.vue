@@ -1,4 +1,6 @@
-
+<!--
+    ============= 个人中心模块 =============
+-->
 <template>
 <div>
   <div class="TitBg" style="background:url(static/images/2.jpg) no-repeat cover)">

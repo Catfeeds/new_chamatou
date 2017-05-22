@@ -1,3 +1,6 @@
+<!--
+    ============= 绑定手机成功模块 =============
+-->
 <template>
   <div id="bindSucceed">
       <div class="bindPhoneMain">

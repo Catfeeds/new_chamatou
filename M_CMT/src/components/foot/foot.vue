@@ -45,17 +45,10 @@ export default {
           var Sdata = rStr.slice((rStr.indexOf('?')+1));
           var shopId = rStr.slice((rStr.indexOf('shoper_id=')+10),(rStr.indexOf('&')));
           var storeId = rStr.slice((rStr.indexOf('store_id=')+9));
-          //alert(res.resultStr);
-          // alert(Sdata);
-          // alert(shopId);
-          // alert(storeId);
           var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
           _this.$router.push({name: 'goodsList', params: {shoper_id:shopId , store_id:storeId}});
         }
       });
-    },
-    test: function test() {
-      //console.log('hello')
     }
   }
 }

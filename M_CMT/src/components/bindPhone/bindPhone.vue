@@ -1,3 +1,6 @@
+<!--
+    ============= 绑定手机模块 =============
+-->
 <template>
   <div id="bindPhone">
     <div class="bindPhoneMain">

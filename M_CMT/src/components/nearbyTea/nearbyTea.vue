@@ -79,7 +79,6 @@ export default {
   methods: {
     //将经纬度转换成地理位置
     changeD: function changeD(lon, lat) {
-      //console.log(lon);
       var _this = this;
       _this.thisLon = lon;
       _this.thisLat = lat
@@ -92,18 +91,10 @@ export default {
         var thisLocation = addComp.district + addComp.street + addComp.streetNumber
         var thatProvince = addComp.city
         //console.log(addComp.province + ", " + addComp.city + ", " + addComp.street + ", " + addComp.district + ", " + addComp.streetNumber);
-        //console.log(thatProvince);
         _this.thisProvince = thatProvince;
         _this.location = thisLocation;
-        // localStorage.setItem('province',JSON.stringify(addComp.province));
-        // window.localStorage.setItem('thisLocation',JSON.stringify(thisLocation));
-        // _this.province = localStorage.getItem('province');
-        // _this.location = window.localStorage.getItem('thisLocation');
-        // console.log(_this.province,_this.location );
         _this.getTeaData();
       });
-      // 从新获取推荐列表
-
     },
     //点击地理位置重新启动定位
     fun() {
@@ -150,7 +141,6 @@ export default {
   //组件渲染完成时执行
   mounted() {
     //do something after mounting vue instance
-    //console.log('Im dwon');
     var _this = this;
     if(SWIPERFLAG){
         var swiper = new Swiper('.swiper-container', {

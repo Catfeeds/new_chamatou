@@ -1,3 +1,8 @@
+<!--
+    ============= 茶楼详情 =============
+    首页点击推荐茶楼进入此页
+    其他的就不解释了
+-->
 <template>
 <div id="teaDeta">
   <div class="teaDetaMainBox">
@@ -15,9 +20,6 @@
         <div v-for="data in PicData" :key="data.key" class="swiper-slide">
           <img :src="data" alt="">
         </div>
-        <!-- <div class="swiper-slide">Slide 3</div>
-        <div class="swiper-slide">Slide 4</div>
-        <div class="swiper-slide">Slide 5</div> -->
       </div>
       <!-- Add Pagination -->
       <div class="swiper-pagination"></div>

@@ -1,3 +1,7 @@
+<!--
+    ============= 消费详情模块 =============
+    这个模块也很简单，不需要多的注释了。
+-->
 <template>
 <div id="record_expense">
   <div class="titBox">

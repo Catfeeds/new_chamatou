@@ -1,3 +1,6 @@
+<!--
+    ============= 商家会员卡模块 =============
+-->
 <template>
   <div id="clubCard ">
     <p class="clubCardTit pLR">我的商家会员卡</p>

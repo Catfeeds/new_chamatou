@@ -23,7 +23,6 @@
                 ￥ <span>{{res.sales_price}}</span>
               </div>
 
-
               <transition name="fold" mode="out-in" appear>
                 <div class="goodsNum goodsNumMoreBox" v-if="res.num != 0">
                   <i class="downBtn goodsListBtn global_BtnCol2" @click="changeNum(res.id , 1)">
@@ -45,11 +44,6 @@
                 </i>
                 </div>
               </transition>
-              <!-- <div class="cartcontrol-wrapper">
-                <cartcontrol @add="addFood" :food="food"></cartcontrol>
-              </div> -->
-
-
             </div>
           </div>
           <p class="global_blkBB"></p>
@@ -267,10 +261,6 @@ export default {
                 id: goods[j].id,
                 count: goods[j].num
               }
-              // var sendObj = [
-              //   goods[j].id,
-              //   goods[j].num
-              // ]
               _this.carData.push(obj);
               _this.sendData.push(sendObj);
             }
@@ -278,23 +268,22 @@ export default {
         }
       }
       _this.totalBox = _this.totalPrices
-      // console.log('_this.shopCar:'+_this.shopCar);
-      // console.log('_this.totalPrices'+_this.totalPrices);
-
-      //console.log(_this.carData);
     },
-    //是否显示购物车:
+
+    //是否显示购物车:(显示隐藏购物车模块)
     showCar: function showCar() {
       this.carFlag = !this.carFlag;
     },
-    //点击去结算：
+
+    //点击去结算：（显示隐藏确认点单模块，以及关联模块）
     goFish: function goFish() {
       this.fishFlag = !this.fishFlag;
       this.carFlag = false;
       this.succeedAlertFlag = false;
       this.iptBeans = ''
     },
-    //点击清空按钮：
+
+    //点击清空按钮：（清除购物车中的所有商品）
     clearAll: function clearAll() {
       var _this = this;
       _this.shopCar = 0;
@@ -305,14 +294,13 @@ export default {
         var goods = _this.Data[i].goods;
         if (goods) {
           for (var j = 0; j < goods.length; j++) {
-
             goods[j].num = 0;
-            //console.log(goods[j].num);
           }
         }
       }
     },
-    //输入了茶豆币，总价改变
+
+    //输入了茶豆币，总价改变（用户输入使用茶豆币（必须判断用户输入的茶豆币是否大于用户拥有的茶豆币））
     downB: function downB() {
       var _this = this;
       var thisTotal = _this.totalBox;
@@ -329,7 +317,8 @@ export default {
       }
       _this.totalPrices = thisTotal
     },
-    //点击Tit右边跳转到对应的位置
+
+    //点击Tit右边跳转到对应的位置（电梯效果，点击左侧的导航栏，右侧运动到相应的分类位置）
     jump: function jump(theId) {
       var theCls = '.' + theId;
       theId = '#' + theId
@@ -344,7 +333,8 @@ export default {
         scrollTop: anchor + "px"
       })
     },
-    //更改数量（点击加减号执行此函数）
+
+    //更改数量（点击商品列表中的加减号执行此函数，对商品加入购物车，以及加入购物车中的商品数量进行操作）
     changeNum(pId, type) {
       var _this = this;
       for (var i = 0; i < _this.Data.length - 1; i++) {
@@ -358,18 +348,6 @@ export default {
               if (goods[j].stock == '-') {
                 if (type == 0) {
                   num = num + 1;
-
-                  //   var Ethis = event.currentTarget;
-                  // //   var addBtnHtml = `<i class="upBtn goodsListBtn global_BtnColR fixBtn">
-                  // //     +
-                  // //   </i>`
-                  //   Ethis.animate({
-                  //     marginRight:'50vw',
-                  //     marginTop:'50vh',
-                  //   },1500)
-
-
-
                 } else {
                   num = num - 1;
                 }
@@ -397,7 +375,11 @@ export default {
         }
       }
     },
-    //弹出框模块：
+
+    //弹出框模块：（提示用户是否点单成功， 并且让用户选择点单完成后的下一步操作：
+    //             1、继续点单
+    //             2、查看订单详情
+    //             ）
     open() {
       var _this = this;
       this.$confirm('恭喜您，点单成功~！！', '提示', {
@@ -419,15 +401,13 @@ export default {
 
       });
     },
-    //确认点单：
+
+    //确认点单：（点击确认点单时的函数
+    //      1、判断桌号是否为空，2、判断茶豆币输入是否正常）
     sendOrder() {
       var _this = this;
-      // console.log(1);
-      //console.log(_this.sendData);
-      //console.log('_this.userHasBeans:'+_this.userHasBeans);
-      //console.log('_this.iptBeans:'+_this.iptBeans);
-      var iptB = parseInt(_this.iptBeans);
-      var uHasB = parseInt(_this.userHasBeans)
+      var iptB = parseFloat(_this.iptBeans);
+      var uHasB = parseFloat(_this.userHasBeans)
       if (iptB > uHasB) {
         _this.$message({
           message: '使用的茶豆币不能大于您的余额，请您从新输入~',
@@ -444,6 +424,7 @@ export default {
         });
         return;
       }
+
       //提交订单
       this.ajax(_this.port.sendOrder, {
         beans: _this.iptBeans,
@@ -457,13 +438,7 @@ export default {
           _this.succeedAlertFlag = true;
           _this.orderId = res.order_id;
           _this.open();
-
           var table_noP = JSON.parse(window.localStorage.getItem('table_no'))
-          console.log('ajaxS_logStar');
-          console.log(table_noP);
-          console.log('ajaxS_logEnd');
-
-
         } else if (res.status == 0) {
           _this.$message.error(res.msg);
         } else {
@@ -477,13 +452,12 @@ export default {
     }
   },
   created: function created() {
-    //do something after creating vue instance
+
     //初次请求数据：
     loadData: {
       var _this = this;
-      // console.log(1);
-      // console.log(_this.port.test);
-      // 请求商品列表数据
+
+      // 请求商品列表数据（拿到 扫码/继续点单 中返回来的商户ID和店铺ID）
       this.ajax(_this.port.goods, {
         shoper_id: _this.$route.params.shoper_id,
         store_id: _this.$route.params.store_id
@@ -521,14 +495,6 @@ export default {
       _this.iptTable = table_noP;
       _this.tableIptFlag = false;
     }
-    console.log('mounted_logStar');
-    console.log(table_noP);
-    console.log('mounted_logEnd');
-
-  },
-  updated: function updated() {
-    //do something after updating vue instance
-
   }
 }
 </script>
