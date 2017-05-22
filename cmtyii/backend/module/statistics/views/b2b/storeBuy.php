@@ -35,7 +35,7 @@ $this->title = '';
                                     ]
                             ]);
                         ?>
-                            <input type="text" name="name" value="<?=Yii::$app->request->get('name')?>" class="form-control" style="height: 30px;margin-right: -5px;">
+                            <input type="text" name="name" value="<?=Yii::$app->request->get('name')?>" class="form-control" style="height: 30px;margin-right: -5px;" placeholder="请输入业务员">
                             <input type="hidden" id="sort" name="sort" value="<?= Yii::$app->request->get('sort',1)?>">
                             <input type="submit" class="btn btn-sm btn-default">
                             <div class="btn-group  input-group" role="group" aria-label="...">

@@ -2,6 +2,7 @@
 
 namespace backend\models\search;
 
+use backend\module\statistics\models\Base;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -101,6 +102,13 @@ class SpStorerSearch extends SpStore
             return $dataProvider;
         }
 
+        if(isset($params['SpStorerSearch']['add_time'])){
+            $time = Base::toGetTime($params['SpStorerSearch']['add_time']);
+            $this->add_time = $params['SpStorerSearch']['add_time'];
+            $query->andFilterWhere(['>', '{{%sp_store}}.add_time', strtotime($time['startTime'])]);
+            $query->andFilterWhere(['<', '{{%sp_store}}.add_time', strtotime($time['endTime'])]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -110,7 +118,6 @@ class SpStorerSearch extends SpStore
             'provinces_id' => $this->provinces_id,
             'city_id' => $this->city_id,
             'area_id' => $this->area_id,
-            'add_time' => $this->add_time,
             'salesman_id'=>$this->salesman_id,
         ]);
 

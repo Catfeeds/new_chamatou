@@ -80,9 +80,9 @@ $this->title = Yii::t('app', 'Messages');
                     'template' => "{view}{delete}",
                     'buttons'=>[
                         'view'=>function($url,$model){
-                                return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>查看</a>";
+                                return "<a href='$url' class='btn btn-xs btn-info btn2' style='margin-right: 5px; '>查看</a>";
                         },'delete'=>function($url){
-                            return "<a class=\"btn btn-default btn-xs \" href='$url' data-confirm=\"你确定删除吗?\" data-method=\"post\">删除</a>";
+                            return "<a class=\"btn btn-danger btn-xs deleteBtn btn2 \" href='$url' data-confirm=\"你确定删除吗?\" data-method=\"post\">删除</a>";
     }
                     ],
 
@@ -90,3 +90,11 @@ $this->title = Yii::t('app', 'Messages');
         ],
     ]); ?>
 </div>
+<style media="screen">
+.btn2{
+    width: 40px;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+}
+</style>

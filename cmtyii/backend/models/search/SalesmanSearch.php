@@ -2,6 +2,7 @@
 
 namespace backend\models\search;
 
+use backend\module\statistics\models\Base;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -18,8 +19,8 @@ class SalesmanSearch extends Salesman
     public function rules()
     {
         return [
-            [['id', 'shop_total', 'add_time'], 'integer'],
-            [['username', 'phone'], 'safe'],
+            [['id'], 'integer'],
+            [['username','add_time' ,'phone'], 'safe'],
         ];
     }
 
@@ -57,11 +58,16 @@ class SalesmanSearch extends Salesman
             return $dataProvider;
         }
 
+        if(isset($params['SalesmanSearch']['add_time'])){
+            $time = Base::toGetTime($params['SalesmanSearch']['add_time']);
+            $this->add_time = $params['SalesmanSearch']['add_time'];
+            $query->andFilterWhere(['>', 'add_time', strtotime($time['startTime'])]);
+            $query->andFilterWhere(['<', 'add_time', strtotime($time['endTime'])]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'shop_total' => $this->shop_total,
-            'add_time' => $this->add_time,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])

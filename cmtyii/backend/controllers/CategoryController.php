@@ -12,6 +12,7 @@ namespace backend\controllers;
 use backend\models\GoodsCat;
 use tea\models\Goods;
 use yii\web\Controller;
+use yii\web\Response;
 
 class CategoryController extends Controller
 {
@@ -67,16 +68,18 @@ class CategoryController extends Controller
      * @throws \Exception
      * @throws \Throwable
      */
-    public function actionDel($id)
+    public function actionDel()
     {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $id = \Yii::$app->request->get('id');
+        $goodsNum = \backend\models\Goods::find()->where(['cat_id'=>$id])->count();
+        if($goodsNum > 0){
+            return ['code'=>0,'message'=>'该分类下存在商品,不能删除!'];
+        }
         $model = GoodsCat::findOne($id);
         if ($model->delete()) {
-            \Yii::$app->session->setFlash('success', '删除成功');
-        } else {
-            \Yii::$app->session->setFlash('error', '删除失败');
+            return ['code'=>1,'message'=>'删除成功'];
         }
-        return $this->redirect(['index']);
-
-
+        return ['code'=>0,'message'=>'删除失败'];
     }
 }

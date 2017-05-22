@@ -2,6 +2,7 @@
 
 namespace backend\models\search;
 
+use backend\module\statistics\models\Base;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -20,8 +21,8 @@ class MessageSearch extends Message
     public function rules()
     {
         return [
-            [['id', 'shoper_id', 'store_id', 'type', 'add_time', 'status', 'delete_tag', 'delete_time'], 'integer'],
-            [['content', 'phone', 'username','store_name', 'title'], 'safe'],
+            [['id', 'shoper_id', 'store_id', 'type', 'status', 'delete_tag', 'delete_time'], 'integer'],
+            [['content', 'phone', 'username','store_name','add_time', 'title'], 'safe'],
         ];
     }
 
@@ -60,13 +61,19 @@ class MessageSearch extends Message
             return $dataProvider;
         }
 
+        if(isset($params['MessageSearch']['add_time'])){
+            $time = Base::toGetTime($params['MessageSearch']['add_time']);
+            $this->add_time = $params['MessageSearch']['add_time'];
+            $query->andFilterWhere(['>', '{{%message}}.add_time', strtotime($time['startTime'])]);
+            $query->andFilterWhere(['<', '{{%message}}.add_time', strtotime($time['endTime'])]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'shoper_id' => $this->shoper_id,
             'store_id' => $this->store_id,
             'type' => $this->type,
-            'add_time' => $this->add_time,
             'status' => $this->status,
             'delete_tag' => $this->delete_tag,
             'delete_time' => $this->delete_time,

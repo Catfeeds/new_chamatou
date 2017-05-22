@@ -136,3 +136,8 @@ $this->title = Yii::t('app', 'Withdraws');
     </style>
 
 </div>
+<style>
+	.grid-view .form-control{
+		height: 35px!important;
+	}
+</style>

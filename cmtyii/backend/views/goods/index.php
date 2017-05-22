@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
         border-color:#ddd !important;
     }
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-       
+
         border: 1px solid #ddd !important;
         vertical-align: middle !important;
         text-align: center !important;
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
         border-bottom: 4px solid #0062ae;
         color: #2f3f58;
     }
-    
+
 </style>
 
     <div class="lr_nav">
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'style' => 'margin-bottom:1em'
             ],
             ]); ?>
-    
+
             <span style="color:#999">商品名称：</span><?php echo $form->field($searchModel, 'goods_name')->textInput(['placeholder' => '商品名称']); ?>
             <span style="color:#999;margin-left: 10px;">商品分类：</span><?php echo $form->field($searchModel, 'cat_id')->dropDownList($cate); ?>
             <span style="color:#999;margin-left: 10px;">是否上架：</span><?php echo $form->field($searchModel, 'status')->dropDownList(['0'=>'全部','1'=>'上架','2'=>'下架']); ?>
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
-    
+
 
 
 
@@ -112,9 +112,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </td>
 
                 <td>
-                    <?= Html::a('编辑', ['edit', 'id' => $v->Id], ['class' => 'btn btn-xs btn-info']); ?>
+                    <?= Html::a('编辑', ['edit', 'id' => $v->Id], ['class' => 'btn btn-xs btn-info btn2']); ?>
                     <a data-href="<?= Url::to(['del', 'id' => $v->Id]) ?>" data-target="#delModal"
-                       data-toggle="modal" class="btn btn-danger btn-xs deleteBtn">删除</a>
+                       data-toggle="modal" class="btn btn-danger btn-xs deleteBtn btn2">删除</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -171,9 +171,9 @@ $this->registerJs('
                             time:0,btn: [\'确定\'],
                             yes: function(index){
                              layer.close(index);
-                            window.location.reload(true)     
+                            window.location.reload(true)
                             }
-                        });          
+                        });
                     }else{
                         layer.msg(data.msg,{icon:6,time:1000});
                     }
@@ -190,13 +190,18 @@ $this->registerJs('
             skin: \'layui-layer-nobg\', //没有背景色
             shadeClose: true,
             content: $(this).attr("src")
-        });       
+        });
        })
-       
+
     });
-    
+
 ', \yii\web\View::POS_END);
 ?>
-<script>
-
-</script>
+<style media="screen">
+    .btn2{
+        width: 40px;
+        height: 20px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+</style>

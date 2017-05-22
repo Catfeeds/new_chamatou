@@ -23,7 +23,7 @@ return [
         'redactor' => [
             'class' => 'yii\redactor\RedactorModule',
             'uploadDir' => './upload',  // 比如这里可以填写 ./uploads
-            'uploadUrl' => 'http://cmt.yii/upload',
+            'uploadUrl' => 'http://my.cn/upload',
             'imageAllowExtensions'=>['jpg','png','gif']
         ],
         'statistics' => [
