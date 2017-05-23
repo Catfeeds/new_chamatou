@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="overflow:hidden">
 
   <!-- 轮播图模块 -->
   <div class="swiper-container global_boxSad">

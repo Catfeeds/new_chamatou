@@ -228,7 +228,7 @@ export default {
       succeedAlertFlag: false, //点单成功弹出层开关
       orderId: '', //传参的orderId
       tableIptFlag: true, //是否让用户输入桌号
-      totalBox:0,//用于储存总价格
+      totalBox: 0, //用于储存总价格
     }
   },
   //方法盒子
@@ -258,6 +258,7 @@ export default {
                 unit: goods[j].unit
               };
               var sendObj = {
+                name: goods[j].goods_name,
                 id: goods[j].id,
                 count: goods[j].num
               }
@@ -352,15 +353,18 @@ export default {
                   num = num - 1;
                 }
               } else {
-                if (num < goods[j].stock) {
+                if (num < Math.floor(goods[j].stock)) {
                   if (type == 0) {
                     num = num + 1;
                   } else {
                     num = num - 1;
                   }
                 } else {
-                  num = num;
-                  alert('该商品库存不足');
+                  if (type == 0) {
+                    alert('该商品库存不足');
+                  } else {
+                    num = num - 1;
+                  }
                 }
               }
               if (num < 0) { //数量不可小于0
