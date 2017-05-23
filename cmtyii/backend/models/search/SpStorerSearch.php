@@ -102,7 +102,7 @@ class SpStorerSearch extends SpStore
             return $dataProvider;
         }
 
-        if(isset($params['SpStorerSearch']['add_time'])){
+        if(isset($params['SpStorerSearch']['add_time']) && !empty($params['SpStorerSearch']['add_time'])){
             $time = Base::toGetTime($params['SpStorerSearch']['add_time']);
             $this->add_time = $params['SpStorerSearch']['add_time'];
             $query->andFilterWhere(['>', '{{%sp_store}}.add_time', strtotime($time['startTime'])]);

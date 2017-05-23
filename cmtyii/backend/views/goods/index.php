@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </td>
 
                 <td>
-                    <?= Html::a('编辑', ['edit', 'id' => $v->Id], ['class' => 'btn btn-xs btn-info btn2']); ?>
+                    <?= Html::a('编辑', ['edit', 'id' => $v->Id], ['class' => 'btn btn-xs btn-primary btn2']); ?>
                     <a data-href="<?= Url::to(['del', 'id' => $v->Id]) ?>" data-target="#delModal"
                        data-toggle="modal" class="btn btn-danger btn-xs deleteBtn btn2">删除</a>
                 </td>

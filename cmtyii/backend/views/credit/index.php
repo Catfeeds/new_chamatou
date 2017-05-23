@@ -11,9 +11,23 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', '授信订单');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="credit-consume-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 15px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            
+        </div>
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>

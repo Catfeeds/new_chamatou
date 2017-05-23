@@ -37,7 +37,7 @@ class Upload extends Model
      */
     public static function uploadStoreImg($param, $dir = null)
     {
-        self::delImg($param);
+
         $upload = new Upload();
         $uploadSuccessPath = "";
 
@@ -52,6 +52,7 @@ class Upload extends Model
         }
         $file_ids = [];
         if ($upload->file && $upload->validate()) {
+            self::delImg($param);
             foreach ($upload->file as $file) {
                 $fileName = date("HiiHsHis") . $file->baseName . "." . $file->extension;
                 $dir = "public/uploads/" . date("Ymd") . "/" . $fileName;
