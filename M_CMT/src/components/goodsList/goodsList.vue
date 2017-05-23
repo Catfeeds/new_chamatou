@@ -352,7 +352,7 @@ export default {
                   num = num - 1;
                 }
               } else {
-                if (num < goods[j].stock) {
+                if (num < Math.floor(goods[j].stock)) {
                   if (type == 0) {
                     num = num + 1;
                   } else {
