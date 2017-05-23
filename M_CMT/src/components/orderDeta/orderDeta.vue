@@ -14,7 +14,7 @@
 
       </div>
       <div class="orderDetaAllDeta">
-        共选<span>{{allNum}}</span>件商品，合计：<span>￥{{allPic}}</span>
+        <span>{{table_no}}</span>桌，共选<span>{{allNum}}</span>件商品，合计：<span>￥{{allPic}}</span>
       </div>
     </div>
     <div class="sureOrderDeta">
