@@ -62,7 +62,7 @@ class Order extends \yii\db\ActiveRecord
 
     public function getStore($select)
     {
-        return $this->hasOne(Store::className(),['id'=>'store_id'])->select($select)->asArray()->all();
+        return $this->hasOne(Store::className(),['id'=>'store_id'])->select($select)->asArray()->one();
     }
     /**
      * 获取所有关连订单
