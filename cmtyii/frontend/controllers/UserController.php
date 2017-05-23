@@ -136,7 +136,7 @@ class UserController extends BaseController
             $data[] = [
                 'order_id' =>$value->id,
                 'order_status' =>$value->status,
-                'shop_name' => $store_info[0]['sp_name'],
+                'shop_name' => $store_info['sp_name'],
                 'shop_pic'=>$store_img['path'],
                 'total_amount'=>$value->total_amount,
                 'order_time' => date('Y-m-d H:i:s',$value->start_time),
@@ -248,6 +248,10 @@ class UserController extends BaseController
         }
         \Yii::$app->cache->set('user_ip',\Yii::$app->request->userIP,120);
         $phone = \Yii::$app->request->get('phone');
+        $userPhone = User::find()->where(['phone'=>$phone])->all();
+        if ($userPhone){
+            return ['status'=>0,'msg'=>'该手机号已经绑定'];
+        }
         $code = rand(1000,9999);
         if(SendSms::send($phone,$code)){
             \Yii::$app->cache->set('sms_code',$code,60);
