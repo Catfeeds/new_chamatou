@@ -258,6 +258,7 @@ export default {
                 unit: goods[j].unit
               };
               var sendObj = {
+                name: goods[j].goods_name,
                 id: goods[j].id,
                 count: goods[j].num
               }
