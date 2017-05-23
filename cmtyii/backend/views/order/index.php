@@ -240,7 +240,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--                            aria-hidden="true">&times;</span></button>-->
 <!--<!--                <h4 class="modal-title" id="myModalLabel">物流编号</h4>-->
 <!--            </div>-->
-            <div class="modal-body">
+            <div class="modal-body" style="margin-top: 400px"                              >
                 物流编号:<input type="text" style="width: 100%" id="express_no">
             </div>
             <div class="modal-footer">
@@ -262,7 +262,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     layer.msg("请输入订单编号",{time:1000});
                     return false;
                 }
-              
                 $.ajax({
                     type : "get",
                     url  :  url,

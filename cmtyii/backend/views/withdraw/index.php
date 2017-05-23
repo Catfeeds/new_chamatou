@@ -140,4 +140,7 @@ $this->title = Yii::t('app', 'Withdraws');
 	.grid-view .form-control{
 		height: 35px!important;
 	}
+	.badge{
+		font-weight: 500;
+	}
 </style>

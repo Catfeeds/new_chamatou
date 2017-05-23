@@ -32,7 +32,7 @@ class GoodsController extends BaseController
     //扫码进入点单页面  商品列表
     public function actionIndex()
     {
-        //  ids   需要的参数  商家id和店铺id
+        //  ids=>需要的参数  商家id和店铺id
         $ids = \Yii::$app->request->get();
         //将获得的id保存
         \Yii::$app->session->set('shoper_id',$ids['shoper_id']);
@@ -84,6 +84,7 @@ class GoodsController extends BaseController
         }
         //往订单中添加用户选择的商品
         if($orderModel->addGoods($data['goodsList'])){
+            Goods::addInformation($data['goodsList']);
             return ['status'=>1,'msg'=>'点单成功!','order_id'=>$orderModel->id];
         }
         return ['status'=>0,'msg'=>$orderModel->getFirstErrors()];

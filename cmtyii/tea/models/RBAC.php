@@ -114,7 +114,9 @@ class RBAC
         $data = ArrayHelper::toArray($data);
         $list = [];
         foreach ($data as $key => $value) {
-            $list[] = RBAC::getRoleName($key);
+            if($ret = RBAC::getRoleName($key)){
+                $list[] = $ret;
+            }
         }
         return $list;
     }
