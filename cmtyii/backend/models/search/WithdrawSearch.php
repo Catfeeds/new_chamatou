@@ -66,7 +66,11 @@ class WithdrawSearch extends Withdraw
 
         $dataProvider->setSort([
             'attributes' =>[
-                'store_sp_name' => [
+                'add_time' => [
+                    'asc' => ['add_time' => SORT_ASC],
+                    'desc' => ['add_time' => SORT_DESC],
+                    'label' => 'add_time'
+                ],'store_sp_name' => [
                     'asc' => ['sp_name' => SORT_ASC],
                     'desc' => ['sp_name' => SORT_DESC],
                     'label' => 'Store Sp Name'

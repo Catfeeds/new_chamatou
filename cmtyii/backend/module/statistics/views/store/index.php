@@ -2,7 +2,7 @@
 $this->title = '';
 ?>
 <script src="/js/echarts.min.js"></script>
-<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/js/jq.js"></script>
 <script src="/js/bootstrap-daterangepicker-master/moment.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap-daterangepicker-master/daterangepicker.js"></script>
@@ -35,6 +35,7 @@ $this->title = '';
                                             'class'=>'input-group',
                                         ],
                                         'method'=>'get'
+
                                 ]);
                             ?>
                                 <span class="input-group-addon">

@@ -52,20 +52,30 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-<?php
-$this->registerJs('
-    $(function () {
-         $(".deleteBtn").click(function(){
-            $(\'#deleteTrue\').attr(\'href\',$(this).attr(\'data-href\'));
-        })
-    });
-', \yii\web\View::POS_END);
-?>
 <style media="screen">
 .btn2{
-    width: 40px;
-    height: 20px;
+    width: 38px;
+    height: 24px;
     font-size: 12px;
     line-height: 20px;
+     background-color: #dd4b39;
+     color: #fff;
+     border-radius: 4px;
+     margin: 0 5px;
+}
+.btn-default:hover, .btn-default:active, .btn-default.hover {
+   background-color: #d73925!important;
+   color: #fff!important;
+}
+bootstrap.css? [sm]:3345
+.btn-danger:hover {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+buttons.less:39
+.btn:hover, .btn:focus, .btn.focus {
+    color: #333;
+    text-decoration: none;
 }
 </style>

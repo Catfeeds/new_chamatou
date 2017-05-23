@@ -292,7 +292,9 @@ use dmstr\widgets\Alert;
     }
     window.onload = function () {
         $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).find('.modal-content').empty();
             $(this).removeData('bs.modal');
+
 //            $(this).find('.modal-dialog').empty();
 
         });
@@ -343,9 +345,7 @@ use dmstr\widgets\Alert;
         text-align: center;
         font-size: 13px;
     }
-    .grid-view .form-control{
-        height: 25px;
-    }
+
     .grid-view{
         padding: 5px;
     }
