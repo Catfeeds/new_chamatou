@@ -67,7 +67,7 @@ class IndexController extends BaseController
         //将用户信息保存到session中
         \Yii::$app->session->set('wx_user',$userinfo);
         \Yii::$app->session->set('openid',$userinfo['openid']);
-        //,否则跳转到用户端首页
+        //跳转到用户端首页
         return $this->redirect("http://test5.angkebrand.com/wx");
     }
     /**

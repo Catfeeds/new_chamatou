@@ -9,6 +9,7 @@
 namespace frontend\models;
 
 
+use tea\models\Information;
 use yii\db\ActiveRecord;
 
 class Goods extends ActiveRecord
@@ -26,7 +27,7 @@ class Goods extends ActiveRecord
             ->asArray()
             ->all();
         //查出所有的商品
-        $goods = Goods::find()->where("status = 0 and shoper_id = :shoper_id and store_id = :store_id",
+        $goods = \tea\models\Goods::find()->where("status = 0 and shoper_id = :shoper_id and store_id = :store_id",
             [':shoper_id'=>$ids['shoper_id'],':store_id'=>$ids['store_id']])
             ->select(['id','cate_id','goods_name','sales_price','spec','unit','note'])
             ->asArray()
@@ -52,4 +53,20 @@ class Goods extends ActiveRecord
         return $data;
     }
 
+    /**
+     * @param $data 用户点单所包含的商品数组
+     */
+    public static function addInformation($data)
+    {
+        $model = new Information();
+        $content = "";
+        //遍历数组将每个商品及数量拼接成字符串
+        foreach ($data as $goods){
+            $content .= $goods['name'].':'.$goods['count'].';';
+        }
+        \Yii::$app->cache->set('goods',$content,600);
+        $type = 2;
+        $data1 = ['content'=>$content,'type'=>$type];
+        $model->add($data1);
+    }
 }
