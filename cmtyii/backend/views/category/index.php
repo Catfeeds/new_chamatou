@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $v['cate_name'] ?></td>
                         <td>
                             <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info']); ?>
-                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-default btn2' style='margin-right: 5px;'>删除</a>
+                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-default btn2'  style='margin-right: 5px;'>删除</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
