@@ -106,6 +106,7 @@
 }
 .cardLeftBox p.cardMB{
   margin-bottom: 0.4rem;
+  width: 60%;
 }
 .cardRightBox{
   width: 2.5rem;
@@ -120,6 +121,7 @@
 }
 .cardRightBox span.cardCost{
   color: #f82744;
+  width: 25%;
   font-size: 0.48rem;
 }
 .cardTimeBox{
