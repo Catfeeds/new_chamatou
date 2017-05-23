@@ -53,6 +53,7 @@ class GoodsController extends BaseController
     public function actionOrder()
     {
         $data = \Yii::$app->request->post();
+        $goodsModel = new Goods();
         //调用茶坊端的台桌模型 查询对应的台桌对象
         $tableModel = Table::find()->where("table_name = :table_name and shoper_id = :shoper_id and store_id = :store_id",
             [':table_name'=>$data['table_no'],
@@ -89,7 +90,7 @@ class GoodsController extends BaseController
             if(!($orderModel->addGoods($data['goodsList']))){
                 throw new Exception('商品添加失败!');
             }
-            Goods::addInformation($data['goodsList']);
+            Goods::addInformation($data['goodsList'],$orderModel->table_name);
             $try->commit();
             return ['status'=>1,'msg'=>'点单成功!','order_id'=>$orderModel->id];
         }catch (Exception $e){

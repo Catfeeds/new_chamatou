@@ -10,6 +10,7 @@ namespace frontend\models;
 
 
 use tea\models\Information;
+use tea\models\TableType;
 use yii\db\ActiveRecord;
 
 class Goods extends ActiveRecord
@@ -56,15 +57,14 @@ class Goods extends ActiveRecord
     /**
      * @param $data 用户点单所包含的商品数组
      */
-    public static function addInformation($data)
+    public static function addInformation($data,$table_name)
     {
         $model = new Information();
-        $content = "";
+        $content = $table_name.':';
         //遍历数组将每个商品及数量拼接成字符串
         foreach ($data as $goods){
-            $content .= $goods['name'].':'.$goods['count'].';';
+            $content .= $goods['name'].'&'.$goods['count'].';';
         }
-        \Yii::$app->cache->set('goods',$content,600);
         $type = 2;
         $data1 = ['content'=>$content,'type'=>$type];
         $model->add($data1);
