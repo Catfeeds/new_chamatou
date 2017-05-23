@@ -349,7 +349,7 @@
 .carDetaRow .goodsNumMoreBox{
 }
 .tableBox{
-  height: 1.6rem;
+  min-height: 1.6rem;
   width: 100%;
   display: flex;
   justify-content: space-around;
