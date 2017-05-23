@@ -129,7 +129,7 @@ class UserController extends BaseController
         $data = [];
         foreach ($order_list as $value){
             $store_info = $value->getStore(['sp_name']);
-            $goods_info = $value->getGoods(['goods_name',]);
+            $goods_info = $value->getGoods(['goods_name','add_time']);
             //获取茶楼的店铺图片
             $store_img = \Yii::$app->db->createCommand("select path from t_shoper_img where shoper_id = :shoper_id and store_id = :store_id",
                 [':shoper_id'=>1,'store_id'=>29])->queryOne();
