@@ -20,12 +20,12 @@ $fieldOptions2 = [
 ?>
 
 <div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b>茶码头</b>平台管理</a>
-    </div>
+   
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">登录</p>
+         <div class="login-logo">
+	        <a href="#"><b>茶码头</b>平台管理</a>
+	    </div>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
@@ -44,8 +44,8 @@ $fieldOptions2 = [
 <!--                <?//= $form->field($model, 'rememberMe')->checkbox() ?>-->
 <!--            </div>-->
             <!-- /.col -->
-            <div class="col-xs-4">
-                <?= Html::submitButton('登入', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
+            <div class="col-xs-12">
+                <?= Html::submitButton('登录', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
             </div>
             <!-- /.col -->
         </div>
@@ -68,3 +68,16 @@ $fieldOptions2 = [
     </div>
     <!-- /.login-box-body -->
 </div><!-- /.login-box -->
+<style>
+	.login-box-body{
+		border-radius: 10px;
+	}
+	input{
+		height: 42px!important;
+		line-height: 42px!important;
+		border-radius: 5px;
+	}
+	.btn {
+		height: 40px!important;
+	}
+</style>

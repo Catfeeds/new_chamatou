@@ -8,12 +8,49 @@ use kartik\date\DatePicker;
 $this->title = $title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
+
 <div class="Constiantine_titleBox">
     <?php if($title == '用户充值记录'):?>
-        <h2>充值列表</h2>
+        <div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 25px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            
+        </div>
+    
+
     <?php endif;?>
     <?php if($title == '用户消费记录'):?>
-        <h2>消费列表</h2>
+        <div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 25px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            
+        </div>
+    
+
     <?php endif;?>
 </div>
 
@@ -42,8 +79,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ]); ?>
     </div>
-    <div style="width: 300px;float: left;margin-left: 0">
-        <?php echo Html::submitInput('搜索', ['class' => 'btn btn-info']); ?>
+    <div style="width: 300px;float: left;margin-left: 0;">
+        <?php echo Html::submitInput('搜索', ['class' => 'btn btn-primary']); ?>
         <?=  Html::a('全部记录',[($title == '用户充值记录') ? 'usersrecharge' : 'usersreduce'],['class'=>'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
@@ -153,4 +190,12 @@ $this->params['breadcrumbs'][] = $this->title;
     thead{
         border-bottom: 1px solid #ccc
     }
+    .form-inline{
+    	    margin-bottom: 80px!important;
+    clear: both!important;
+    }
+    .bodyTr td {
+	    height: 40px;
+	    padding-top: 0px !important;
+	}
 </style>

@@ -256,6 +256,7 @@ return [
         'users/logout'=>1,
         'table/begin-table-order'=>1,
         'information/message-box'=>1,
+        'jiaoban/index'=>1,
     ],
     /* 判断权限下所包含的URL*/
     'rbacUrlList' =>[

@@ -102,7 +102,7 @@ class WithdrawSearch extends Withdraw
             return $dataProvider;
         }
 
-        if(isset($params['WithdrawSearch']['add_time'])){
+        if(isset($params['WithdrawSearch']['add_time']) && !empty($params['WithdrawSearch']['add_time'])){
             $time = Base::toGetTime($params['WithdrawSearch']['add_time']);
             $this->add_time = $params['WithdrawSearch']['add_time'];
             $query->andFilterWhere(['>', '{{%withdraw}}.add_time', strtotime($time['startTime'])]);

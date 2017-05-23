@@ -190,75 +190,91 @@ class Order extends \yii\db\ActiveRecord
      */
     public function addGoods($data)
     {
-        $goodsID = [];
-        $goodsNum = [];
-        if(isset($data['type']))
-        {
-            $type = $data['type'];
-            unset($data['type']);
-        }else{
-            $type = 1;
-        }
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
 
-        foreach ($data as $key => $value) {
-            $goodsID[] = $value['id'];
-            $goodsNum[$value['id']] = $value['count'];
-        }
+            $goodsID = [];
+            $goodsNum = [];
+            if(isset($data['type']))
+            {
+                $type = $data['type'];
+                unset($data['type']);
+            }else{
+                $type = 1;
+            }
 
-        $goodsList = Goods::find()->where([
+            foreach ($data as $key => $value) {
+                $goodsID[] = $value['id'];
+                $goodsNum[$value['id']] = $value['count'];
+            }
+
+            $goodsList = Goods::find()->where([
                 'and', 'shoper_id =' . Yii::$app->session->get('shoper_id'), ['in', 'id', $goodsID]])->all();
 
 
-        foreach ($goodsList as $key => $value) {
-            /**
-             * 出库操作！
-             */
-            $stockType = $value->getGoodsStockType($value['id']);
-            if($stockType == 'goods'){
-                $data['type'] = $stockType;
-                $data['id'] = $value['id'];
-                $data['type'] = $stockType;
-                $data['pop_type'] = 3;
-                $data['buy_price'] = $value['sales_price'];
-                $data['num'] = $goodsNum[$value['id']];
-                $data['note'] = '销售出库--系统生成';
-                $storageInfo = new StorageInfo();
-                $storageInfo->pop($data);
-            }elseif ($stockType == 'dosing'){
-                $goodsToDosing = GoodsToDosing::getGoodsRelate($value['id']);
-                foreach ($goodsToDosing as $keys=>$values)
-                {
+            foreach ($goodsList as $key => $value) {
+                /**
+                 * 出库操作！
+                 */
+                $stockType = $value->getGoodsStockType($value['id']);
+                if($stockType == 'goods'){
                     $data['type'] = $stockType;
-                    $data['id'] = $values['dosing_id'];
+                    $data['id'] = $value['id'];
                     $data['type'] = $stockType;
                     $data['pop_type'] = 3;
                     $data['buy_price'] = $value['sales_price'];
-                    $data['num'] = $values['number'] * $goodsNum[$value['id']];
+                    $data['num'] = $goodsNum[$value['id']];
                     $data['note'] = '销售出库--系统生成';
                     $storageInfo = new StorageInfo();
-                    $storageInfo->pop($data);
+                    if(!$storageInfo->pop($data)){
+                        throw new \Exception('storageInfo error');
+                    }
+                }elseif ($stockType == 'dosing'){
+                    $goodsToDosing = GoodsToDosing::getGoodsRelate($value['id']);
+                    foreach ($goodsToDosing as $keys=>$values)
+                    {
+                        $data['type'] = $stockType;
+                        $data['id'] = $values['dosing_id'];
+                        $data['type'] = $stockType;
+                        $data['pop_type'] = 3;
+                        $data['buy_price'] = $value['sales_price'];
+                        $data['num'] = $values['number'] * $goodsNum[$value['id']];
+                        $data['note'] = '销售出库--系统生成';
+                        $storageInfo = new StorageInfo();
+                        if (!$storageInfo->pop($data)) {
+                            throw new \Exception('storageInfo error');
+                        }
+                    }
+                }
+                $orderGoods = new OrderGoods();
+                $orderGoods->order_id = $this->id;
+                $orderGoods->goods_name = $value['goods_name'];
+                $orderGoods->goods_id = $value['id'];
+                $orderGoods->goods_name = $value['goods_name'];
+                $orderGoods->shoper_id = Yii::$app->session->get('shoper_id');
+                $orderGoods->store_id = Yii::$app->session->get('store_id');
+                $orderGoods->price = $value['sales_price'];
+                $orderGoods->spec = $value['unit'];
+                $orderGoods->note = $value['note'];
+                $orderGoods->num = $goodsNum[$value['id']];
+                $orderGoods->give = 0;
+                $orderGoods->is_give = $value['give'];
+                $orderGoods->sum_price = ($orderGoods->num * $orderGoods->price);
+                $orderGoods->add_time = time();
+                $orderGoods->is_goods = 1;
+                $orderGoods->type = $type;
+                if (!$orderGoods->save()){
+                    throw new \Exception('orderGoods保存失败！');
                 }
             }
-            $orderGoods = new OrderGoods();
-            $orderGoods->order_id = $this->id;
-            $orderGoods->goods_name = $value['goods_name'];
-            $orderGoods->goods_id = $value['id'];
-            $orderGoods->goods_name = $value['goods_name'];
-            $orderGoods->shoper_id = Yii::$app->session->get('shoper_id');
-            $orderGoods->store_id = Yii::$app->session->get('store_id');
-            $orderGoods->price = $value['sales_price'];
-            $orderGoods->spec = $value['unit'];
-            $orderGoods->note = $value['note'];
-            $orderGoods->num = $goodsNum[$value['id']];
-            $orderGoods->give = 0;
-            $orderGoods->is_give = $value['give'];
-            $orderGoods->sum_price = ($orderGoods->num * $orderGoods->price);
-            $orderGoods->add_time = time();
-            $orderGoods->is_goods = 1;
-            $orderGoods->type = $type;
-            $orderGoods->save();
+
+            $transaction->commit();
+            return true;
+        }catch (\Exception $exception){
+            $this->addError('id', $exception->getMessage());
+            $transaction->rollBack();
+            return false;
         }
-        return true;
     }
 
     /**
@@ -552,5 +568,7 @@ class Order extends \yii\db\ActiveRecord
         $table = Table::findOne($this->table_id);
         return $table->redyTableAmount($strat_time);
     }
+
+
 
 }

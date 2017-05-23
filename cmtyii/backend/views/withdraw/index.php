@@ -11,9 +11,23 @@ use common\widgets\GridViewLrdouble;
 $this->title = Yii::t('app', 'Withdraws');
 
 ?>
-<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;">
-    <div class="col-sm-12" style="border-bottom: 1px solid #eeeeee;margin-bottom: 10px;">
-        <h4><?=$this->title?></h4>
+
+<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 15px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            
+        </div>
     </div>
     <?= GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
@@ -65,11 +79,11 @@ $this->title = Yii::t('app', 'Withdraws');
                 'value' => function ($model) {
                     switch ($model->status) {
                         case 0:
-                            return "<b class='badge' style='background-color: #ff5f00' >待审核</b>";
+                            return "<b class='badge' style='background-color: #367fa9' >待审核</b>";
                         case 1:
-                            return "<b class='badge' style='background-color: #9dd23a' >已打款</b>";
+                            return "<b class='badge' style='background-color: #008d4c' >已打款</b>";
                         case 2:
-                            return "<b class='badge' style='background-color: #324259' >已拒绝</b>";
+                            return "<b class='badge' style='background-color: #dd4b39' >已拒绝</b>";
                     }
                 },
                 'filter' => [
@@ -118,7 +132,7 @@ $this->title = Yii::t('app', 'Withdraws');
                                 'aria-label' => Yii::t('app', 'access'),
                                 'data-pjax' => '0',
                             ];
-                            return "<a href='".\yii\helpers\Url::to(['withdraw/note','id'=>$model->Id])."' class='btn btn-xs btn-default' data-toggle='modal' data-target='#myModal' > 查看详情备注</a>";
+                            return "<a href='".\yii\helpers\Url::to(['withdraw/note','id'=>$model->Id])."' class='btn btn-xs btn-default' data-toggle='modal' data-target='#myModal' > 查看备注</a>";
                         }
                     }
                 ]
@@ -142,5 +156,8 @@ $this->title = Yii::t('app', 'Withdraws');
 	}
 	.badge{
 		font-weight: 500;
+	}
+	th{
+		color: #3c8dbc;
 	}
 </style>

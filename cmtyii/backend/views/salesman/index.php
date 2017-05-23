@@ -11,10 +11,19 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Salesmen');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="salesman-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;">
-    <div class="col-sm-12" style="border-bottom: 1px solid #eeeeee;margin-bottom: 10px;">
+
+    <div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 15px;
+    ">
         <div class="col-sm-6">
-            <h4 style="margin-left: -25px;"><?=$this->title?></h4>
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
         </div>
         <div class="col-sm-6">
             <div class="pull-right">
@@ -22,10 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-
-    <p>
-
-    </p>
     <?= \common\widgets\GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -63,10 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     $arr['sp_phone']='';
                                     $arr['salesman_id']=$model->id;
                                     $url = \yii\helpers\Url::toRoute(['store/index','SpStorerSearch'=>$arr]);
-                                    return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>查看店铺列表</a>";
+                                    return "<a href='$url' class='btn btn-primary btn-xs' style='margin-right: 5px; '>查看店铺列表</a>";
                                 },
                                 'update'=>function($url,$model){
-                                    return "<a href='$url' class='btn btn-default btn-xs' style='margin-right: 5px; '>修改</a>";
+                                    return "<a href='$url' class='btn btn-primary btn-xs' style='margin-right: 5px; '>修改</a>";
                                 },
                                 'delete'=>function($url,$model){
                                     $model->shop_total = \frontend\models\Store::find()->andWhere(['salesman_id'=>$model->id])->count();
@@ -80,3 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
+<style>
+	th{
+	color: #3c8dbc;
+}
+</style>

@@ -10,9 +10,22 @@ use common\widgets\GridViewLrdouble;
 
 $this->title = Yii::t('app', 'Messages');
 ?>
-<div class="message-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;">
-    <div class="col-sm-12" style="border-bottom: 1px solid #eeeeee;margin-bottom: 10px;">
-        <h4><?=$this->title?></h4>
+<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 15px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            
+        </div>
     </div>
     <?= GridViewLrdouble::widget([
         'dataProvider' => $dataProvider,
@@ -80,7 +93,7 @@ $this->title = Yii::t('app', 'Messages');
                     'template' => "{view}{delete}",
                     'buttons'=>[
                         'view'=>function($url,$model){
-                                return "<a href='$url' class='btn btn-xs btn-info btn2' style='margin-right: 5px; '>查看</a>";
+                                return "<a href='$url' class='btn btn-xs btn-primary btn2' style='margin-right: 5px; '>查看</a>";
                         },'delete'=>function($url){
                             return "<a class=\"btn btn-danger btn-xs deleteBtn btn2 \" href='$url' data-confirm=\"你确定删除吗?\" data-method=\"post\">删除</a>";
     }
@@ -96,5 +109,8 @@ $this->title = Yii::t('app', 'Messages');
     height: 20px;
     font-size: 12px;
     line-height: 20px;
+}
+th{
+	color: #3c8dbc;
 }
 </style>

@@ -58,7 +58,7 @@ class SalesmanSearch extends Salesman
             return $dataProvider;
         }
 
-        if(isset($params['SalesmanSearch']['add_time'])){
+        if(isset($params['SalesmanSearch']['add_time']) && !empty($params['SalesmanSearch']['add_time'])){
             $time = Base::toGetTime($params['SalesmanSearch']['add_time']);
             $this->add_time = $params['SalesmanSearch']['add_time'];
             $query->andFilterWhere(['>', 'add_time', strtotime($time['startTime'])]);

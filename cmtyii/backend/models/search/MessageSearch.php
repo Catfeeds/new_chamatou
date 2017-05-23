@@ -61,7 +61,7 @@ class MessageSearch extends Message
             return $dataProvider;
         }
 
-        if(isset($params['MessageSearch']['add_time'])){
+        if(isset($params['MessageSearch']['add_time']) && !empty($params['MessageSearch']['add_time'])){
             $time = Base::toGetTime($params['MessageSearch']['add_time']);
             $this->add_time = $params['MessageSearch']['add_time'];
             $query->andFilterWhere(['>', '{{%message}}.add_time', strtotime($time['startTime'])]);
