@@ -14,7 +14,8 @@
 
       </div>
       <div class="orderDetaAllDeta">
-        <span>{{table_no}}</span>桌，共选<span>{{allNum}}</span>件商品，合计：<span>￥{{allPic}}</span>
+          <p><span>{{table_no}}</span>桌，共选<span>{{allNum}}</span>件商品</p>
+          <p>合计：<span>￥{{allPic}}</span></p>
       </div>
     </div>
     <div class="sureOrderDeta">
@@ -132,8 +133,9 @@ export default {
   font-size: 0.34rem;
   color: #222;
   text-align: center;
-  height: 1rem;
-  line-height: 1rem;
+  height: 1.5rem;
+  padding-top: 0.3rem;
+  overflow: hidden;
 }
 
 .orderDetaAllDeta span {
