@@ -16,6 +16,7 @@ use frontend\models\User;
 use tea\models\Order;
 use tea\models\OrderGoods;
 use tea\models\Table;
+use yii\db\Exception;
 
 class GoodsController extends BaseController
 {
@@ -51,7 +52,6 @@ class GoodsController extends BaseController
     //扫码点单后提交商品  保存到对应的订单中
     public function actionOrder()
     {
-        //var_dump(\Yii::$app->session->get('shoper_id'));die;
         $data = \Yii::$app->request->post();
         //调用茶坊端的台桌模型 查询对应的台桌对象
         $tableModel = Table::find()->where("table_name = :table_name and shoper_id = :shoper_id and store_id = :store_id",
@@ -79,15 +79,23 @@ class GoodsController extends BaseController
             $orderModel->beans_amount += $data['beans'];
         }
         $orderModel->wx_user_id = $this->user_id;
-        if(!$orderModel->save()){
-            return ['status'=>0,'msg'=>'订单关联失败'];
-        }
-        //往订单中添加用户选择的商品
-        if($orderModel->addGoods($data['goodsList'])){
+        //开启事务
+        $try = \Yii::$app->db->beginTransaction();
+        try{
+            if(!$orderModel->save()){
+                throw new Exception('订单关联失败');
+            }
+            //往订单中添加用户选择的商品
+            if(!($orderModel->addGoods($data['goodsList']))){
+                throw new Exception('商品添加失败!');
+            }
             Goods::addInformation($data['goodsList']);
+            $try->commit();
             return ['status'=>1,'msg'=>'点单成功!','order_id'=>$orderModel->id];
+        }catch (Exception $e){
+            $try->rollBack();
+            return ['status'=>0,'msg'=>$e->getMessage()];
         }
-        return ['status'=>0,'msg'=>$orderModel->getFirstErrors()];
     }
 
 }
