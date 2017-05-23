@@ -260,7 +260,8 @@ export default {
               var sendObj = {
                 name: goods[j].goods_name,
                 id: goods[j].id,
-                count: goods[j].num
+                count: goods[j].num,
+                unit: goods[j].unit
               }
               _this.carData.push(obj);
               _this.sendData.push(sendObj);

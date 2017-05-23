@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Shoper;
 use Yii;
 use backend\models\Withdraw;
 use backend\models\search\WithdrawSearch;
@@ -155,9 +156,14 @@ class WithdrawController extends Controller
         //TODO:: 判断用户账户是否充足，并进行退款,还有个备注的提交
         $model->status = 2;
         $model->note  = Yii::$app->request->get('inputValue');
-        if($model->save()){
+        $shoper = Shoper::findOne($model->shoper_id);
+        $shoper->withdraw_total = $model->amount + $shoper->withdraw_total;
+        $tran = Yii::$app->db->beginTransaction();
+        if($model->save() && $shoper->save()){
+            $tran->commit();
             return ['code'=>1,'message'=>'记录成功！'];
         }
+        $tran->rollBack();
         $message = $model->getFirstErrors();
         $message = reset($message);
         return ['code'=>0,'message'=>$message];
