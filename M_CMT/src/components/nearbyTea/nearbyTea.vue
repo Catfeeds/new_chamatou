@@ -33,7 +33,7 @@
             <img v-if="!data.teaPic" src="static/images/1.jpg" alt="">
           </div>
           <div class="mainDeta">
-            <h2>{{data.sp_name}}</h2>
+            <h2 class="global_txtOver">{{data.sp_name}}</h2>
             <p class="distanceP">
               <i class="iconfont icon-juli"></i>
               <span>距离：{{data.distance}}km</span>
@@ -61,7 +61,7 @@
 </div>
 </template>
 <script type="text/javascript">
-var SWIPERFLAG = false;//加载swiper的开关，默认为false，window.onload之后改为TRUE，以解决router跳转时swiper不加载的问题
+var SWIPERFLAG = false; //加载swiper的开关，默认为false，window.onload之后改为TRUE，以解决router跳转时swiper不加载的问题
 
 import Swiper from '../../../static/lib/swiper-3.4.2.jquery.min.js';
 export default {
@@ -142,14 +142,14 @@ export default {
   mounted() {
     //do something after mounting vue instance
     var _this = this;
-    if(SWIPERFLAG){
-        var swiper = new Swiper('.swiper-container', {
-          pagination: '.swiper-pagination',
-          paginationClickable: true,
-          pagination: '.swiper-pagination',
-          loop: true,
-          autoplay: 3000
-        });
+    if (SWIPERFLAG) {
+      var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        pagination: '.swiper-pagination',
+        loop: true,
+        autoplay: 3000
+      });
     }
     //第一次获取地理位置
     _this.ajax(_this.port.configData, {}, 'GET', function(res) {
@@ -226,6 +226,7 @@ body {
 
 
 
+
 /*        定位模块：     */
 
 .locationBox {
@@ -245,6 +246,7 @@ body {
 
 
 
+
 /*        定位模块结束      */
 
 
@@ -253,6 +255,8 @@ body {
 .mainBox {
   width: 100%;
   height: auto;
+  zoom: 1;
+  overflow: hidden;
 }
 
 .mainList {
@@ -264,6 +268,8 @@ body {
 }
 
 .mainImgBox {
+  zoom: 1;
+  overflow: hidden;
   width: 2.6rem;
   height: 1.8rem;
   margin-top: 0.08rem;
@@ -279,6 +285,8 @@ body {
 
 .mainDeta {
   float: left;
+  zoom: 1;
+  overflow: hidden;
   font-size: 0.24rem;
   padding-left: 0.4rem;
   padding-top: 0.15rem;
@@ -287,7 +295,8 @@ body {
 .mainDeta h2 {
   font-size: 0.3rem;
   color: #222;
-  padding-left: 0.05rem
+  padding-left: 0.05rem;
+  width: 2.9rem;
 }
 
 .mainDeta .distanceP {
@@ -301,6 +310,7 @@ body {
   width: 2.9rem;
   color: #666;
 }
+
 
 
 

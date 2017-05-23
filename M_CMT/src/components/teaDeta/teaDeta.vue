@@ -6,7 +6,9 @@
 <template>
 <div id="teaDeta">
   <div class="teaDetaMainBox">
-    <h2 class="pLR"><span class="global_titLog global_BtnCol teaDetaTitLog"></span>{{spName}}</h2>
+    <h2 class="pLR global_txtOver">
+        <span class="global_titLog global_BtnCol teaDetaTitLog"></span>{{spName}}
+    </h2>
     <p class="pLR teaDetaTel">
       电话：{{spPhone}}
     </p>
@@ -136,6 +138,7 @@ export default {
   display: flex;
   align-items: center;
   border-bottom: solid 1px #ccc;
+  width: 100%;
 }
 
 .teaDetaTitLog {
