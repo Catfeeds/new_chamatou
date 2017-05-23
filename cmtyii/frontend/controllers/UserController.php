@@ -129,14 +129,14 @@ class UserController extends BaseController
         $data = [];
         foreach ($order_list as $value){
             $store_info = $value->getStore(['sp_name']);
-            $goods_info = $value->getGoods(['goods_name',]);
+            $goods_info = $value->getGoods(['goods_name','add_time']);
             //获取茶楼的店铺图片
             $store_img = \Yii::$app->db->createCommand("select path from t_shoper_img where shoper_id = :shoper_id and store_id = :store_id",
                 [':shoper_id'=>1,'store_id'=>29])->queryOne();
             $data[] = [
                 'order_id' =>$value->id,
                 'order_status' =>$value->status,
-                'shop_name' => $store_info[0]['sp_name'],
+                'shop_name' => $store_info['sp_name'],
                 'shop_pic'=>$store_img['path'],
                 'total_amount'=>$value->total_amount,
                 'order_time' => date('Y-m-d H:i:s',$value->start_time),
@@ -248,6 +248,10 @@ class UserController extends BaseController
         }
         \Yii::$app->cache->set('user_ip',\Yii::$app->request->userIP,120);
         $phone = \Yii::$app->request->get('phone');
+        $userPhone = User::find()->where(['phone'=>$phone])->all();
+        if ($userPhone){
+            return ['status'=>0,'msg'=>'该手机号已经绑定'];
+        }
         $code = rand(1000,9999);
         if(SendSms::send($phone,$code)){
             \Yii::$app->cache->set('sms_code',$code,60);
