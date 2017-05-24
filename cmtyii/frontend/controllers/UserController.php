@@ -116,6 +116,7 @@ class UserController extends BaseController
             'allPic'=>$orderM->status == 2 ? $orderM->total_amount : $total_amount,
             'data'=>$res['goods'],
             'table_no' => $table_no,
+            'tableName' => $table_name,
             'beans' =>  $orderM->beans_amount,
             'store_id'=>$orderM->store_id,
             'shoper_id' => $orderM->shoper_id,

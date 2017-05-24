@@ -44,7 +44,11 @@ $fieldOptions2 = [
 <!--                <?//= $form->field($model, 'rememberMe')->checkbox() ?>-->
 <!--            </div>-->
             <!-- /.col -->
+
+            
+
             <div class="col-xs-12">
+
                 <?= Html::submitButton('登录', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
             </div>
             <!-- /.col -->
