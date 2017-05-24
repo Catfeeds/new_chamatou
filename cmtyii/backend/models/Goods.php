@@ -23,8 +23,8 @@ class Goods extends ActiveRecord
     {
         return [
             [['goods_name', 'cover', 'store', 'price', 'spec', 'add_time', 'cat_id','content'], 'required'],
-            ['price', 'number'],
-            [['store'], 'integer'],
+            //['price', 'number'],
+            [['store','price'], 'match','pattern'=>'/^[1-9]d*|0$/','message'=>'必须为正整数'],
             ['cat_id', 'compare', 'compareValue' => 0, 'operator' => '>','message'=>'请选择分类'],
             [['file'], 'file', 'extensions' => 'png,jpg,gif,jpeg'],
         ];
