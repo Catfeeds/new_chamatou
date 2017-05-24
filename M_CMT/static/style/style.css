@@ -100,9 +100,10 @@
 }
 .cardLeftBox{
   flex: 1;
+  width: 3.5rem;
 }
 .cardLeftBox p{
-  width: 100%;
+  width: 90%;
 }
 .cardLeftBox p.cardMB{
   margin-bottom: 0.4rem;
