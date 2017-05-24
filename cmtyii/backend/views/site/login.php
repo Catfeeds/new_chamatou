@@ -45,9 +45,9 @@ $fieldOptions2 = [
 <!--            </div>-->
             <!-- /.col -->
 
-            <div class="col-xs-4">
-
             
+
+            <div class="col-xs-12">
 
                 <?= Html::submitButton('登录', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
             </div>
