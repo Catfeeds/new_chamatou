@@ -121,7 +121,12 @@ class StoreController extends Controller
                     $post['StoreForm']['shoper_id'] = $shoperRet['id'];
                     $post['StoreForm']['salesman_id'] = $shoperRet['salesman_id'];
                     if ($storeModel->load($post) && $storeModel->addStore()) {
-                        $transaction->commit();
+                        $spUser = SpUsers::find()->andWhere(['shoper_id'=>$shoperRet['id']])->andWhere(['is_admin'=>1])->one();
+                        $spUser->phone = $shoperRet['phone'];
+                        if($spUser->save()){
+                            $transaction->commit();
+                            return $this->redirect(['store/index']);
+                        }
                         return $this->redirect(['store/index']);
                     }
                     throw new \Exception('store表保存失败！');

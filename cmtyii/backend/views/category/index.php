@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr>
                     <th>分类ID</th>
                     <th>分类名称</th>
-                    <th>操作</th>
+                    <th style="width:208px">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,8 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $v['id'] ?></td>
                         <td><?= $v['cate_name'] ?></td>
                         <td>
-                            <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-info']); ?>
-                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-default btn2'  style='margin-right: 5px;'>删除</a>
+                            <?= Html::a('编辑', ['edit', 'id' => $v['id']], ['class' => 'btn btn-xs btn-primary']); ?>
+                            <a href='#' onclick="alertWarning('删除分类?','请确认你的操作？','<?= Url::to(['del','id'=>$v['id']])?>')" class='btn btn-xs btn-danger btn2'  style='margin-right: 5px;'>删除</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -54,28 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <style media="screen">
 .btn2{
-    width: 38px;
-    height: 24px;
-    font-size: 12px;
-    line-height: 20px;
-     background-color: #dd4b39;
-     color: #fff;
-     border-radius: 4px;
      margin: 0 5px;
 }
-.btn-default:hover, .btn-default:active, .btn-default.hover {
-   background-color: #d73925!important;
-   color: #fff!important;
-}
-bootstrap.css? [sm]:3345
-.btn-danger:hover {
-    color: #fff;
-    background-color: #c9302c;
-    border-color: #ac2925;
-}
-buttons.less:39
-.btn:hover, .btn:focus, .btn.focus {
-    color: #333;
-    text-decoration: none;
-}
+
 </style>

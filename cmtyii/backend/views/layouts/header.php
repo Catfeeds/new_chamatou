@@ -249,3 +249,18 @@ use yii\helpers\Html;
         </div>
     </nav>
 </header>
+<style>
+.skin-red-light .main-header .logo {
+    background-color: #286090;
+   
+}
+.skin-red-light .main-header .navbar {
+    background-color: #286090;
+}
+.skin-red-light .main-header .logo:hover {
+    background-color: #367fa9;
+}
+.skin-red-light .main-header .navbar .sidebar-toggle:hover {
+    background-color: #367fa9;
+}
+</style>

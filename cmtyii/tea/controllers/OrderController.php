@@ -121,14 +121,39 @@ class  OrderController extends ObjectController
     public function actionPaybtxf()
     {
         if (Yii::$app->request->isPost) {
+            $data['table_id'] = 0;
+            $data['start_time'] = date('Y-m-d H:i:s');
+            $data['person'] = 0;
+            $data['table_name'] = '吧台消费订单';
+            $data['notes'] = '吧台消费订单';
+            $data['staff_id'] = Yii::$app->session->get('tea_user_id');
+            $data['shoper_id'] = Yii::$app->session->get('shoper_id');
+            $data['store_id'] = Yii::$app->session->get('store_id');
+            $data['start_time'] = time();
+            $data['status'] = 1;
             $order = new Order();
-            $ret = $order->endOrderBtxf(Yii::$app->request->post());
-            if ($ret) {
-                return ['code' => 1, 'msg' => '成功！'];
+            if ($order->load($data, '') && $order->validate()) {
+                if ($order->save()) {
+                    if ($order->addGoods(Yii::$app->session->get('btxfGoods'))) {
+                        $param = Yii::$app->request->post();
+                        $param['order_id'] = $order->id;
+                        unset($order);
+                        $order = new Order();
+                        $ret = $order->endOrderBtxf($param);
+                        if ($ret) {
+                            return ['code' => 1, 'msg' => '成功！'];
+                        }
+                        $message = $order->getFirstErrors();
+                        $message = reset($message);
+                        return ['code' => 0, 'msg' => $message];
+                    }
+                }
+                $message = $order->getFirstErrors();
+                $message = reset($message);
+                return ['code' => 0, 'msg' => $message];
             }
-            $message = $order->getFirstErrors();
-            $message = reset($message);
-            return ['code' => 0, 'msg' => $message];
+
+
         }
     }
 
@@ -138,27 +163,10 @@ class  OrderController extends ObjectController
      */
     public function actionBtxf()
     {
-        $data['table_id'] = 0;
-        $data['start_time'] = date('Y-m-d H:i:s');
-        $data['person'] = 0;
-        $data['table_name'] = '吧台消费订单';
-        $data['notes'] = '吧台消费订单';
-        $data['staff_id'] = Yii::$app->session->get('tea_user_id');
-        $data['shoper_id'] = Yii::$app->session->get('shoper_id');
-        $data['store_id'] = Yii::$app->session->get('store_id');
-        $data['start_time'] = time();
-        $data['status'] = 1;
-        $order = new Order();
-        if ($order->load($data, '') && $order->validate()) {
-            if ($order->save()) {
-                if ($order->addGoods(Yii::$app->request->post('goodsList'))) {
-                    return ['code' => 1, 'msg' => '成功！', 'data' => ['order_id' => $order->id]];
-                }
-            }
-            $message = $order->getFirstErrors();
-            $message = reset($message);
-            return ['code' => 0, 'msg' => $message];
-        }
+        Yii::$app->session->set('btxfGoods',Yii::$app->request->post('goodsList'));
+        return ['code' => 1, 'msg' => '成功！','data'=>['order_id'=>1]];
+
     }
+
 
 }

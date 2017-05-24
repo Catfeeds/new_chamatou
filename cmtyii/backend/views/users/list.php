@@ -7,8 +7,23 @@ use yii\bootstrap\ActiveForm;
 $this->title = '用户列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="Constiantine_titleBox">
-    <h2>用户列表</h2>
+<div class="withdraw-index" style="background-color: #FFFFFF;padding: 5px; margin-top: 15px;overflow: hidden;">
+    <div class="container-fluid" style="
+        margin-left: -15px;
+        background-color: #FFFFFF;
+        margin-right: -15px;
+        min-height: 49px;
+        border-bottom: 1px solid #d6d6d6;
+        margin-bottom: 25px;
+    ">
+        <div class="col-sm-3">
+            <span style="line-height: 50px; font-weight: 700;font-size: 14px;margin-right: 5px;"><?=$this->title?></span>
+            <a href="javascript:void(0)" onclick="location.reload()" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="col-sm-9">
+            
+        </div>
+    
 </div>
     <header class="panel-heading">
         <span class="tools">
@@ -38,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <th class="global_txtCenter">电话</th>
             <th class="global_txtCenter">茶豆币</th>
             <th class="global_txtCenter">添加时间</th>
-            <th class="global_txtCenter">操作</th>
+            <th class="global_txtCenter" style="width: 208px;">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -51,8 +66,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td class="global_txtCenter"><?= $v->beans ? $v->beans : 0?></td>
                 <td class="global_txtCenter"><?= date('Y-m-d H:i:s',$v->add_time)?></td>
                 <td class="global_flexC">
-                    <?= Html::a('充值记录',['usersrecharge','id'=>$v->id],['class'=>'btn btn-xs btn-primary'])?>
-                    <?= Html::a('消费记录',['usersreduce','id'=>$v->id],['class'=>'btn btn-xs btn-info'])?>
+                    <?= Html::a('充值记录',['usersrecharge','id'=>$v->id],['class'=>'btn padding-top btn-xs btn-primary'])?>
+                    <?= Html::a('消费记录',['usersreduce','id'=>$v->id],['class'=>'btn padding-top btn-xs btn-primary'])?>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -107,8 +122,17 @@ $this->params['breadcrumbs'][] = $this->title;
         height: 60px;
     }
     .bodyTr td{
-        height: 60px;
-        padding-top: 15px !important;
+        height: 36px;
+        padding: 0!important;
+        padding-bottom: 5px !important;
+        overflow: hidden;
+    }
+    .padding-top{
+    	margin-top: 14px !important;
+    } 
+    .bodyTr,tr{
+        height: 36px!important;
+        padding: 0px !important;
     }
     /*      实体的阴影          */
     .global_boxSad{

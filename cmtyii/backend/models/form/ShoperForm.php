@@ -40,7 +40,7 @@ class ShoperForm extends Shoper
             return false;
         }
         if($this->save()){
-            return ['id'=>$this->id,'salesman_id'=>$this->salesman_id];
+            return $this;
         }
         return false;
     }

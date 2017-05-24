@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'raw',
                 'value' => function($model){
                     if($model['shoper']['status'] == 0){
-                        return '<span class="badge" style="background-color: #9dd23a">正常</span>';
+                        return '<span class="badge" style="background-color: #008d4c">正常</span>';
                     }else{
                         return '<span class="badge" style="background-color: #dd4b39">逾期</span>';
                     }
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'raw',
                 'value' => function($model){
                     if($model['shoper']['sp_status'] == 0){
-                        return '<span class="badge" style="background-color: #9dd23a">正常</span>';
+                        return '<span class="badge" style="background-color: #008d4c">正常</span>';
                     }else{
                         return '<span class="badge" style="background-color: #dd4b39">封停</span>';
                     }
@@ -133,5 +133,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	}
 	.badge{
 		font-weight: 500;
+	}
+	th{
+		color: #3c8dbc;
 	}
 </style>
