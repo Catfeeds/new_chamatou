@@ -23,8 +23,8 @@ class Goods extends ActiveRecord
     {
         return [
             [['goods_name', 'cover', 'store', 'price', 'spec', 'add_time', 'cat_id','content'], 'required'],
-            //['price', 'number'],
-            [['store','price'], 'match','pattern'=>'/^[1-9]d*|0$/','message'=>'必须为正整数'],
+            ['price', 'match','pattern'=>'/^(([1-9]{1}\d{0,9}\.\d{1,2})|([1-9]{1}\d{0,9}|([0]{1}\.\d{1,2})))$/','message'=>'请输入正确的价格!小数只能保留两位!'],
+            [['store'], 'match','pattern'=>'/^(([0])|([1-9]\d*))$/','message'=>'必须为正整数'],
             ['cat_id', 'compare', 'compareValue' => 0, 'operator' => '>','message'=>'请选择分类'],
             [['file'], 'file', 'extensions' => 'png,jpg,gif,jpeg'],
         ];
