@@ -7,8 +7,8 @@
   <!-- 商品列表模块 -->
   <div class="goodsListypeBox" v-show="fishFlag">
     <div class="" v-for="(res , key) in Data" key="res.key">
-      <h3 :class="res.cate_name" v-if="key == 0 && res.goods" class="goodsListypeAct goodsTypeList" @click="jump(res.cate_name)">{{res.cate_name}}</h3>
-      <h3 :class="res.cate_name" v-if="key > 0 && res.goods" @click="jump(res.cate_name)" class="goodsTypeList">{{res.cate_name}}</h3>
+      <h3 :class="res.cate_name" v-if="key == 0 && res.goods" class="goodsListypeAct goodsTypeList global_txtOver" @click="jump(res.cate_name)">{{res.cate_name}}</h3>
+      <h3 :class="res.cate_name" v-if="key > 0 && res.goods" @click="jump(res.cate_name)" class="goodsTypeList global_txtOver">{{res.cate_name}}</h3>
     </div>
   </div>
   <div class="goodsListlistBox" v-show="fishFlag">
@@ -343,7 +343,7 @@ export default {
     //更改数量（点击商品列表中的加减号执行此函数，对商品加入购物车，以及加入购物车中的商品数量进行操作）
     changeNum(pId, type) {
       var _this = this;
-      for (var i = 0; i < _this.Data.length - 1; i++) {
+      for (var i = 0; i <= _this.Data.length ; i++) {
         var goods = _this.Data[i].goods;
         if (goods) {
           for (var j = 0; j < goods.length; j++) {
