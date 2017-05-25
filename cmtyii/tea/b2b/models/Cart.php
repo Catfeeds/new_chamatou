@@ -220,6 +220,7 @@ class Cart extends \yii\db\ActiveRecord
     }
 
     /**
+     * 1.2修改代码！原代码死循环！
      * 更新商品资料
      */
     private function updateCart()
@@ -233,9 +234,11 @@ class Cart extends \yii\db\ActiveRecord
         foreach ($data as $key => $value) {
             $goods = Goods::findOne($value['goods_id']);
             if (!$goods) {
-                $this->del($value['Id']);
+                $model = self::findOne($value['Id']);
+                $model->delete();
             } else if ($goods->status == Goods::STATUS_UNDERCARRIAGE) {
-                $this->del($value['Id']);
+                $model = self::findOne($value['Id']);
+                $model->delete();
             }
         }
     }

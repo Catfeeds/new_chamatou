@@ -13,9 +13,10 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 
 /**
+ * 提现控制
  * WithdrawController implements the CRUD actions for Withdraw model.
  */
-class WithdrawController extends Controller
+class WithdrawController extends ObjectController
 {
     /**
      * @inheritdoc
@@ -33,8 +34,8 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Lists all Withdraw models.
-     * @return mixed
+     * 显示列表
+     * @return string
      */
     public function actionIndex()
     {
@@ -47,9 +48,9 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Displays a single Withdraw model.
-     * @param integer $id
-     * @return mixed
+     * 查看一个详细
+     * @param $id
+     * @return string
      */
     public function actionView($id)
     {
@@ -59,9 +60,8 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Creates a new Withdraw model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * 创建|新建|提现
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -77,10 +77,9 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Updates an existing Withdraw model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * 更新修改操作
+     * @param $id
+     * @return string|Response
      */
     public function actionUpdate($id)
     {
@@ -96,10 +95,9 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Deletes an existing Withdraw model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * 删除操作
+     * @param $id
+     * @return Response
      */
     public function actionDelete($id)
     {
@@ -109,11 +107,10 @@ class WithdrawController extends Controller
     }
 
     /**
-     * Finds the Withdraw model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Withdraw the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * 查找提现模型
+     * @param $id
+     * @return static
+     * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {

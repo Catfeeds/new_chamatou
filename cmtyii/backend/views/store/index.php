@@ -53,8 +53,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]),
 
             ],
-            'sp_name',
-            'address',
+            [
+                'label'=>'店铺名称',
+                'attribute'=>'sp_name',
+                'format'=>'raw',
+                'value'=>function($model){
+                    return "<div style=' width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>".$model->sp_name."</div>";
+                }
+            ],
+            [
+                'label'=>'店铺地址',
+                'attribute'=>'address',
+                'format'=>'raw',
+                'value'=>function($model){
+                    return "<div style=' width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>".$model->address."</div>";
+                }
+            ],
             'sp_phone',
             [
                 'label' => '授信总额',

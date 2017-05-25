@@ -121,7 +121,7 @@ class Goods extends \yii\db\ActiveRecord
         }
 
         $count = $goodsModel->count();
-        $pages = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
+        $pages = new Pagination(['totalCount' => $count, 'pageSize' => 16]);
         $goodsList = $goodsModel->offset($pages->offset)->limit($pages->limit)->all();
         $datas['pageCount'] = $count;
         $datas['pageNum'] = $pages->getPageCount();
@@ -144,6 +144,7 @@ class Goods extends \yii\db\ActiveRecord
         }
         $data = ArrayHelper::toArray(self::findOne($goods_id));
         $data['cate_name'] =  GoodsCate::getCateNameById($data['cat_id']);
+        $data['content'] = htmlspecialchars_decode($data['content']);
         return $data;
     }
 

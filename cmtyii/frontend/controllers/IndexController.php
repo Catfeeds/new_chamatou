@@ -89,7 +89,7 @@ class IndexController extends BaseController
         foreach ($teas as $k=>$v){
             $pic = \Yii::$app->db->createCommand("select path from t_shoper_img where store_id = :store_id",
                 ['store_id'=>$v['id']])->queryOne();
-            $teas[$k]['teaPic'] = $pic['path'];
+            $teas[$k]['teaPic'] = \Yii::$app->params['picurl'].$pic['path'];
         }
         $addLat = ['lat'=>$data['lat'],'lon'=>$data['lon']];
         $model = new Common();
@@ -109,7 +109,7 @@ class IndexController extends BaseController
             $pic = $store->getPic(['path']);
             $pic2 = [];
             foreach ($pic as $value){
-                $pic2[] = $value['path'];
+                $pic2[] = \Yii::$app->params['picurl'].$value['path'];
             }
             $data = [
                 'status'=>1,

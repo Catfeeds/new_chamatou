@@ -18,15 +18,16 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 
 /**
+ * 商家|门店|控制器
  * StoreController implements the CRUD actions for SpStore model.
  */
-class StoreController extends Controller
+class StoreController extends ObjectController
 {
 
 
     /**
-     * Lists all SpStore models.
-     * @return mixed
+     * 商家管理列表
+     * @return string
      */
     public function actionIndex()
     {
@@ -39,22 +40,10 @@ class StoreController extends Controller
     }
 
     /**
-     * Displays a single SpStore model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'shoperModel' => $this->findShoperModel($id)
-        ]);
-    }
-
-    /**
-     * Creates a new SpStore model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * * 添加一个店铺信息！
+     * 1.更新商家shoper+store店铺表
+     * 2.修改管理员的表
+     * @return string
      */
     public function actionCreate()
     {
@@ -99,10 +88,11 @@ class StoreController extends Controller
     }
 
     /**
-     * Updates an existing SpStore model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * 修改一个店铺信息！
+     * 1.更新商家shoper+store店铺表
+     * 2.修改管理员的表
+     * @param $id
+     * @return string|Response
      */
     public function actionUpdate($id)
     {
@@ -145,10 +135,9 @@ class StoreController extends Controller
     }
 
     /**
-     * Deletes an existing SpStore model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * 删除店铺的操作！||这个版本中没有使用！lrdouble--改这个代码要注意啊！
+     * @param $id
+     * @return Response
      */
     public function actionDelete($id)
     {
@@ -158,11 +147,10 @@ class StoreController extends Controller
     }
 
     /**
-     * Finds the SpStore model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return SpStore the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * 查找店铺的操作
+     * @param $id
+     * @return static
+     * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {
@@ -209,6 +197,10 @@ class StoreController extends Controller
         }
     }
 
+    /**
+     * 授信还款的控制器
+     * @return array
+     */
     public function actionShouxinhuankuan()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;

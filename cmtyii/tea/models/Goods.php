@@ -462,7 +462,7 @@ class Goods extends \yii\db\ActiveRecord
         } else {
 
             $stock = GoodsToDosing::getGoodsStock($model->id);
-            if ($stock == '-') {
+            if ($stock === '-') {
                 return 'null';
             } else {
                 return 'dosing';

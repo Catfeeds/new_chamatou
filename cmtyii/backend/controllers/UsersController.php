@@ -14,7 +14,12 @@ use frontend\models\User;
 use yii\data\Pagination;
 use yii\web\Controller;
 
-class UsersController extends Controller
+/**
+ * 用户控制器
+ * Class UsersController
+ * @package backend\controllers
+ */
+class UsersController extends ObjectController
 {
     /**
      * 所有用户的充值记录

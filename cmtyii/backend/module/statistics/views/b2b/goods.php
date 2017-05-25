@@ -4,7 +4,7 @@ $this->title = '';
 <script src="/js/echarts.min.js"></script>
 <script src="/js/jq.js"></script>
 <script src="/js/bootstrap-daterangepicker-master/moment.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="/js/bootstrap-daterangepicker-master/daterangepicker.js"></script>
 <link rel="stylesheet" href="/js/bootstrap-daterangepicker-master/daterangepicker.css">
 <div class="container-fluid" style="margin: 0px; padding: 0px;">

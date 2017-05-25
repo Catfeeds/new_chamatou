@@ -14,7 +14,7 @@ use tea\models\Goods;
 use yii\web\Controller;
 use yii\web\Response;
 
-class CategoryController extends Controller
+class CategoryController extends ObjectController
 {
 
     /**
