@@ -22,7 +22,7 @@ export default {
       'pay': 'wechat/pay', //调取支付的参数
       'outIn':'index/type'//判断是否从外面扫码进入
     };
-    Vue.prototype.hostUrl = 'http://test5.angkebrand.com/'; //定义请求公共头
+    Vue.prototype.hostUrl = 'http://wx.chamatou.cn/'; //定义请求公共头
 
     Vue.prototype.ajax = function(url, data, methodType, callback) {
       var _this = this;

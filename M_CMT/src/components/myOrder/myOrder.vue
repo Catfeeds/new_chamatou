@@ -18,7 +18,7 @@
           <img src='static/images/test.jpg' alt="">
         </div>
         <div class="deta">
-          <h3>{{res.shop_name}}</h3>
+          <h3 class="global_txtOver">{{res.shop_name}}</h3>
           <p class="global_txtDOver">
             <span v-for="spanDeta in res.goods" :key="spanDeta.key">
               {{spanDeta.goods_name}}
