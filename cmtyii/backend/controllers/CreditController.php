@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * CreditController implements the CRUD actions for CreditConsume model.
  */
-class CreditController extends Controller
+class CreditController extends ObjectController
 {
     /**
      * @inheritdoc

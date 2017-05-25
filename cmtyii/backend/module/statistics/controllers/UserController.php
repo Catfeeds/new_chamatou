@@ -2,6 +2,7 @@
 
 namespace backend\module\statistics\controllers;
 
+use backend\controllers\ObjectController;
 use backend\module\statistics\models\Base;
 use backend\module\statistics\models\User;
 use yii\web\Controller;
@@ -9,7 +10,7 @@ use yii\web\Controller;
 /**
  * Default controller for the `statistics` module
  */
-class UserController extends Controller
+class UserController extends ObjectController
 {
     /**
      * Renders the index view for the module

@@ -17,7 +17,7 @@ use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 
-class GoodsController extends Controller
+class GoodsController extends ObjectController
 {
 
     /**

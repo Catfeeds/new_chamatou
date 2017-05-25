@@ -10,9 +10,10 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
+ * 业务员的控制器代码
  * SalesmanController implements the CRUD actions for Salesman model.
  */
-class SalesmanController extends Controller
+class SalesmanController extends ObjectController
 {
     /**
      * @inheritdoc
@@ -30,7 +31,7 @@ class SalesmanController extends Controller
     }
 
     /**
-     * Lists all Salesman models.
+     * 业务员列表
      * @return mixed
      */
     public function actionIndex()
@@ -45,20 +46,7 @@ class SalesmanController extends Controller
     }
 
     /**
-     * Displays a single Salesman model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Salesman model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * 创建一个业务员
      * @return mixed
      */
     public function actionCreate()
@@ -79,10 +67,9 @@ class SalesmanController extends Controller
     }
 
     /**
-     * Updates an existing Salesman model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * 更新一个业务员
+     * @param $id
+     * @return string|\yii\web\Response
      */
     public function actionUpdate($id)
     {
@@ -98,10 +85,9 @@ class SalesmanController extends Controller
     }
 
     /**
-     * Deletes an existing Salesman model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * 删除一个业务员
+     * @param $id
+     * @return \yii\web\Response
      */
     public function actionDelete($id)
     {
@@ -113,11 +99,10 @@ class SalesmanController extends Controller
     }
 
     /**
-     * Finds the Salesman model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Salesman the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * 查找一个业务员的模型
+     * @param $id
+     * @return static
+     * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {

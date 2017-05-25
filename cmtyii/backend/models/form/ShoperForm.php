@@ -39,6 +39,13 @@ class ShoperForm extends Shoper
         if (!$this->validate()) {
             return false;
         }
+        /**
+         * 判断授信是否合法
+         */
+        if((float)$this->credit_amount != (float)$this->credit_remain){
+            $this->addError('credit_amount','授信未还不能调整！');
+        }
+
         if($this->save()){
             return $this;
         }

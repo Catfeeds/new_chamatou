@@ -50,7 +50,10 @@ $this->title = Yii::t('app', 'Withdraws');
             [
                 'label' => '店铺名称',
                 'attribute' => 'store_sp_name',
-                'value' => 'store.sp_name',
+                'format'=>'raw',
+                'value'=>function($model){
+                    return "<div style=' width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>".$model['store']['sp_name']."</div>";
+                }
 
             ],
             [
@@ -112,7 +115,7 @@ $this->title = Yii::t('app', 'Withdraws');
                                     'aria-label' => Yii::t('app', 'access'),
                                     'data-pjax' => '0',
                                 ];
-                                return "<a href='#' class='btn btn-xs btn-default' style='margin-right: 5px;' onclick=\"alertInput('确认打款','请输入打款金额！','$url',true)\"> 打款</a>";
+                                return "<a href='#' class='btn btn-xs btn-default' style='margin-right: 5px;' onclick=\"alertInput('确认打款','请输入打款备注！','$url',true)\"> 打款</a>";
                             }
                         },
                         'refuse' => function($url, $model, $key){

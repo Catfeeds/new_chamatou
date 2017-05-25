@@ -66,7 +66,6 @@ class ObjectController extends Controller
             return $this->redirect(['object/login']);
         }
 
-
         //判断是是否有权限
         if (!RBAC::validateRole($route)) {
             die(json_encode(['code' => -2, 'msg' => Yii::t('app', 'rabc_no_prieate')]));

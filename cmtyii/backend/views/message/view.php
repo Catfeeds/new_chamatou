@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <i class="global_borLeft"></i>
             商铺
         </span>
-            <span>
+        <span title="<?= $model->storeName->sp_name ?>">
             <?= $model->storeName->sp_name ?>
         </span>
         </div>
@@ -106,3 +106,16 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+<style type="text/css">
+
+.C_Row span, .C_Row input {
+    width: 30%;
+    height: 40px;
+    display: block;
+    line-height: 40px;
+    text-align: center;
+    overflow:hidden;
+     text-overflow:ellipsis; 
+     white-space:nowrap;
+}
+</style>

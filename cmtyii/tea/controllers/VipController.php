@@ -99,8 +99,10 @@ class VipController extends ObjectController
     {
         if(Yii::$app->request->isGet)
         {
-            $data = Vip::find()->where(['shoper_id'=>Yii::$app->session->get('shoper_id'),'id'=>Yii::$app->request->get('vip_id')])->asArray()->one();
-            $ret['list']         = $data;
+            $data = Vip::find()->where(['shoper_id'=>Yii::$app->session->get('shoper_id'),
+                'id'=>Yii::$app->request->get('vip_id')])->asArray()->one();
+            $ret['list']         =  $data;
+            $ret['list']['birthday'] =  date('Y-m-d',$data['birthday']);
             return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$ret];
         }
         else
@@ -154,6 +156,10 @@ class VipController extends ObjectController
         }
     }
 
+    /**
+     * 会员消费
+     * @return array
+     */
     public function actionConsume()
     {
         $consume = new Vip();

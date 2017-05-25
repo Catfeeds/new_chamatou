@@ -3,86 +3,90 @@
    
 </style>
     <section class="sidebar">
+        <?php
+        $roles = Yii::$app->session->get('roles');
 
-        <!-- Sidebar user panel -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
-            </div>
-            <div class="pull-left info">
-                <p>Alexander Pierce</p>
+        $items = [];
+        if(isset($roles['/statistics/store/index'])){
+            $items[] = ['label' => '统计中心', 'url' => ['/statistics/store/index'], 'icon'=>'dashboard'];
+        }
 
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
-        </div>
+        if(isset($roles['/store/index'])){
+            $items[] = ['label' => '门店管理', 'url' => ['/store'], 'icon'=>'tv'];
+        }
 
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-        </form>
-        <!-- /.search form -->
+        if(isset($roles['/withdraw/index'])){
+            $items[] = ['label' => '提现管理', 'url' => ['/withdraw'], 'icon'=>'rmb'];
+        }
+        
+        if(isset($roles['/users/userslist'])){
+            $items[] = [
+                'label' => '用户管理',
+                'url' => ['/#'],
+                'icon'=>'user',
+                'items' => [
+                    ['label' => '用户列表','url' => ['users/userslist']],
+                    ['label' => '充值列表','url' => ['users/usersrecharge']],
+                    ['label' => '消费列表','url' => ['users/usersreduce']],
+                ]
+            ];
+        }
 
+        if(isset($roles['/salesman/index'])){
+            $items[] = ['label' => '业务员管理', 'url' => ['/salesman/index'], 'icon'=>'user-md'];
+        }
+
+        if(isset($roles['/admin/role/index'])){
+            $items[] = [
+                'label' => '权限管理',
+                'url' => '#',
+                'icon' => ' fa-get-pocket',
+                'items' => [
+                    ['label' => '管理员管理', 'url' => ['/adminuser'],],
+                    ['label' => '分配', 'url' => ['/admin/assignment'],],
+//                    ['label' => '路由管理', 'url' => ['/admin/route'],],
+//                    ['label' => '权限管理', 'url' => ['/admin/permission'],],
+//                    ['label' => '菜单管理', 'url' => ['/admin/menu'],],
+//                    ['label' => '角色管理', 'url' => ['/admin/role'],],
+                ]
+            ];
+        }
+
+        if(isset($roles['/message/index'])){
+            $items[] = ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'];
+        }
+
+        if(isset($roles['/goods/index'])){
+            $items[] = [
+                'label' => 'B2B商城管理',
+                'url' => '#',
+                'icon'=>'amazon',
+                'items' => [
+                    ['label' => '商品列表', 'url' => ['goods/index'],],
+                    ['label' => '品类列表', 'url' => ['category/index'],],
+                    ['label' => '订单管理', 'url' => ['order/index'],],
+                ]
+            ];
+        }
+
+        if(isset($roles['/credit/order'])){
+            $items[] = [
+                'label' => '授信',
+                'url' => '#',
+                'icon'=>'bank',
+                'items' => [
+                    ['label' => '授信订单', 'url' => ['credit/order']],
+                    ['label' => '还款记录', 'url' => ['credit/refund']],
+                ]
+            ];
+        }
+
+        ?>
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
-                'items' => [
-                    ['label' => '统计中心', 'url' => ['/statistics/store/index'], 'icon'=>'dashboard'],
-                    [
-                        'label' => '权限管理',
-                        'url' => '#',
-                        'icon' => ' fa-get-pocket',
-                        'items' => [
-                            ['label' => '管理员管理', 'url' => ['/adminuser'],],
-                            ['label' => '分配', 'url' => ['/admin/assignment'],],
-                            ['label' => '路由管理', 'url' => ['/admin/route'],],
-                            ['label' => '权限管理', 'url' => ['/admin/permission'],],
-                            ['label' => '菜单管理', 'url' => ['/admin/menu'],],
-                            ['label' => '角色管理', 'url' => ['/admin/role'],],
-
-                        ],
-                    ],
-                    ['label' => '门店管理', 'url' => ['/store'], 'icon'=>'tv'],
-//                    ['label' => '商铺管理', 'url' => ['/shoper']],
-                    ['label' => '提现管理', 'url' => ['/withdraw'], 'icon'=>'rmb'],
-                    [
-                        'label' => '用户管理',
-                        'url' => ['/#'],
-                        'icon'=>'user',
-                        'items' => [
-                             ['label' => '用户列表','url' => ['users/userslist']],
-                             ['label' => '充值列表','url' => ['users/usersrecharge']],
-                             ['label' => '消费列表','url' => ['users/usersreduce']],
-                        ]
-                    ],
-                    ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'],
-                    [
-                        'label' => 'B2B商城管理',
-                        'url' => '#',
-                        'icon'=>'amazon',
-                        'items' => [
-                            ['label' => '商品列表', 'url' => ['goods/index'],],
-                            ['label' => '品类列表', 'url' => ['category/index'],],
-                            ['label' => '订单管理', 'url' => ['order/index'],],
-                        ]
-                    ],
-
-                    ['label' => '业务员管理', 'url' => ['/salesman'], 'icon'=>'user-md'],
-                    [
-                            'label' => '授信',
-                            'url' => '#',
-                            'icon'=>'bank',
-                            'items' => [
-                                    ['label' => '授信订单', 'url' => ['credit/order']],
-                                    ['label' => '还款记录', 'url' => ['credit/refund']],
-                            ]
-                    ],
-                ],
+                'items' =>
+                    $items,
             ]
         ) ?>
 

@@ -10,9 +10,10 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
+ * 留言的代码
  * MessageController implements the CRUD actions for Message model.
  */
-class MessageController extends Controller
+class MessageController extends ObjectController
 {
     /**
      * @inheritdoc
@@ -30,6 +31,7 @@ class MessageController extends Controller
     }
 
     /**
+     * 显示留言列表
      * Lists all Message models.
      * @return mixed
      */
@@ -46,6 +48,7 @@ class MessageController extends Controller
     }
 
     /**
+     * 查看一下详情留言
      * Displays a single Message model.
      * @param integer $id
      * @return mixed
@@ -59,24 +62,7 @@ class MessageController extends Controller
     }
 
     /**
-     * Creates a new Message model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Message();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
+     * 修改一个留言
      * Updates an existing Message model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -96,6 +82,7 @@ class MessageController extends Controller
     }
 
     /**
+     * 删除一个留言
      * Deletes an existing Message model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id

@@ -14,6 +14,11 @@ use yii\bootstrap\Html;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 
+/**
+ * 工具控制器
+ * Class ToolsController
+ * @package backend\controllers
+ */
 class ToolsController extends Controller
 {
     /**

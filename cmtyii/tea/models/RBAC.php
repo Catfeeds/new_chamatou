@@ -42,8 +42,12 @@ class RBAC
             return $name;
         }
 
-        $strShoper = '__' . \Yii::$app->session->get('shoper_id');
-        $name = strstr($name, $strShoper, true);
+        if(substr($name,(strpos($name,'__')+2)) == \Yii::$app->session->get('shoper_id')){
+            $strShoper = '__' . \Yii::$app->session->get('shoper_id');
+            $name = strstr($name, $strShoper, true);
+        }else{
+            $name = false;
+        }
         return $name;
     }
 
