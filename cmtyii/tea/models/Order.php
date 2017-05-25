@@ -242,7 +242,9 @@ class Order extends \yii\db\ActiveRecord
                         $data['note'] = '销售出库--系统生成';
                         $storageInfo = new StorageInfo();
                         if (!$storageInfo->pop($data)) {
-                            throw new \Exception('storageInfo error');
+                            $message = $storageInfo->getFirstErrors();
+                            $message = reset($message);
+                            throw new \Exception('storageInfo error'.$message);
                         }
                     }
                 }
@@ -264,7 +266,9 @@ class Order extends \yii\db\ActiveRecord
                 $orderGoods->is_goods = 1;
                 $orderGoods->type = $type;
                 if (!$orderGoods->save()){
-                    throw new \Exception('orderGoods保存失败！');
+                    $message = $orderGoods->getFirstErrors();
+                    $message = reset($message);
+                    throw new \Exception('orderGoods保存失败！'.$message);
                 }
             }
 

@@ -35,7 +35,10 @@ $this->title = Yii::t('app', 'Messages');
 
             [
                 'attribute' => 'store_name',
-                'value' => 'storeName.sp_name',
+                'format'=>'raw',
+                'value'=>function($model){
+                    return "<div style=' width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>".$model['store']['sp_name']."</div>";
+                }
             ],
             [
                 'attribute' => 'add_time',

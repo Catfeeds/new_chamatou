@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers;
 
 use backend\models\Adminuser;
@@ -11,7 +12,7 @@ use backend\models\form\LoginForm;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends ObjectController
 {
     /**
      * @inheritdoc
@@ -55,18 +56,17 @@ class SiteController extends Controller
     }
 
     /**
+     * 默认访问不带r=xx/xxx的控制器
      * Displays homepage.
-     *
      * @return string
      */
     public function actionIndex()
     {
-        return $this->redirect(['statistics/store/index']);
+        return $this->redirect(['store/index']);
     }
 
     /**
-     * Login action.
-     *
+     * 登陆操作
      * @return string
      */
     public function actionLogin()
@@ -78,7 +78,7 @@ class SiteController extends Controller
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['site/index']);
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -87,14 +87,13 @@ class SiteController extends Controller
     }
 
     /**
-     * Logout action.
-     *
+     * 退出登录
      * @return string
      */
     public function actionLogout()
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect(['site/login']);
     }
 }

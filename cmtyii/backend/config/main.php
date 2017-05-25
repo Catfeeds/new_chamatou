@@ -69,6 +69,9 @@ return [
             "defaultRoles" => ["guest"],
         ],
         'assetManager' => [
+            'assetMap' => [
+                'AdminLTE.min.css' => '@web/css/AdminLTE.css',
+            ],
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
                     'skin' => 'skin-red-light',

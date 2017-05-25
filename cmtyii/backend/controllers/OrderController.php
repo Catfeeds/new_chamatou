@@ -14,7 +14,12 @@ use yii\base\Controller;
 use yii\data\Pagination;
 use yii\db\ActiveRecord;
 
-class OrderController extends Controller
+/**
+ * 订单的控制器
+ * Class OrderController
+ * @package backend\controllers
+ */
+class OrderController extends ObjectController
 {
 
     /**
@@ -87,33 +92,5 @@ class OrderController extends Controller
                 'send_time'  => '发货时间'
             ],
         ]);
-
-//        \moonland\phpexcel\Excel::export([
-//            'models' => $data,
-//            'fileName' => $data[0]->order_no.'(发货单)',
-//            'columns' => [
-//                [
-//                    'attribute' => 'order_no',
-//                    'header' => '课堂',
-//                    'format' => 'text',
-//                    'value' => function ($models) {
-//                        return $models['order_no'];
-//
-//                    },
-//                    'width' => 80,
-//                ],
-//                [
-//                    'attribute' => 'order_no',
-//                    'header' => '课堂',
-//                    'format' => 'text',
-//                    'value' => function ($models) {
-//                        return $models['order_no'];
-//
-//                    },
-//                    'width' => 80,
-//                ],
-//
-//            ],
-//            ]);
     }
 }

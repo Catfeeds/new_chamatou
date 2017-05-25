@@ -18,6 +18,7 @@ class CartController extends ObjectController
      */
     public function actionList()
     {
+
         $cartModel = new Cart();
         $list = $cartModel->getList();
         return [
@@ -70,11 +71,12 @@ class CartController extends ObjectController
     }
 
     /**
-     * 添加爱一个购物车中的商品
+     * 添加一个购物车中的商品
      * @return array
      */
     public function actionAdd()
     {
+
         $model = new  Cart();
         $ret = $model->add(Yii::$app->request->post());
 

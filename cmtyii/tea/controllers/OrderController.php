@@ -32,6 +32,7 @@ class  OrderController extends ObjectController
              */
             $goods = Goods::findOne($model->goods_id);
             $stockType = $goods->getGoodsStockType($model->goods_id);
+
             if ($stockType == 'goods') {
                 $data['type'] = $stockType;
                 $data['id'] = $model->goods_id;
