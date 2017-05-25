@@ -138,7 +138,7 @@ class UserController extends BaseController
                 'order_id' =>$value->id,
                 'order_status' =>$value->status,
                 'shop_name' => $store_info['sp_name'],
-                'shop_pic'=>$store_img['path'],
+                'shop_pic'=> \Yii::$app->params['picurl'].$store_img['path'],
                 'total_amount'=>$value->total_amount,
                 'order_time' => date('Y-m-d H:i:s',$value->start_time),
                 'order_no' => $value->start_time,
