@@ -15,7 +15,7 @@ class GridViewLrdouble extends GridView{
      * 默认布局文件
      * @var string
      */
-    public $layout = "{items}\n
+    public $layout = "<div class=\"table-responsive\">{items}</div>\n
         <div style='background-color: #ffffff;height: 60px;padding-right: 30px;margin-top: -20px;'>
             <div class='col-sm-6' style='line-height: 60px;color: #666'>
                 <div style='pull-left'>{summary}</div>

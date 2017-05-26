@@ -113,6 +113,7 @@ class StoreController extends ObjectController
                     if ($storeModel->load($post) && $storeModel->addStore()) {
                         $spUser = SpUsers::find()->andWhere(['shoper_id'=>$shoperRet['id']])->andWhere(['is_admin'=>1])->one();
                         $spUser->phone = $shoperRet['phone'];
+                        $spUser->user  = $shoperRet['boss'];
                         if($spUser->save()){
                             $transaction->commit();
                             return $this->redirect(['store/index']);
