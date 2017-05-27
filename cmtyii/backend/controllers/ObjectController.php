@@ -34,6 +34,7 @@ class ObjectController extends Controller
         if (\Yii::$app->user->can('/' . $action->controller->route)) {
             return true;
         }
+
         return $this->redirect(['/error/roles']);
     }
 }
