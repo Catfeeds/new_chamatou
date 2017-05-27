@@ -28,7 +28,7 @@ class Goods extends ActiveRecord
             ->asArray()
             ->all();
         //查出所有的商品
-        $goods = \tea\models\Goods::find()->where("status = 0 and shoper_id = :shoper_id and store_id = :store_id",
+        $goods = \tea\models\Goods::find()->where("shoper_id = :shoper_id and store_id = :store_id",
             [':shoper_id'=>$ids['shoper_id'],':store_id'=>$ids['store_id']])
             ->select(['id','cate_id','goods_name','sales_price','spec','unit','note'])
             ->asArray()

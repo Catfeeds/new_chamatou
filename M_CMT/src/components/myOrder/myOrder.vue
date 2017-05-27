@@ -73,6 +73,7 @@ export default {
     //初次加载数据
     loadData: {
       var _this = this;
+      document.title = '茶码头';
       this.ajax(_this.port.orderList, {
       }, 'GET', function(res) {
         //console.log(res);

@@ -61,6 +61,7 @@ export default {
     };
 
 
+
     // (function () {
     //   const  HostUrl='http://192.168.2.222:8080/';
     //   $.ajax({

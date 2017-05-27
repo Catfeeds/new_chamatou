@@ -4,11 +4,13 @@
 -->
 <template>
 <div id="goodsList">
+
+
   <!-- 商品列表模块 -->
   <div class="goodsListypeBox" v-show="fishFlag">
     <div class="" v-for="(res , key) in Data" key="res.key">
-      <h3 :class="res.cate_name" v-if="key == 0 && res.goods" class="goodsListypeAct goodsTypeList" @click="jump(res.cate_name)">{{res.cate_name}}</h3>
-      <h3 :class="res.cate_name" v-if="key > 0 && res.goods" @click="jump(res.cate_name)" class="goodsTypeList">{{res.cate_name}}</h3>
+      <h3 :class="res.cate_name" v-if="key == 0 && res.goods" class="goodsListypeAct goodsTypeList global_txtOver" @click="jump(res.cate_name)">{{res.cate_name}}</h3>
+      <h3 :class="res.cate_name" v-if="key > 0 && res.goods" @click="jump(res.cate_name)" class="goodsTypeList global_txtOver">{{res.cate_name}}</h3>
     </div>
   </div>
   <div class="goodsListlistBox" v-show="fishFlag">
@@ -233,6 +235,7 @@ export default {
       orderId: '', //传参的orderId
       tableIptFlag: true, //是否让用户输入桌号
       totalBox: 0, //用于储存总价格
+      teaTitle:''//用于储存茶楼的名字
     }
   },
   //方法盒子
@@ -343,7 +346,7 @@ export default {
     //更改数量（点击商品列表中的加减号执行此函数，对商品加入购物车，以及加入购物车中的商品数量进行操作）
     changeNum(pId, type) {
       var _this = this;
-      for (var i = 0; i < _this.Data.length - 1; i++) {
+      for (var i = 0; i <= _this.Data.length; i++) {
         var goods = _this.Data[i].goods;
         if (goods) {
           for (var j = 0; j < goods.length; j++) {
@@ -471,9 +474,10 @@ export default {
         shoper_id: _this.$route.params.shoper_id,
         store_id: _this.$route.params.store_id
       }, 'GET', function(res) {
-        //console.log(res);
+        console.log(res);
         if (res.status == 1) {
           _this.Data = res.data;
+          document.title = res.sp_name;
         } else {
           _this.$message({
             message: '噢哦~!服务器好像开小差了，请待会儿重试吧....',
