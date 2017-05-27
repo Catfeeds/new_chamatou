@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {resetpwd} {privilege}',
+                'template' => '{view} {update} {delete}',
                 'buttons' => [
                     'resetpwd' => function ($url, $model, $key) {
                         $options = [
@@ -86,15 +86,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-pjax' => '0',
                         ];
                         return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, $options);
-                    },
-
-                    'privilege' => function ($url, $model, $key) {
-                        $options = [
-                            'title' => Yii::t('app', 'access'),
-                            'aria-label' => Yii::t('app', 'access'),
-                            'data-pjax' => '0',
-                        ];
-                        return Html::a('<span class="glyphicon glyphicon-user"></span>', $url, $options);
                     },
 
                 ],

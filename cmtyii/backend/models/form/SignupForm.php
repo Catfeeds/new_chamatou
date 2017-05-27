@@ -52,11 +52,11 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' =>  Yii::t('app', 'Username'),
-            'real_name' => Yii::t('app', 'Real Name'),
-            'email' => Yii::t('app', 'email'),
-            'phone' => Yii::t('app', 'phone'),
-            'status' => Yii::t('app', 'status'),
+            'username' =>  Yii::t('app', '用户名'),
+            'real_name' => Yii::t('app', '真实姓名'),
+            'email' => Yii::t('app', '邮件地址'),
+            'phone' => Yii::t('app', '手机号'),
+            'status' => Yii::t('app', '状态'),
         ];
     }
 
