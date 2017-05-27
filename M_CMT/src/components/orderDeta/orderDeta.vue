@@ -85,6 +85,7 @@ export default {
     //初次加载数据
     loadData: {
       var _this = this
+      document.title = '茶码头';
       var orderId = _this.$route.params.id;
       //console.log(orderId);
       this.ajax(_this.port.orderDeta, {

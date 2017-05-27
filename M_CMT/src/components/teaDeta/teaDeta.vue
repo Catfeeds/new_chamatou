@@ -4,6 +4,7 @@
     其他的就不解释了
 -->
 <template>
+
 <div id="teaDeta">
   <div class="teaDetaMainBox">
     <h2 class="pLR global_txtOver">
@@ -70,6 +71,7 @@ export default {
   methods: {
     goToMap: function goToMap() {
       var _this = this
+      document.title = '茶码头';
       wx.openLocation({
         latitude: _this.thisLat, // 纬度，浮点数，范围为90 ~ -90
         longitude: _this.thisLon, // 经度，浮点数，范围为180 ~ -180。

@@ -3,7 +3,8 @@
 -->
 <template>
 <div>
-  <div class="TitBg" style="background:url(static/images/2.jpg) no-repeat cover)">
+
+  <div class="TitBg">
     <div class="headPic global_flexC global_boxSad">
       <img :src="userPic" alt="">
     </div>
@@ -105,8 +106,8 @@ export default {
       userHasBeans: 0, //用户茶豆币
       userPic: '', //用户头像，
       userName: '', //用户昵称
-      bindPhoneFlag:true,//是否显示绑定手机模块
-      phoneNum:'',
+      bindPhoneFlag: true, //是否显示绑定手机模块
+      phoneNum: '',
     }
   },
   methods: {
@@ -119,14 +120,14 @@ export default {
     //初次加载数据
     laodData: {
       var _this = this;
-
+      document.title = '茶码头';
       this.ajax(_this.port.getB, {}, 'GET', function(res) {
         console.log(res);
         if (res.status == 1) {
           _this.userHasBeans = res.beans;
           _this.userPic = res.userPic;
           _this.userName = res.userName;
-          if(res.phone){
+          if (res.phone) {
             var phoneNumber = res.phone
             console.log(phoneNumber);
             _this.bindPhoneFlag = false;
@@ -157,7 +158,7 @@ body {
 .TitBg {
   width: 100%;
   height: 2.7rem;
-  background: url(../../../static/images/2.jpg) no-repeat;
+  background: url(./2.jpg) no-repeat;
   background-size: cover;
   position: relative;
 }
@@ -204,6 +205,7 @@ body {
 .balanceList p {
   margin-top: 0.05rem
 }
+
 
 
 /*列表模块：*/
