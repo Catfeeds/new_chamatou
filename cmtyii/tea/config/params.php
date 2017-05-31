@@ -247,6 +247,13 @@ return [
                         ['name'  =>'预留金', 'value'   =>'jiaoban/index', 'select'=>0]
                     ]
                 ]
+                ,
+                [
+                    'name'=>'抽奖设置',
+                    'list'=>[
+                        ['name'  =>'抽奖设置', 'value'   =>'draw/list', 'select'=>0]
+                    ]
+                ]
             ]
         ],
     ],
@@ -300,6 +307,13 @@ return [
         'discount/edit'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/del'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/get-list'=>'discount/config',//设置 -- 优惠操作 添加
+
+        'draw/list'=>'draw/list',//设置 -- 抽奖列表
+        'draw/create'=>'draw/list',//设置 -- 抽奖列表
+        'draw/del'=>'draw/list',//设置 -- 抽奖列表
+        'draw/edit'=>'draw/list',//设置 -- 抽奖列表
+        'draw/one'=>'draw/list',//设置 -- 抽奖列表
+
         'erp/goods-list'=>'erp/goods-list',//库存 -- 获取库存列表  添加
         'erp/push-one'=>'erp/push',//库存 -- 入库一个商品或原料
         'erp/push-all'=>'erp/push',//库存 -- 入库多个商品或原料
@@ -402,6 +416,7 @@ return [
         ['name'=>'discount/config','description'=>'优惠添加操作','data'=>'setting'],
         ['name'=>'users/config','description'=>'员工操作','data'=>'setting'],
         ['name'=>'jiaoban/index','description'=>'交班预留金额设置','data'=>'setting'],
+        ['name'=>'draw/list','description'=>'抽奖配置','data'=>'setting'],
         #库存管理
         ['name'=>'erp/goods-list','description'=>'库存商品列表','data'=>'repertory'],
         ['name'=>'erp/push','description'=>'库存入库','data'=>'repertory'],

@@ -36,6 +36,35 @@
             $items[] = ['label' => '业务员管理', 'url' => ['/salesman/index'], 'icon'=>'user-md'];
         }
 
+        if(isset($roles['/message/index'])){
+            $items[] = ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'];
+        }
+
+        if(isset($roles['/goods/index'])){
+            $items[] = [
+                'label' => 'B2B商城管理',
+                'url' => '#',
+                'icon'=>'amazon',
+                'items' => [
+                    ['label' => '商品列表', 'url' => ['/goods/index'],],
+                    ['label' => '品类列表', 'url' => ['/category/index'],],
+                    ['label' => '订单管理', 'url' => ['/order/index'],],
+                ]
+            ];
+        }
+
+        if(isset($roles['/credit/order'])){
+            $items[] = [
+                'label' => '授信',
+                'url' => '#',
+                'icon'=>'bank',
+                'items' => [
+                    ['label' => '授信订单', 'url' => ['/credit/order']],
+                    ['label' => '还款记录', 'url' => ['/credit/refund']],
+                ]
+            ];
+        }
+
         if(isset($roles['/admin/role/index'])){
             $items[] = [
                 'label' => '权限管理',
@@ -52,36 +81,8 @@
             ];
         }
 
-        if(isset($roles['/message/index'])){
-            $items[] = ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'];
-        }
-
-        if(isset($roles['/goods/index'])){
-            $items[] = [
-                'label' => 'B2B商城管理',
-                'url' => '#',
-                'icon'=>'amazon',
-                'items' => [
-                    ['label' => '商品列表', 'url' => ['goods/index'],],
-                    ['label' => '品类列表', 'url' => ['category/index'],],
-                    ['label' => '订单管理', 'url' => ['order/index'],],
-                ]
-            ];
-        }
-
-        if(isset($roles['/credit/order'])){
-            $items[] = [
-                'label' => '授信',
-                'url' => '#',
-                'icon'=>'bank',
-                'items' => [
-                    ['label' => '授信订单', 'url' => ['credit/order']],
-                    ['label' => '还款记录', 'url' => ['credit/refund']],
-                ]
-            ];
-        }
-
         ?>
+
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
