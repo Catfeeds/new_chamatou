@@ -74,7 +74,7 @@
       <h5 class="pLR">选购商品</h5>
       <div class="carGoodsList">
         <div class="carDetaRow pLR" v-for="data in carData" :key="data.key">
-          <h4 class="global_txtOver">{{data.name}}/一{{data.unit}}</h4>
+          <h4 class="global_txtOver">{{data.name}}/{{data.unit}}</h4>
           <span class="carDetaCost">￥{{data.cost}}</span>
         </div>
       </div>
@@ -299,7 +299,7 @@ export default {
       _this.totalPrices = 0;
       _this.carData = [];
       _this.carFlag = false;
-      for (var i = 0; i < _this.Data.length - 1; i++) {
+      for (var i = 0; i < _this.Data.length ; i++) {
         var goods = _this.Data[i].goods;
         if (goods) {
           for (var j = 0; j < goods.length; j++) {
@@ -346,10 +346,10 @@ export default {
     //更改数量（点击商品列表中的加减号执行此函数，对商品加入购物车，以及加入购物车中的商品数量进行操作）
     changeNum(pId, type) {
       var _this = this;
-      for (var i = 0; i <= _this.Data.length; i++) {
+      for (var i = 0; i < _this.Data.length; i++) {
         var goods = _this.Data[i].goods;
         if (goods) {
-          for (var j = 0; j <= goods.length; j++) {
+          for (var j = 0; j < goods.length; j++) {
             //console.log(goods[j].id);
             //console.log(goods[j].stock);
             if (pId == goods[j].id) {
