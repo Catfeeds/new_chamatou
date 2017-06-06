@@ -349,7 +349,7 @@ export default {
       for (var i = 0; i <= _this.Data.length; i++) {
         var goods = _this.Data[i].goods;
         if (goods) {
-          for (var j = 0; j < goods.length; j++) {
+          for (var j = 0; j <= goods.length; j++) {
             //console.log(goods[j].id);
             //console.log(goods[j].stock);
             if (pId == goods[j].id) {
