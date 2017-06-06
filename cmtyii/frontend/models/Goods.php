@@ -51,7 +51,9 @@ class Goods extends ActiveRecord
                 }
             }
         }
-        return $data;
+        //查询出扫码对应的商家名称
+        $sp_name = Store::find()->where("id = :store_id",[':store_id'=>$ids['store_id']])->select(['sp_name'])->asArray()->one();
+        return ['data'=>$data,'sp_name'=>$sp_name['sp_name']];
     }
 
     /**
