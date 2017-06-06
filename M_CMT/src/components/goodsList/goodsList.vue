@@ -247,7 +247,7 @@ export default {
       _this.totalPrices = 0;
       _this.carData = [];
       _this.sendData = [];
-      for (var i = 0; i < _this.Data.length - 1; i++) {
+      for (var i = 0; i < _this.Data.length; i++) {
         var goods = _this.Data[i].goods;
         if (goods) {
           for (var j = 0; j < goods.length; j++) {
