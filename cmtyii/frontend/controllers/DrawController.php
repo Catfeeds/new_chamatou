@@ -4,13 +4,15 @@
  * @copyright Copyright (c) 2017 Double Software LLC
  * @license http://www.lrdouble.com/license/
  */
-namespace tea\controllers;
+namespace frontend\controllers;
 
 use tea\models\Draw;
 use tea\models\DrawCard;
 use tea\models\DrawConf;
+use yii\web\Controller;
 
-class DrawController extends ObjectController
+
+class DrawController extends BaseController
 {
     /**
      * 获取推荐码列表
@@ -172,5 +174,16 @@ class DrawController extends ObjectController
         if($drawConf)
             $drawConf->prize = unserialize($drawConf->prize);
         return ['code'=>1,'msg'=>'成功','data'=>$drawConf];
+    }
+
+    /**
+     * 获取当前用户的中奖纪录
+     * @return array
+     */
+    public function actionWiningList()
+    {
+        $model = new \frontend\models\DrawCard();
+        $data = $model->winList();
+        return ['code'=>1,'msg'=>'成功','data'=>$data];
     }
 }

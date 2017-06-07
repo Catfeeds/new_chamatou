@@ -89,6 +89,7 @@ class DrawCard extends \yii\db\ActiveRecord
      */
     public function getChouJiangResult()
     {
+        $user = \Yii::$app->session->get('wx_user');
         //奖品获取
         DrawConf::getDaZhuanBanInfo();
         $prize = $proArr = Yii::$app->session->get('drawList');
@@ -117,17 +118,19 @@ class DrawCard extends \yii\db\ActiveRecord
                     'status' => 1,
                     'end_time' => time(),
                     'type'=>$temp->type,
+                    'user_id' => $user['id'],
                 ]);
             } else {
                 $this->addDrawCard([
                     'name' => $temp->name . '数量' . $temp->number,
                     'status' => 0,
                     'type'=>$temp->type,
+                    'user_id' => $user['id'],
                 ]);
             }
         }
         Yii::$app->session->remove('drawList');
-        return $temp->name;
+        return ['name'=>$temp->name,'type'=>$temp->type];
     }
 
     /**
@@ -139,7 +142,7 @@ class DrawCard extends \yii\db\ActiveRecord
     {
         $this->shoper_id = Yii::$app->session->get('shoper_id');
         $this->store_id = Yii::$app->session->get('store_id');
-        $this->user_id = Yii::$app->session->get('user_id');
+        $this->user_id = $param['user_id'];
         $this->name = $param['name'];
         $this->sn = time().mt_rand(0,99);
         $this->status = $param['status'];

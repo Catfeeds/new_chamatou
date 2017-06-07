@@ -13,6 +13,7 @@ namespace frontend\controllers;
 use frontend\models\Consumption;
 use frontend\models\Goods;
 use frontend\models\User;
+use tea\models\DrawConf;
 use tea\models\Order;
 use tea\models\OrderGoods;
 use tea\models\Table;
@@ -88,7 +89,9 @@ class GoodsController extends BaseController
             }
             //往订单中添加用户选择的商品
             if(!($orderModel->addGoods($data['goodsList']))){
-                throw new Exception('商品添加失败!');
+                $message = $orderModel->getFirstErrors();
+                $message = reset($message);
+                throw new Exception('商品添加失败!'.$message);
             }
             Goods::addInformation($data['goodsList'],$orderModel->table_name);
             $try->commit();
