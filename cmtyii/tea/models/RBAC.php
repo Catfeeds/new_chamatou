@@ -206,6 +206,9 @@ class RBAC
             'message' => [
                 'length' => 0,
             ],
+            'draw'      =>[
+                'length'=>0,
+            ],
             'setting' => [
                 'length' => 0,
             ],'withdraw'=>[
@@ -274,6 +277,12 @@ class RBAC
                     $name = str_replace('-','_',$name);
                     $roleList['common'][$name] = 1;
                     $roleList['common']['length']++;
+                    break;
+                case 'draw':
+                    $name = str_replace('/','_',$item['name']);
+                    $name = str_replace('-','_',$name);
+                    $roleList['draw'][$name] = 1;
+                    $roleList['draw']['length']++;
                     break;
             }
         }

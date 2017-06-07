@@ -188,6 +188,7 @@ class Table extends \yii\db\ActiveRecord
             $order['total_amount'] += $value['sum_price'];
             $order['goods_list'][$key]['add_time'] = date('Y-m-d H:i:s',$value['add_time']);
         }
+        $order['total_amount'] += $order['table_amount'];
         # 格式化相应的时间
         $order['time']       = $this->ToHour($order['start_time']);
         $order['start_time'] = date('Y-m-d H:i:s',$order['start_time']);
@@ -208,7 +209,6 @@ class Table extends \yii\db\ActiveRecord
                             ['shoper_id'=>Yii::$app->session->get('shoper_id'),'merge_order_id'=>$oderId,'status'=>1])->all();
         if(empty($MerOrder))
             return [];
-
         $MerOrderArray = ArrayHelper::toArray($MerOrder);
         foreach ($MerOrder as $key=>$value)
         {
@@ -715,6 +715,7 @@ class Table extends \yii\db\ActiveRecord
                                 return $this->addError('id',reset($msg));
                             }
                         }
+
                         $value->tableUseCost($order,$value->getTableType());
                         $order->total_amount = $order->getGoodsSumPrice();
                         $order->table_amount = $order->redyTableAmount($order->start_time);

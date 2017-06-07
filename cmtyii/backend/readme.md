@@ -52,7 +52,7 @@ $ yii migrate --migrationPath=@yii/rbac/migrations
 
 
 
-4. coding start
+4.coding start
 ---------------
 
 http#//localhost/path/to/index.php?r=admin

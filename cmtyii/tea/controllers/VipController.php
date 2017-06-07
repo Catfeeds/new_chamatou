@@ -3,6 +3,7 @@
 namespace tea\controllers;
 
 
+use tea\models\UsersForm;
 use tea\models\VipPay;
 use Yii;
 use tea\models\Vip;
@@ -70,6 +71,7 @@ class VipController extends ObjectController
                 $data[$key]['sex'] = '男';
             elseif ($value['sex'] == 2)
                 $data[$key]['sex'] = '女';
+            $data[$key]['user_id'] = UsersForm::getUserNameById($value['user_id']);
         }
 
         return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>[
@@ -103,6 +105,7 @@ class VipController extends ObjectController
                 'id'=>Yii::$app->request->get('vip_id')])->asArray()->one();
             $ret['list']         =  $data;
             $ret['list']['birthday'] =  date('Y-m-d',$data['birthday']);
+            $ret['list']['user_id']  = UsersForm::getUserNameById($data['user_id']);
             return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$ret];
         }
         else
@@ -150,6 +153,7 @@ class VipController extends ObjectController
                 $data['phone']    = $vip->phone;
                 $data['card_no']  = $vip->card_no;
                 $data['sum']      = number_format($data['amount'] + $data['zs'] + $data['pay_up_amount'],2);
+                $data['tea_user_id'] = UsersForm::getUserNameById($data['tea_user_id']);
                 return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$data];
             }
             return ['code' => 0, 'msg' => Yii::t('app', 'global')['false']];
