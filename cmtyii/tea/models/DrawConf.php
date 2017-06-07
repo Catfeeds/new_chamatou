@@ -3,6 +3,7 @@
 namespace tea\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%sp_draw_conf}}".
@@ -10,6 +11,8 @@ use Yii;
  * @property integer $id
  * @property integer $shoper_id
  * @property integer $store_id
+ * @property integer $prize
+ * @property integer $number
  * @property integer $status
  */
 class DrawConf extends \yii\db\ActiveRecord
@@ -37,7 +40,8 @@ class DrawConf extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'shoper_id', 'store_id', 'status'], 'integer'],
+            [['id', 'shoper_id', 'store_id', 'status','number'], 'integer'],
+            [['prize'],'safe'],
             [['status'],'in','range'=>[0,1]],
         ];
     }
@@ -70,5 +74,60 @@ class DrawConf extends \yii\db\ActiveRecord
             return true;
         }
         return $this->status = $status;
+    }
+
+    /**
+     * 添加一个规则
+     * @param $param
+     * @return bool
+     */
+    public function create($param)
+    {
+        $this->prize  = serialize($param['prize']);
+        if ($this->load($param, '') && $this->validate())
+        {
+            $this->prize  = serialize($param['prize']);
+            $this->shoper_id = Yii::$app->session->get('shoper_id');
+            $this->store_id  = Yii::$app->session->get('store_id');
+            return $this->save();
+        }
+        return false;
+    }
+
+    /**
+     * 获取我的配置信息
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getInfo()
+    {
+        return DrawConf::find()
+               ->andWhere(['shoper_id' => \Yii::$app->session->get('shoper_id')])
+               ->andWhere(['store_id' => \Yii::$app->session->get('store_id')])
+               ->one();
+    }
+
+    /**
+     * 获取大转盘信息
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getDaZhuanBanInfo()
+    {
+        $drawConf = DrawConf::getInfo();
+        $list = [];
+        if ($drawConf) {
+            $drawConf['prize'] = unserialize($drawConf['prize']);
+            $drawConf = ArrayHelper::toArray($drawConf);
+            foreach ($drawConf['prize'] as $key => $value) {
+                $temp = Draw::findOne($value);
+                $list[$value] = $temp->name;
+                $drawConf['prize'][$key] = $temp->name;
+            }
+            \Yii::$app->session->set('drawList', $list);
+            unset($list);
+            unset($temp);
+        } else {
+            $drawConf['status'] = 0;
+        }
+        return $drawConf;
     }
 }

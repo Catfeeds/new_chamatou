@@ -131,9 +131,11 @@ class TableType extends \yii\db\ActiveRecord
     public function getByCateName($cateName ='',$select = [])
     {
         return self::find()->select($select)
-                           ->where('cate_name = :cate_name and shoper_id = :shoper_id and store_id = :store_id',
-                                    [':cate_name'=>$cateName,':shoper_id'=>Yii::$app->session->get('shoper_id'),':store_id'=>Yii::$app->session->get('store_id')])
-                           ->one();
+                           ->where('cate_name = :cate_name and shoper_id = :shoper_id and store_id = :store_id', [
+                                        ':cate_name'=>$cateName,
+                                        ':shoper_id'=>Yii::$app->session->get('shoper_id'),
+                                        ':store_id'=>Yii::$app->session->get('store_id')
+                            ])->one();
     }
 
     /**

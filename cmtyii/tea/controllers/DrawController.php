@@ -7,10 +7,54 @@
 namespace tea\controllers;
 
 use tea\models\Draw;
+use tea\models\DrawCard;
 use tea\models\DrawConf;
 
 class DrawController extends ObjectController
 {
+    /**
+     * 获取推荐码列表
+     * @return array
+     */
+    public function actionIndex()
+    {
+        $model = new DrawCard();
+        $data = $model->search(\Yii::$app->request->get());
+        return ['code'=>1,'msg'=>'成功','data'=>$data];
+    }
+
+    /**
+     * 领取操作
+     * @return array
+     */
+    public function actionEndCard()
+    {
+        $model = DrawCard::findOne(\Yii::$app->request->get('draw_card_id'));
+        if($model)
+        {
+            $model->end_time = time();
+            $model->status = 1;
+            if($model->save()){
+                return ['code'=>1,'msg'=>'成功'];
+            }
+            $message = $model->getFirstErrors();
+            $message = reset($message);
+            return ['code'=>1,'msg'=>$message];
+        }
+        return ['code'=>0,'msg'=>'不存在'];
+    }
+
+    public function actionTest1()
+    {
+        return ['code'=>1,'msg'=>'成功','data'=>DrawConf::getDaZhuanBanInfo()];
+    }
+    public function actionTest2()
+    {
+        $model = new DrawCard();
+        $data = $model->getChouJiangResult();
+        return ['code'=>1,'msg'=>'成功','data'=>$data];
+    }
+
     /**
      * 获取所有列表
      * @return array
@@ -69,6 +113,16 @@ class DrawController extends ObjectController
         $id = \Yii::$app->request->post('draw_id');
         $model =  Draw::findOne($id);
         if($model){
+            $drawConf = DrawConf::getInfo();
+            if($drawConf){
+                $drawConf->prize = unserialize($drawConf->prize);
+                foreach ($drawConf['prize'] as $key=>$val)
+                {
+                    if($val == $model->id){
+                        return ['code'=>0,'msg'=>'参与活动的奖品不予删除！'];
+                    }
+                }
+            }
             if($model->delete())
                 return ['code'=>1,'msg'=>'成功'];
             return ['code'=>0,'msg'=>'删除失败'];
@@ -85,5 +139,38 @@ class DrawController extends ObjectController
         $id = \Yii::$app->request->get('draw_id');
         $model =  Draw::findOne($id);
         return ['code'=>1,'msg'=>'成功','data'=>$model];
+    }
+
+    /**
+     * 创建一个规则
+     * @return array
+     */
+    public function actionCreateConf()
+    {
+        if(\Yii::$app->request->isPost)
+        {
+            $drawConf = DrawConf::getInfo();
+            if(!$drawConf)
+                $drawConf = new DrawConf();
+            if ($id = $drawConf->create(\Yii::$app->request->post())){
+                return ['code'=>1,'msg'=>'成功'];
+            }
+            $message = $drawConf->getFirstErrors();
+            $message = reset($message);
+            return ['code'=>0,'msg'=>$message];
+        }
+        return ['code'=>0,'msg'=>"请POST提交"];
+    }
+
+    /**
+     * 获取一个奖品配置
+     * @return array
+     */
+    public function actionOneConf()
+    {
+        $drawConf = $drawConf = DrawConf::getInfo();
+        if($drawConf)
+            $drawConf->prize = unserialize($drawConf->prize);
+        return ['code'=>1,'msg'=>'成功','data'=>$drawConf];
     }
 }

@@ -197,6 +197,17 @@ return [
             ]
         ],
         [
+            'name'=>'奖品管理',
+            'list'=>[
+                [
+                    'name'=>'奖品管理',
+                    'list'=>[
+                        ['name'  =>'奖品管理', 'value'   =>'draw/index', 'select'=>0]
+                    ],
+                ]
+            ]
+        ],
+        [
             'name'=>'设置',
             'list'=>[
                 [
@@ -264,6 +275,9 @@ return [
         'table/begin-table-order'=>1,
         'information/message-box'=>1,
         'jiaoban/index'=>1,
+        'draw/test1'=>1,
+        'draw/test2'=>1,
+        'qrcode/download'=>1
     ],
     /* 判断权限下所包含的URL*/
     'rbacUrlList' =>[
@@ -313,6 +327,10 @@ return [
         'draw/del'=>'draw/list',//设置 -- 抽奖列表
         'draw/edit'=>'draw/list',//设置 -- 抽奖列表
         'draw/one'=>'draw/list',//设置 -- 抽奖列表
+        'draw/create-conf'=>'draw/list',//设置 -- 抽奖列表
+        'draw/one-conf'=>'draw/list',//设置 -- 抽奖列表
+        'draw/index'=>'draw/index',//设置 -- 抽奖列表
+        'draw/end-card'=>'draw/index',//设置 -- 抽奖列表
 
         'erp/goods-list'=>'erp/goods-list',//库存 -- 获取库存列表  添加
         'erp/push-one'=>'erp/push',//库存 -- 入库一个商品或原料
@@ -417,6 +435,7 @@ return [
         ['name'=>'users/config','description'=>'员工操作','data'=>'setting'],
         ['name'=>'jiaoban/index','description'=>'交班预留金额设置','data'=>'setting'],
         ['name'=>'draw/list','description'=>'抽奖配置','data'=>'setting'],
+        ['name'=>'draw/index','description'=>'奖品领取','data'=>'draw'],
         #库存管理
         ['name'=>'erp/goods-list','description'=>'库存商品列表','data'=>'repertory'],
         ['name'=>'erp/push','description'=>'库存入库','data'=>'repertory'],

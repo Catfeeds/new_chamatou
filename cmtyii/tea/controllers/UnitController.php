@@ -66,8 +66,8 @@ class UnitController extends  ObjectController
             $unit = Unit::findOne(Yii::$app->request->post('unit_id'));
             if($unit)
             {
-                $addRet = $unit->del(Yii::$app->request->post());
-                if($addRet){
+                $delRet = $unit->del(Yii::$app->request->post());
+                if($delRet){
                     return ['code'=>1,'msg'=>Yii::t('app', 'global')['true']];
                 }
                 $message = $unit->getFirstErrors();

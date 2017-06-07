@@ -132,18 +132,20 @@ class Book extends \yii\db\ActiveRecord
      */
     public static function scanBookStatus()
     {
+
         $list = self::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
                     ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
                     ->andWhere(['status'=>0])
                     ->all();
+
         $message = new Information();
         foreach ($list as $key=>$value){
             $cache = Yii::$app->cache->get($value['id']);
             if(!$cache){
-                $time = $value['send_time']-60*5;
+                $time = $value['send_time']- 60*5;
                 if($time<time()){
                     $tableName = Table::getTableNameById($value['table_id']);
-                    $m = $tableName.'系统将于'.date('Y-m-d H:i:s',$value['send_time']).'自动取消该预定！';
+                    $m = '【'.$tableName.'】'.'系统将于'.date('Y-m-d H:i:s',$value['send_time']).'自动取消该预定！';
                     $message->add(['content'=>$m,'type'=>'3']);
                     Yii::$app->cache->set($value['id'],'1111');
                 }
@@ -155,12 +157,14 @@ class Book extends \yii\db\ActiveRecord
             ->andWhere(['<','send_time',time()])
             ->andWhere(['status'=>0])
             ->all();
+
         foreach ($list as $key=>$value){
             $tableName = Table::getTableNameById($value['table_id']);
-            $m = $tableName.'系统自动取消该预定！';
+            $m = '【'.$tableName.'】'.'系统自动取消该预定！';
             $message->add(['content'=>$m,'type'=>'3']);
             $value->status = 2;
             $value->save();
         }
+
     }
 }

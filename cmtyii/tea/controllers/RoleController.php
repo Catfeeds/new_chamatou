@@ -72,6 +72,7 @@ class  RoleController extends ObjectController
                 $rbacInitList = \Yii::$app->params['rbacInitList'];
                 /**
                  * 排序算法
+                 * 看不懂时候去看下params的数据结构！
                  */
                 for ($i = 0; $i < sizeof($rbacInitList); $i++) {
                     for ($j = 0; $j < sizeof($rbacInitList[$i]['list']); $j++) {
@@ -86,6 +87,7 @@ class  RoleController extends ObjectController
                         }
                     }
                 }
+
                 /**
                  * 去处第一个坐标
                  */

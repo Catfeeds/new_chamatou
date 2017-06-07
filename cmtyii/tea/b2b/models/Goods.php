@@ -95,7 +95,8 @@ class Goods extends \yii\db\ActiveRecord
         $data['sort'] = isset($data['sort']) ? $data['sort'] : 2;
         $data['cate_id'] = isset($data['cate_id']) ? $data['cate_id'] : '';
 
-        $goodsModel = self::find()->andWhere(['like', 'goods_name', $data['keyword']]);
+        $goodsModel = self::find()->andWhere(['like', 'goods_name', $data['keyword']])
+                        ->andWhere(['status'=>Goods::STATUS_GROUNDING]);
         /**
          * 判断是否使用分页查询
          */

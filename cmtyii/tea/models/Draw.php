@@ -13,6 +13,7 @@ use Yii;
  * @property integer $probability
  * @property string $name
  * @property integer $type
+ * @property integer $number
  */
 class Draw extends \yii\db\ActiveRecord
 {
