@@ -278,12 +278,10 @@ export default {
       }
       _this.totalBox = _this.totalPrices
     },
-
     //是否显示购物车:(显示隐藏购物车模块)
     showCar: function showCar() {
       this.carFlag = !this.carFlag;
     },
-
     //点击去结算：（显示隐藏确认点单模块，以及关联模块）
     goFish: function goFish() {
       this.fishFlag = !this.fishFlag;
@@ -291,7 +289,6 @@ export default {
       this.succeedAlertFlag = false;
       this.iptBeans = ''
     },
-
     //点击清空按钮：（清除购物车中的所有商品）
     clearAll: function clearAll() {
       var _this = this;
@@ -308,7 +305,6 @@ export default {
         }
       }
     },
-
     //输入了茶豆币，总价改变（用户输入使用茶豆币（必须判断用户输入的茶豆币是否大于用户拥有的茶豆币））
     downB: function downB() {
       var _this = this;
@@ -326,7 +322,6 @@ export default {
       }
       _this.totalPrices = thisTotal
     },
-
     //点击Tit右边跳转到对应的位置（电梯效果，点击左侧的导航栏，右侧运动到相应的分类位置）
     jump: function jump(theId) {
       var theCls = '.' + theId;
@@ -342,7 +337,6 @@ export default {
         scrollTop: anchor + "px"
       })
     },
-
     //更改数量（点击商品列表中的加减号执行此函数，对商品加入购物车，以及加入购物车中的商品数量进行操作）
     changeNum(pId, type) {
       var _this = this;
@@ -401,7 +395,7 @@ export default {
       }).then(() => {
         this.$message({
           type: 'success',
-          message: '恭喜您，单成功~~！'
+          message: '恭喜您，点单成功~~！'
         });
       }).catch(() => {
         this.$router.push({
@@ -450,6 +444,9 @@ export default {
           _this.succeedAlertFlag = true;
           _this.orderId = res.order_id;
           _this.open();
+          
+          
+          
           var table_noP = JSON.parse(window.localStorage.getItem('table_no'))
         } else if (res.status == 0) {
           _this.$message.error(res.msg);
@@ -474,7 +471,6 @@ export default {
         shoper_id: _this.$route.params.shoper_id,
         store_id: _this.$route.params.store_id
       }, 'GET', function(res) {
-        console.log(res);
         if (res.status == 1) {
           _this.Data = res.data;
           document.title = res.sp_name;
@@ -511,7 +507,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .fold-enter-active {
   animation-name: fold-in;
   animation-duration: .1s;

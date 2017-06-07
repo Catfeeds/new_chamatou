@@ -14,6 +14,7 @@ import clubCard from '@/components/clubCard/clubCard.vue'
 import teaDeta from '@/components/teaDeta/teaDeta.vue'
 import goodsList from '@/components/goodsList/goodsList.vue'
 import orderDeta from '@/components/orderDeta/orderDeta.vue'
+import draw from '@/components/draw/draw.vue'
 //import cartcontrol from 'components/cartcontrol/cartcontrol';
 Vue.use(Router)
 
@@ -77,7 +78,11 @@ export default new Router({
       name:'orderDeta',
       component:orderDeta
     },
-
+    {
+      path:'/draw',
+      name:'draw',
+      component:draw
+    },
 
     //{path:'*', redirect:'/main/nearbyTea'}  //重定向（进来的默认跳转位置）
   ]
