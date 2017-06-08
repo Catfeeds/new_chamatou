@@ -68,7 +68,7 @@ class IndexController extends BaseController
         \Yii::$app->session->set('wx_user',$userinfo);
         \Yii::$app->session->set('openid',$userinfo['openid']);
         //跳转到用户端首页
-        return $this->redirect("http://test5.angkebrand.com/wx");
+        return $this->redirect("http://wx.chamatou.cn/wx");
     }
     /**
      * 首页附近茶楼列表  目前只推荐省类的茶楼
