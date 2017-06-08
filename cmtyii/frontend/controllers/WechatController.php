@@ -27,7 +27,7 @@ class WechatController extends Controller
     public function actionConfig()
     {
         $js = \Yii::$app->wechat->app->js;
-        $js->setUrl("http://test5.angkebrand.com/wx/");
+        $js->setUrl("http://wx.chamatou.cn/wx/");
         $config = $js->config([
                 'openLocation',
                 'getLocation',

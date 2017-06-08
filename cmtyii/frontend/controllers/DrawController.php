@@ -6,6 +6,7 @@
  */
 namespace frontend\controllers;
 
+use frontend\models\Store;
 use tea\models\Draw;
 use tea\models\DrawCard;
 use tea\models\DrawConf;

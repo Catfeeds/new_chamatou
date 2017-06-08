@@ -114,15 +114,29 @@ class DrawCard extends \yii\db\ActiveRecord
         if ($temp->type !== 5) {
             if ($temp->type == 1) {
                 $this->addDrawCard([
-                    'name' => $temp->name . '数量' . $temp->number,
+                    'name' => $temp->name . '--' . $temp->number.'个',
                     'status' => 1,
                     'end_time' => time(),
                     'type'=>$temp->type,
                     'user_id' => $user['id'],
                 ]);
-            } else {
+            } elseif($temp->type == 2) {
                 $this->addDrawCard([
-                    'name' => $temp->name . '数量' . $temp->number,
+                    'name' => $temp->name . '--' . $temp->number.'折',
+                    'status' => 0,
+                    'type'=>$temp->type,
+                    'user_id' => $user['id'],
+                ]);
+            }elseif($temp->type == 3){
+                $this->addDrawCard([
+                    'name' => $temp->name . '--' . $temp->number.'元',
+                    'status' => 0,
+                    'type'=>$temp->type,
+                    'user_id' => $user['id'],
+                ]);
+            }else{
+                $this->addDrawCard([
+                    'name' => $temp->name . 'x' . $temp->number,
                     'status' => 0,
                     'type'=>$temp->type,
                     'user_id' => $user['id'],

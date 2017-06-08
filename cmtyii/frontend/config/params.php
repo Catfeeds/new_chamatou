@@ -16,7 +16,7 @@ return [
         'aes_key' => '',                    // EncodingAESKey，安全模式下请一定要填写！！！
         'oauth' => [
             'scopes'   => ['snsapi_userinfo'],
-            'callback' => 'http://127.0.0.1.tunnel.qydev.com/index/callback',//授权回调地址
+            'callback' => 'http://wx.chamatou.cn/index/callback',//授权回调地址
         ],
         'guzzle' => [
             'timeout' => 300, // 超时时间（秒）
@@ -27,7 +27,7 @@ return [
             'key'                => '6393246e2aecabb5caf267f3cabc1b7f',
             'cert_path'          => 'F:\project\cmt\chamatou\cmtyii\frontend\web', // XXX: 绝对路径！！！！
             'key_path'           => 'F:\project\cmt\chamatou\cmtyii\frontend\web',      // XXX: 绝对路径！！！！
-            'notify_url'         => 'http://127.0.0.1.tunnel.qydev.com/wechat/notify',       // 你也可以在下单时单独设置来想覆盖它
+            'notify_url'         => 'http://wx.chamatou.cn/wechat/notify',       // 你也可以在下单时单独设置来想覆盖它
             // 'device_info'     => '013467007045764',
             // 'sub_app_id'      => '',
             // 'sub_merchant_id' => '',
