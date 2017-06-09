@@ -43,7 +43,7 @@ class GoodsController extends BaseController
         $model = new Goods();
         $data  = $model->getList($ids);
         if($data){
-            $result = ['status'=>1,'data'=>$data['data'],'sp_name'=>$data['sp_name']];
+            $result = ['status'=>1,'data'=>$data['data'],'sp_name'=>$data['sp_name'],'sp_img'=>$data['sp_img']];
         }else{
             $result = ['status'=>0,'data'=>[]];
         }
