@@ -227,7 +227,10 @@ class Order extends \yii\db\ActiveRecord
                     $data['note'] = '销售出库--系统生成';
                     $storageInfo = new StorageInfo();
                     if(!$storageInfo->pop($data)){
-                        throw new \Exception('storageInfo error');
+                        $message = $storageInfo->getFirstErrors();
+                        $message = reset($message);
+                        $message = Yii::$app->session->get('store_id');
+                        throw new \Exception('storageInfo goods error'.$message);
                     }
                 }elseif ($stockType == 'dosing'){
                     $goodsToDosing = GoodsToDosing::getGoodsRelate($value['id']);
@@ -244,7 +247,7 @@ class Order extends \yii\db\ActiveRecord
                         if (!$storageInfo->pop($data)) {
                             $message = $storageInfo->getFirstErrors();
                             $message = reset($message);
-                            throw new \Exception('storageInfo error'.$message);
+                            throw new \Exception('storageInfo dosing error'.$message);
                         }
                     }
                 }
@@ -311,7 +314,6 @@ class Order extends \yii\db\ActiveRecord
 
                 $data = $model->getOrderAndGoods();
                 $data['merge_order'] = $model->getMergeOrder($data['id']);
-                $order_num += $data['table_amount'];
                 $order_num += $data['total_amount'];
                 foreach ($data['merge_order'] as $key => $value) {
                     $data['beans_amount'] += $value['beans_amount'];
@@ -447,11 +449,10 @@ class Order extends \yii\db\ActiveRecord
                  * 算出订单总额
                  */
                 $order_num = 0;
-
                 $data = ArrayHelper::toArray($model);
                 $data['goodsList'] = $model->getGoods();
                 foreach ($data['goodsList'] as $key=>$value){
-                    $data['total_amount']=$value['sum_price'];
+                    $data['total_amount']+=$value['sum_price'];
                 }
                 $data['merge_order'] = [];
                 $order_num += $data['table_amount'];
@@ -512,9 +513,7 @@ class Order extends \yii\db\ActiveRecord
                         if ($vip->vip_amount < $vip_pay) {
                             throw new \Exception('会员卡余额不足！');
                         }
-                        /**
-                         * 减少会员余额
-                         */
+                        /* 减少会员余额 */
                         $vip->vip_amount -= $vip_pay;
                         $zhuOrder->vip_user_id = $vip->id;
                         if (!$vip->save()) {

@@ -167,9 +167,13 @@ class RBAC
 
         $auto = \Yii::$app->authManager;
         $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+        /**
+         * 超级管理员第一次登陆
+         */
         if(empty($rbacDataList) && \Yii::$app->session->get('is_admin') == 1){
             $rbacDataList = $auto->getPermissions();
             $admins = $auto->getRole(self::setRoleName('超级管理员'));
+
             if (!$admins) {
                 $admins = $auto->createRole(self::setRoleName('超级管理员'));
                 $auto->add($admins);
@@ -177,10 +181,35 @@ class RBAC
             }
 
             foreach ($rbacDataList as $key => $value) {
-                    $auto->addChild($admins, $value);
+                $auto->addChild($admins, $value);
             }
             unset($rbacDataList);
             $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+        }
+
+        /**
+         * 添加新的功能时更新超级管理员的权限
+         */
+        if(\Yii::$app->session->get('_test_test','') == '' && \Yii::$app->session->get('is_admin') == 1){
+
+            $rbacDataList = $auto->getPermissions();
+            $admins = $auto->getRole(self::setRoleName('超级管理员'));
+
+            if (!$admins) {
+                $admins = $auto->createRole(self::setRoleName('超级管理员'));
+                $auto->add($admins);
+                $auto->assign($admins, \Yii::$app->user->id);
+            }
+            foreach ($rbacDataList as $key => $value) {
+                /* 判断现在是否有这个权限 */
+                if(\Yii::$app->user->can($value->name) === false)
+                {
+                    $auto->addChild($admins, $value);
+                }
+            }
+            unset($rbacDataList);
+            $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+            \Yii::$app->session->set('_test_test',1);
         }
         unset($auto);
 

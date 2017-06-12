@@ -264,6 +264,18 @@ return [
                     'list'=>[
                         ['name'  =>'抽奖设置', 'value'   =>'draw/list', 'select'=>0]
                     ]
+                ],
+                [
+                    'name'=>'会员等级',
+                    'list'=>[
+                        ['name'  =>'会员等级', 'value'   =>'vip/get-all', 'select'=>0]
+                    ]
+                ],
+                [
+                    'name'=>'收费规则',
+                    'list'=>[
+                        ['name'  =>'收费规则', 'value'   =>'charg/add', 'select'=>0]
+                    ]
                 ]
             ]
         ],
@@ -277,7 +289,8 @@ return [
         'jiaoban/index'=>1,
         'draw/test1'=>1,
         'draw/test2'=>1,
-        'qrcode/download'=>1
+        'qrcode/download'=>1,
+        'vip/get-all'=>'1'
     ],
     /* 判断权限下所包含的URL*/
     'rbacUrlList' =>[
@@ -321,6 +334,12 @@ return [
         'discount/edit'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/del'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/get-list'=>'discount/config',//设置 -- 优惠操作 添加
+        'vip/get-all'=>'vip/get-all',//设置
+        'vip/get-one'=>'vip/get-all',//设置
+        'vip/del-grade'=>'vip/get-all',//设置
+        'vip/edit-grade'=>'vip/get-all',//设置
+        'vip/add-grade'=>'vip/get-all',//设置
+        'charg/add'=>'charg/add',//设置
 
         'draw/list'=>'draw/list',//设置 -- 抽奖列表
         'draw/create'=>'draw/list',//设置 -- 抽奖列表
@@ -436,6 +455,8 @@ return [
         ['name'=>'jiaoban/index','description'=>'交班预留金额设置','data'=>'setting'],
         ['name'=>'draw/list','description'=>'抽奖配置','data'=>'setting'],
         ['name'=>'draw/index','description'=>'奖品领取','data'=>'draw'],
+        ['name'=>'vip/get-all','description'=>'会员管理','data'=>'setting'],
+        ['name'=>'charg/add','description'=>'收费规则管理','data'=>'setting'],
         #库存管理
         ['name'=>'erp/goods-list','description'=>'库存商品列表','data'=>'repertory'],
         ['name'=>'erp/push','description'=>'库存入库','data'=>'repertory'],

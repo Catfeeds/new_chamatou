@@ -1,0 +1,8 @@
+数据库变动：
+    增加字段
+        t_sp_vip 增加字段 grade_id
+    删除字段
+
+    新建数据库
+        t_sp_vip_grade
+        t_sp_charg_rule
