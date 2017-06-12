@@ -37,6 +37,13 @@ class Goods extends \yii\db\ActiveRecord
      * 未启用库存管理
      */
     const IS_STOCK_FLASE    = 0;
+
+    #启动会员折扣
+    const VIP_GRADE_TRUE  = 1;
+
+    #没启动会员折扣
+    const VIP_GRADE_FALSE  = 0;
+
     /**
      * @inheritdoc
      */
@@ -51,7 +58,7 @@ class Goods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'store_id', 'cate_id', 'stock', 'is_stock', 'warning_store', 'status', 'add_time', 'give'], 'integer'],
+            [['shoper_id', 'store_id', 'cate_id', 'stock', 'is_stock', 'warning_store', 'status', 'add_time', 'give','vip_grade'], 'integer'],
             [['sales_price', 'buy_price'], 'number'],
             [['goods_name', 'spec', 'note'], 'string', 'max' => 255],
             [['unit'], 'string', 'max' => 6],

@@ -25,6 +25,7 @@ use yii\web\User;
  * @property integer $birthday
  * @property integer $notes
  * @property integer $address
+ * @property integer $grade_id
  */
 class Vip extends \yii\db\ActiveRecord
 {
@@ -42,7 +43,7 @@ class Vip extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'phone', 'username', 'card_no', 'birthday'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
+            [['shoper_id', 'phone', 'username', 'card_no', 'birthday','grade_id'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
             [['shoper_id','user_id', 'sex'], 'integer', 'message' => Yii::t('app', 'table')['param_type_error'], 'on' => ['add']],
             [['phone'], 'validatePhone', 'on' => ['add']],
             [['phone'], 'match','pattern'=>'/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/','on' => ['add']],
@@ -136,6 +137,10 @@ class Vip extends \yii\db\ActiveRecord
                     ':shoper_id'=>Yii::$app->session->get('shoper_id'),
                     ':username' =>"%".$data['username']."%",
                     ':phone' =>"%".$data['phone']."%"]);
+        #搜索会员等级
+        if(isset($data['grade_id']))
+            $model = $model->andWhere(['grade_id'=>$data['grade_id']]);
+
         $dataCount = $model->count();
         $page = new Pagination(['totalCount' => $dataCount, 'pageSize' => Yii::$app->params['pageSize']]);
         $data = $model->offset($page->offset)->limit($page->limit)
@@ -149,6 +154,8 @@ class Vip extends \yii\db\ActiveRecord
                 $data[$key]['sex'] = '男';
             elseif ($value['sex'] == 2)
                 $data[$key]['sex'] = '女';
+
+            $data[$key]['grade_id'] = VipGrade::getGradeName($value['grade_id']);
         }
         return ['dateList'=>$data,'page'=>['pageCount'=>$page->getPageCount(),'dataCount'=>$dataCount]];
     }
