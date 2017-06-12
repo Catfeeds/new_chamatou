@@ -2,6 +2,7 @@
 
 namespace tea\models;
 
+use frontend\models\DrawRecord;
 use Yii;
 use yii\data\Pagination;
 
@@ -144,6 +145,7 @@ class DrawCard extends \yii\db\ActiveRecord
             }
         }
         Yii::$app->session->remove('drawList');
+        (new DrawRecord)->add();
         return ['name'=>$temp->name,'type'=>$temp->type];
     }
 

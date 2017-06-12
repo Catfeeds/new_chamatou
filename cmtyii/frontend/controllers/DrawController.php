@@ -6,6 +6,7 @@
  */
 namespace frontend\controllers;
 
+use frontend\models\DrawRecord;
 use frontend\models\Store;
 use tea\models\Draw;
 use tea\models\DrawCard;
@@ -49,7 +50,7 @@ class DrawController extends BaseController
 
     public function actionTest1()
     {
-        return ['code'=>1,'msg'=>'成功','data'=>DrawConf::getDaZhuanBanInfo()];
+        return ['code'=>1,'msg'=>'成功','data'=>DrawConf::getDaZhuanBanInfo(),'behavior'=>DrawRecord::getRecord()];
     }
     public function actionTest2()
     {
