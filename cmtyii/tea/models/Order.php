@@ -4,6 +4,7 @@ namespace tea\models;
 
 use tea\models\Goods;
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -34,6 +35,11 @@ use yii\helpers\ArrayHelper;
  * @property string $card_pay
  * @property int $is_exempt
  * @property int $user_id
+ * @property int $vip_preferential
+ * @property int $coupon
+ * @property int $discount_money
+ * @property int $discount_on
+ * @property int $charg_id
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -52,7 +58,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id', 'status', 'start_time', 'end_time', 'person', 'is_exempt', 'merge_order_id', 'staff_id','charg_id','store_id'], 'integer'],
-            [['table_amount', 'total_amount', 'beans_amount',  'discount', 'coupon_amount', 'wx_pay', 'ali_pay', 'card_pay', 'cash_amout'], 'number'],
+            [['table_amount', 'total_amount', 'beans_amount',  'discount', 'coupon_amount', 'wx_pay', 'ali_pay', 'card_pay', 'cash_amout','vip_preferential','coupon','discount_money','discount_on'], 'number'],
             [['table_name',], 'string', 'max' => 255],
             [['notes'], 'string', 'max' => 120],
             [['shoper_id', 'start_time', 'table_id', 'status'], 'required'],
@@ -252,23 +258,23 @@ class Order extends \yii\db\ActiveRecord
                     }
                 }
                 $orderGoods = new OrderGoods();
-                $orderGoods->order_id = $this->id;
+                $orderGoods->order_id   = $this->id;
                 $orderGoods->goods_name = $value['goods_name'];
-                $orderGoods->goods_id = $value['id'];
+                $orderGoods->goods_id   = $value['id'];
                 $orderGoods->goods_name = $value['goods_name'];
-                $orderGoods->shoper_id = Yii::$app->session->get('shoper_id');
-                $orderGoods->store_id = Yii::$app->session->get('store_id');
-                $orderGoods->price = $value['sales_price'];
-                $orderGoods->spec = $value['unit'];
-                $orderGoods->note = $value['note'];
-                $orderGoods->num = $goodsNum[$value['id']];
-                $orderGoods->give = 0;
-                $orderGoods->is_give = $value['give'];
-                $orderGoods->sum_price = ($orderGoods->num * $orderGoods->price);
-                $orderGoods->add_time = time();
-                $orderGoods->is_goods = 1;
-                $orderGoods->type = $type;
-                $orderGoods->vip_grade = $value['vip_grade'];
+                $orderGoods->shoper_id  = Yii::$app->session->get('shoper_id');
+                $orderGoods->store_id   = Yii::$app->session->get('store_id');
+                $orderGoods->price      = $value['sales_price'];
+                $orderGoods->spec       = $value['unit'];
+                $orderGoods->note       = $value['note'];
+                $orderGoods->num        = $goodsNum[$value['id']];
+                $orderGoods->give       = 0;
+                $orderGoods->is_give    = $value['give'];
+                $orderGoods->sum_price  = ($orderGoods->num * $orderGoods->price);
+                $orderGoods->add_time   = time();
+                $orderGoods->is_goods   = 1;
+                $orderGoods->type       = $type;
+                $orderGoods->vip_grade  = $value['vip_grade'];
                 if (!$orderGoods->save()){
                     $message = $orderGoods->getFirstErrors();
                     $message = reset($message);
@@ -294,25 +300,29 @@ class Order extends \yii\db\ActiveRecord
     {
         $use_phone = isset($param['vip_phone']) ? $param['vip_phone'] : '';
         $money_pay = isset($param['pay'][5]['money_pay']['money_pay_num']) ? $param['pay'][5]['money_pay']['money_pay_num'] : 0;//现金支付
-        $card_pay = isset($param['pay'][4]['card_pay']['card_pay_num']) ? $param['pay'][4]['card_pay']['card_pay_num'] : 0;//刷卡支付
-        $ali_pay = isset($param['pay'][0]['ali_pay']['ali_pay_num']) ? $param['pay'][0]['ali_pay']['ali_pay_num'] : 0;//支付宝支付
-        $wx_pay = isset($param['pay'][1]['wx_pay']['wx_pay_num']) ? $param['pay'][1]['wx_pay']['wx_pay_num'] : 0;//微信支付
-        $vip_pay = isset($param['pay'][2]['vip_pay']['vip_pay_num']) ? $param['pay'][2]['vip_pay']['vip_pay_num'] : 0;//会员卡支付
+        $card_pay  = isset($param['pay'][4]['card_pay']['card_pay_num'])   ? $param['pay'][4]['card_pay']['card_pay_num']   : 0;//刷卡支付
+        $ali_pay   = isset($param['pay'][0]['ali_pay']['ali_pay_num'])     ? $param['pay'][0]['ali_pay']['ali_pay_num']     : 0;//支付宝支付
+        $wx_pay    = isset($param['pay'][1]['wx_pay']['wx_pay_num'])       ? $param['pay'][1]['wx_pay']['wx_pay_num']       : 0;//微信支付
+        $vip_pay   = isset($param['pay'][2]['vip_pay']['vip_pay_num'])     ? $param['pay'][2]['vip_pay']['vip_pay_num']     : 0;//会员卡支付
         $preferential = isset($param['pay'][3]['preferential']['preferential_num']) ? $param['pay'][3]['preferential']['preferential_num'] : 0;//手动优惠
         $pay_num = $money_pay + $card_pay + $ali_pay + $wx_pay + $vip_pay + $preferential;
+
+        // 去除各种营销数据
+        $this->endOrderMarketing();
+
         /**
          * 判断台座订单是否存在
          */
         $transaction = Yii::$app->db->beginTransaction();
         try {
 
-            $model = Table::findOne($param['table_id']);
-            if ($model) {
+            if ($model = Table::findOne($param['table_id']) ) {
+
+
                 /**
                  * 算出订单总额
                  */
                 $order_num = 0;
-
                 $data = $model->getOrderAndGoods();
                 $data['merge_order'] = $model->getMergeOrder($data['id']);
                 $order_num += $data['total_amount'];
@@ -444,8 +454,9 @@ class Order extends \yii\db\ActiveRecord
         $transaction = Yii::$app->db->beginTransaction();
         try {
 
-            $model = self::findOne($param['order_id']);
-            if ($model) {
+            if ($model = self::findOne($param['order_id']))
+            {
+
                 /**
                  * 算出订单总额
                  */
@@ -573,6 +584,183 @@ class Order extends \yii\db\ActiveRecord
         return $table->readTableAmount($strat_time,$chargId);
     }
 
+    /**
+     * 会员营销的一些列的提前处理
+     */
+    private function endOrderMarketing()
+    {
+        $param['discount_sn'] = Yii::$app->request->post('discount_sn','');
+        $param['coupon_sn']   = Yii::$app->request->post('coupon_sn','');
+        $param['vip_sn']   = Yii::$app->request->post('coupon_sn','');
+        $param['vip_phone']   = Yii::$app->request->post('vip_phone','');
+        $param['table_id']    = Yii::$app->request->post('table_id','');
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            if($tableModel = Table::findOne($param['table_id']))
+        {
 
+            // 折扣卷
+            if($param['discount_sn']){
+                $drawCard = DrawCard::find()
+                    ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                    ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                    ->andWhere(['status'=>0])
+                    ->andWhere(['type'=>2])
+                    ->andWhere(['sn'=>$param['discount_sn']])
+                    ->one();
+                if($drawCard){
+                   $this->discountOn($tableModel->getOrderAR(),$drawCard->number);
+                    $drawCard->status = 2;
+                    $drawCard->end_time = time();
+                    if(!$drawCard->save()){
+                        throw new \Exception('drawCard save error!');
+                    }
+                }
+            }
+
+            // 优惠券
+            if($param['coupon_sn']){
+                $drawCard = DrawCard::find()
+                    ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                    ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                    ->andWhere(['status'=>0])
+                    ->andWhere(['type'=>3])
+                    ->andWhere(['sn'=>$param['coupon_sn']])
+                    ->one();
+                if($drawCard){
+                    $this->coupon($tableModel->getOrderAR(),$drawCard->number);
+                    $drawCard->status = 2;
+                    $drawCard->end_time = time();
+                    if(!$drawCard->save()){
+                        throw new \Exception('drawCard save error!');
+                    }
+                }
+            }
+            // 会员折扣
+            if($param['vip_sn']){
+                if($vipModel = Vip::getVipByPhone($param['vip_phone'])){
+                    $this->vipPreferential($tableModel->getOrderAR(),$vipModel);
+                }
+            }
+            $transaction->commit();
+        }
+        }catch (\Exception $exception){
+            $transaction->rollBack();
+            echo $exception->getMessage();
+        }
+    }
+
+    /**
+     * 会员进行打折
+     * @param Order $order
+     * @param Vip $vip
+     * @return bool
+     */
+    private function vipPreferential(Order $order , Vip $vip)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            $gradeArray = $order->getGradeGoods();
+            $grade = VipGrade::getDiscount($vip->grade_id);
+            if(!$grade < 0.1 && $grade <= 10){
+                $grade = $grade / 10;
+                foreach($gradeArray as $key=>$goods) {
+                    $discountBehind = $goods->sum_price * $grade ;
+                    $goods->discount_money = $goods->sum_price - $discountBehind;
+                    $goods->discount = $grade;
+                    $goods->is_discount = 1;
+                    $goods->sum_price = $discountBehind;
+                    if(!$goods->save()){
+                        $message = $goods->getFirstErrors();
+                        $message = reset($message);
+                        throw new \Exception('vipPreferential grade Goods save error, Message:'.$message);
+                    }
+
+                    $order->vip_preferential = $grade;
+                    if(!$order->save()){
+                        $message = $order->getFirstErrors();
+                        $message = reset($message);
+                        throw new \Exception('vipPreferential order Goods save error, Message:'.$message);
+                    }
+                }
+                $transaction->commit();
+                return true;
+            }
+            throw new \Exception('vipPreferential grade  max 10 and min 0.1');
+        }catch (\Exception $exception){
+            $transaction->rollBack();
+            echo $exception->getMessage();
+        }
+    }
+
+    /**
+     * 折扣卷操作
+     * @param Order $order
+     * @param $discount
+     * @return bool
+     */
+    private function discountOn(Order $order , $discount)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+
+            if(!$discount < 0.1 && $discount <= 10){
+                $discount = $discount / 10;
+                $orderTotalAmount = $order->getGoodsSumPrice();
+                $orderTotalAmount += $order->readTableAmount($order->start_time,$order->charg_id);
+                $order->discount_money = $orderTotalAmount * $discount;
+                $order->discount_on = $discount*10;
+                if(!$order->save()){
+                    $message = $order->getFirstErrors();
+                    $message = reset($message);
+                    throw new \Exception('discountOn order Goods save error, Message:'.$message);
+                }
+                $transaction->commit();
+                return true;
+            }
+
+            throw new \Exception('discountOn  max 10 and min 0.1');
+        }catch (\Exception $exception){
+            $transaction->rollBack();
+            echo $exception->getMessage();
+        }
+    }
+
+    /**
+     * 使用优惠券
+     * @param Order $order
+     * @param $coupon
+     */
+    private function coupon(Order $order , $coupon)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            $order->coupon = $coupon;
+            if(!$order->save()){
+                $message = $order->getFirstErrors();
+                $message = reset($message);
+                throw new \Exception('coupon order Goods save error, Message:'.$message);
+            }
+            $transaction->commit();
+        }catch (\Exception $exception){
+            $transaction->rollBack();
+            echo $exception->getMessage();
+        }
+    }
+    /**
+     * 获取这个订单的所有能打折商品
+     * @param array $select
+     * @return array|ActiveRecord[]\
+     */
+    public function getGradeGoods($select = [])
+    {
+        $orderGradeGoods = OrderGoods::find()
+            ->andWhere(['order_id'=>$this->id])
+            ->andWhere(['vip_grade'=>1])
+            ->andWhere(['is_discount'=>0])
+            ->select($select)
+            ->all();
+        return $orderGradeGoods;
+    }
 
 }

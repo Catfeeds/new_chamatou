@@ -407,6 +407,7 @@ return [
         'table/close-table-book'=>'business/book',//取消预定
         'order/get-vip-one'=>'business/order',//取消预定
         'order/pay'=>'business/order',//订单结算
+        'order/preferential'=>'business/order',//订单结算//优惠券
         'order/btxf'=>'order/btxf',//吧台消费订单生成
         'order/paybtxf'=>'order/btxf',//吧台订单结算
         'b2b/default/index'=>'b2b',//b2b商场首页

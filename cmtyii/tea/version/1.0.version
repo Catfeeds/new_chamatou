@@ -2,11 +2,22 @@
     增加字段
         t_sp_vip
             grade_id //会员等级ID
-        ===================
+        
         t_sp_order
             charg_id //计费规则ID
+            vip_preferential
+            coupon
+            iscount_money
+            discount_on
         t_sp_goods
             vip_grade // 商品是否参与折扣
+        t_sp_draw_card
+            number //奖品数量
+        t_sp_order_goods
+            vip_grade //商品打不打折
+            discount_money //会员折扣的金额
+            discount    //会员的折扣
+            is_discount    //会员的折扣
     删除字段
 
     新建数据库

@@ -97,6 +97,7 @@ class DrawCard extends \yii\db\ActiveRecord
         $prize = $proArr = Yii::$app->session->get('drawList');
         if (empty($prize))
             return $this->addError('id', '非法访问');
+
         foreach ($prize as $key => $value) {
             $drawModel = Draw::findOne($key);
             /**
@@ -115,6 +116,7 @@ class DrawCard extends \yii\db\ActiveRecord
                 $proArr[$key] = $drawModel->probability;
             }
         }
+
         $key        = $this->get_rand($proArr);
         $drawModel  = Draw::findOne($key);
         if ($drawModel->type !== 5)
