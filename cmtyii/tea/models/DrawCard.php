@@ -97,59 +97,71 @@ class DrawCard extends \yii\db\ActiveRecord
         if (empty($prize))
             return $this->addError('id', '非法访问');
         foreach ($prize as $key => $value) {
-            $temp = Draw::findOne($key);
+            $drawModel = Draw::findOne($key);
             /**
              * 检查是不是茶豆币
              */
-            if ($temp->type == 1) {
+            if ($drawModel->type == 1)
+            {
                 $beansIncom = Shoper::getBeansIncom();
-                if ($beansIncom < $temp->number) {
+                if ($beansIncom < $drawModel->number)
+                {
                     $proArr[$key] = 0;
                 }
-            } else {
-                $proArr[$key] = $temp->probability;
+            }
+            else
+            {
+                $proArr[$key] = $drawModel->probability;
             }
         }
-        $key = $this->get_rand($proArr);
-        $temp = Draw::findOne($key);
-        if ($temp->type !== 5) {
-            if ($temp->type == 1) {
+        $key        = $this->get_rand($proArr);
+        $drawModel  = Draw::findOne($key);
+        if ($drawModel->type !== 5)
+        {
+            if ($drawModel->type == 1)
+            {
                 $this->addDrawCard([
-                    'name'      => $temp->name . '--' . $temp->number.'个',
-                    'status'    => 1,
-                    'end_time'  => time(),
-                    'type'      =>$temp->type,
-                    'number'    =>$temp->number,
-                    'user_id'   => $user['id'],
-                ]);
-            } elseif($temp->type == 2) {
+                        'name'      => $drawModel->name . '--' . $drawModel->number.'个',
+                        'status'    => 1,
+                        'end_time'  => time(),
+                        'type'      => $drawModel->type,
+                        'number'    => $drawModel->number,
+                        'user_id'   => $user['id'],
+                        ]);
+            }
+            elseif($drawModel->type == 2)
+            {
                 $this->addDrawCard([
-                    'name'      => $temp->name . '--' . $temp->number.'折',
+                        'name'      => $drawModel->name . '--' . $drawModel->number.'折',
+                        'status'    => 0,
+                        'type'      => $drawModel->type,
+                        'number'    => $drawModel->number,
+                        'user_id'   => $user['id'],
+                    ]);
+            }
+            elseif($drawModel->type == 3)
+            {
+                $this->addDrawCard([
+                    'name'      => $drawModel->name . '--' . $drawModel->number.'元',
                     'status'    => 0,
-                    'type'      =>$temp->type,
-                    'number'    =>$temp->number,
+                    'type'      => $drawModel->type,
+                    'number'    => $drawModel->number,
                     'user_id'   => $user['id'],
                 ]);
-            }elseif($temp->type == 3){
+            }
+            else
+            {
                 $this->addDrawCard([
-                    'name'      => $temp->name . '--' . $temp->number.'元',
+                    'name'      => $drawModel->name . 'x' . $drawModel->number,
                     'status'    => 0,
-                    'type'      =>$temp->type,
-                    'number'    =>$temp->number,
+                    'type'      => $drawModel->type,
+                    'number'    => $drawModel->number,
                     'user_id'   => $user['id'],
-                ]);
-            }else{
-                $this->addDrawCard([
-                    'name' => $temp->name . 'x' . $temp->number,
-                    'status' => 0,
-                    'type'=>$temp->type,
-                    'number'=>$temp->number,
-                    'user_id' => $user['id'],
                 ]);
             }
         }
         Yii::$app->session->remove('drawList');
-        return ['name'=>$temp->name,'type'=>$temp->type];
+        return ['name'=>$drawModel->name,'type'=>$drawModel->type];
     }
 
     /**
@@ -160,15 +172,15 @@ class DrawCard extends \yii\db\ActiveRecord
     private function addDrawCard($param)
     {
         $this->shoper_id = Yii::$app->session->get('shoper_id');
-        $this->store_id = Yii::$app->session->get('store_id');
-        $this->user_id = $param['user_id'];
-        $this->name = $param['name'];
-        $this->sn = time().mt_rand(0,99);
-        $this->status = $param['status'];
-        $this->add_time = time();
-        $this->end_time = isset($param['end_time']) ? $param['end_time'] : '';
-        $this->type = $param['type'];
-        $this->number = $param['number'];
+        $this->store_id  = Yii::$app->session->get('store_id');
+        $this->user_id   = $param['user_id'];
+        $this->name      = $param['name'];
+        $this->sn        = time().mt_rand(0,99);
+        $this->status    = $param['status'];
+        $this->add_time  = time();
+        $this->end_time  = isset($param['end_time']) ? $param['end_time'] : '';
+        $this->type      = $param['type'];
+        $this->number    = $param['number'];
         return $this->save();
     }
 
@@ -181,17 +193,21 @@ class DrawCard extends \yii\db\ActiveRecord
     {
         $result = '';
         $proSum = array_sum($proArr);
-        foreach ($proArr as $key => $proCur) {
+        foreach ($proArr as $key => $proCur)
+        {
             $randNum = mt_rand(1, $proSum);
-            if ($randNum <= $proCur) {
+            if ($randNum <= $proCur)
+            {
                 $result = $key;
                 break;
-            } else {
+            }
+            else
+            {
                 $proSum -= $proCur;
             }
         }
-        unset ($proArr);
 
+        unset ($proArr);
         return $result;
     }
 
