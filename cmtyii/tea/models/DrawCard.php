@@ -18,6 +18,7 @@ use yii\data\Pagination;
  * @property integer $add_time
  * @property integer $end_time
  * @property integer $type
+ * @property integer $number
  */
 class DrawCard extends \yii\db\ActiveRecord
 {
@@ -114,31 +115,35 @@ class DrawCard extends \yii\db\ActiveRecord
         if ($temp->type !== 5) {
             if ($temp->type == 1) {
                 $this->addDrawCard([
-                    'name' => $temp->name . '--' . $temp->number.'个',
-                    'status' => 1,
-                    'end_time' => time(),
-                    'type'=>$temp->type,
-                    'user_id' => $user['id'],
+                    'name'      => $temp->name . '--' . $temp->number.'个',
+                    'status'    => 1,
+                    'end_time'  => time(),
+                    'type'      =>$temp->type,
+                    'number'    =>$temp->number,
+                    'user_id'   => $user['id'],
                 ]);
             } elseif($temp->type == 2) {
                 $this->addDrawCard([
-                    'name' => $temp->name . '--' . $temp->number.'折',
-                    'status' => 0,
-                    'type'=>$temp->type,
-                    'user_id' => $user['id'],
+                    'name'      => $temp->name . '--' . $temp->number.'折',
+                    'status'    => 0,
+                    'type'      =>$temp->type,
+                    'number'    =>$temp->number,
+                    'user_id'   => $user['id'],
                 ]);
             }elseif($temp->type == 3){
                 $this->addDrawCard([
-                    'name' => $temp->name . '--' . $temp->number.'元',
-                    'status' => 0,
-                    'type'=>$temp->type,
-                    'user_id' => $user['id'],
+                    'name'      => $temp->name . '--' . $temp->number.'元',
+                    'status'    => 0,
+                    'type'      =>$temp->type,
+                    'number'    =>$temp->number,
+                    'user_id'   => $user['id'],
                 ]);
             }else{
                 $this->addDrawCard([
                     'name' => $temp->name . 'x' . $temp->number,
                     'status' => 0,
                     'type'=>$temp->type,
+                    'number'=>$temp->number,
                     'user_id' => $user['id'],
                 ]);
             }
@@ -163,6 +168,7 @@ class DrawCard extends \yii\db\ActiveRecord
         $this->add_time = time();
         $this->end_time = isset($param['end_time']) ? $param['end_time'] : '';
         $this->type = $param['type'];
+        $this->number = $param['number'];
         return $this->save();
     }
 
@@ -188,4 +194,6 @@ class DrawCard extends \yii\db\ActiveRecord
 
         return $result;
     }
+
+
 }

@@ -40,6 +40,6 @@ class QrcodeController extends ObjectController{
      */
     private function getQRFileName()
     {
-        return $filesNamePath = "updata/".Store::getStoreName().".png";
+        return $filesNamePath = "updata/".\Yii::$app->session->get('shoper_id').".png";
     }
 }

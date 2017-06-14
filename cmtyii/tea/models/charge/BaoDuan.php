@@ -20,8 +20,11 @@ class BaoDuan extends Object
     /**
      * 缓冲时间
      * @var int
+     *
+     * 废弃
+     * public $huanChongTime = 0;
      */
-    public $huanChongTime = 0;
+    
 
     /**
      * 超出时间
@@ -41,11 +44,13 @@ class BaoDuan extends Object
     /**
      * 设置缓冲时间
      * @param $huanChongTime
-     */
-    public function setHuanChongTime($huanChongTime)
-    {
+     * 废弃
+     * public function setHuanChongTime($huanChongTime)
+        {
         $this->huanChongTime = $huanChongTime;
-    }
+        }
+     */
+
 
     /**
      * 设置超出时间的没小时价格
@@ -53,7 +58,7 @@ class BaoDuan extends Object
      */
     public function setMeiXiaoShiPrice($meiXiaoShiPrice)
     {
-        $this->$meiXiaoShiPrice = $meiXiaoShiPrice;
+        $this->meiXiaoShiPrice = $meiXiaoShiPrice;
     }
 
     /**
@@ -68,8 +73,8 @@ class BaoDuan extends Object
         $data = unserialize($db['value']);
         $this->setPrice($data['price']);
         $this->setShiDuan($data['sd']);
-        $this->setHuanChongTime($data['hctime']);
-        $this->setMeiXiaoShiPrice($data['xstime']);
+        //$this->setHuanChongTime($data['hctime']); 废弃
+        $this->setMeiXiaoShiPrice($data['xsprice']);
     }
 
     /**
@@ -77,11 +82,11 @@ class BaoDuan extends Object
      */
     public function getArray()
     {
+        $data['id']         = $this->id;
         $data['name']       = $this->name;
         $data['type']       = $this->type;
         $data['price']      = $this->price;
-        $data['hctime']     = $this->huanChongTime;
-        $data['xstime']     = $this->meiXiaoShiPrice;
+        $data['xsprice']    = $this->meiXiaoShiPrice;
         $data['sd']         = $this->shiDuan;
         return $data;
     }
@@ -95,8 +100,7 @@ class BaoDuan extends Object
         return serialize([
             'price' => $this->price,
             'sd' => $this->shiDuan,
-            'hctime' => $this->huanChongTime,
-            'xstime' => $this->meiXiaoShiPrice,
+            'xsprice' => $this->meiXiaoShiPrice,
         ]);
     }
 

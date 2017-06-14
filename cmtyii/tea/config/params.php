@@ -276,6 +276,18 @@ return [
                     'list'=>[
                         ['name'  =>'收费规则', 'value'   =>'charg/add', 'select'=>0]
                     ]
+                ],
+                [
+                    'name'=>'缓冲时间',
+                    'list'=>[
+                        ['name'  =>'缓冲时间', 'value'   =>'charg/buffer-time', 'select'=>0]
+                    ]
+                ],
+                [
+                    'name'=>'支付选择',
+                    'list'=>[
+                        ['name'  =>'支付选择', 'value'   =>'payment/payment-select', 'select'=>0]
+                    ]
                 ]
             ]
         ],
@@ -290,7 +302,9 @@ return [
         'draw/test1'=>1,
         'draw/test2'=>1,
         'qrcode/download'=>1,
-        'vip/get-all'=>'1'
+        'vip/get-all'=>1,
+        'charg/get-all'=>1,
+        'payment/payment-select'=>1
     ],
     /* 判断权限下所包含的URL*/
     'rbacUrlList' =>[
@@ -340,6 +354,12 @@ return [
         'vip/edit-grade'=>'vip/get-all',//设置
         'vip/add-grade'=>'vip/get-all',//设置
         'charg/add'=>'charg/add',//设置
+        'charg/get-all'=>'charg/add',//设置
+        'charg/delete'=>'charg/add',//设置
+        'charg/get-one'=>'charg/add',//设置
+        'charg/edit'=>'charg/add',//设置
+        'charg/buffer-time'=>'charg/buffer-time',//设置
+        'payment/payment-select'=>'payment/payment-select',//设置
 
         'draw/list'=>'draw/list',//设置 -- 抽奖列表
         'draw/create'=>'draw/list',//设置 -- 抽奖列表
@@ -457,6 +477,8 @@ return [
         ['name'=>'draw/index','description'=>'奖品领取','data'=>'draw'],
         ['name'=>'vip/get-all','description'=>'会员管理','data'=>'setting'],
         ['name'=>'charg/add','description'=>'收费规则管理','data'=>'setting'],
+        ['name'=>'charg/buffer-time','description'=>'缓冲时间','data'=>'setting'],
+        ['name'=>'payment/payment-select','description'=>'支付时间','data'=>'setting'],
         #库存管理
         ['name'=>'erp/goods-list','description'=>'库存商品列表','data'=>'repertory'],
         ['name'=>'erp/push','description'=>'库存入库','data'=>'repertory'],

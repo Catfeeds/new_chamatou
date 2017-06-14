@@ -1,8 +1,15 @@
 数据库变动：
     增加字段
-        t_sp_vip 增加字段 grade_id
+        t_sp_vip
+            grade_id //会员等级ID
+        ===================
+        t_sp_order
+            charg_id //计费规则ID
+        t_sp_goods
+            vip_grade // 商品是否参与折扣
     删除字段
 
     新建数据库
-        t_sp_vip_grade
-        t_sp_charg_rule
+        t_sp_vip_grade //会员等级
+        t_sp_charg_rule //费用表
+        t_sp_buffer_time //缓冲时间

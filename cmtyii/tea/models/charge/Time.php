@@ -37,6 +37,7 @@ class Time extends Object
      */
     public function getArray()
     {
+        $data['id']   = $this->id;
         $data['name'] = $this->name;
         $data['type'] = $this->type;
         $data['price'] = $this->price;

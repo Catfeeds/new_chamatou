@@ -3,6 +3,8 @@
 namespace tea\controllers;
 
 use tea\models\Dosing;
+use tea\models\Draw;
+use tea\models\DrawCard;
 use tea\models\Goods;
 use tea\models\GoodsCate;
 use tea\models\GoodsToDosing;
@@ -11,8 +13,10 @@ use tea\models\OrderGoods;
 use tea\models\StorageInfo;
 use tea\models\UsersForm;
 use tea\models\Vip;
+use tea\models\VipGrade;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 
 class  OrderController extends ObjectController
 {
@@ -90,13 +94,43 @@ class  OrderController extends ObjectController
      */
     public function actionGetVipOne()
     {
-        $model = Vip::getVipByPhone(Yii::$app->request->get('phone'), ['username', 'vip_amount', 'id']);
-        if ($model)
-            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $model];
-        else
+        $model = Vip::getVipByPhone(Yii::$app->request->get('phone'), ['username', 'vip_amount', 'id','grade_id']);
+        if ($model){
+            $data   = ArrayHelper::toArray($model);
+            $data['discount'] = VipGrade::getDiscount($model['grade_id']);
+            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
+        }else
             return ['code' => 0, 'msg' => Yii::t('app', 'vip')['phone_null']];
     }
 
+    /**
+     * 获取折扣/优惠券的参数
+     * @return array
+     */
+    public function actionPreferential()
+    {
+        $model = DrawCard::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+        ->andWhere(['store_id'=>Yii::$app->get('store_id')])
+        ->andWhere(['sn'=>Yii::$app->request->get('sn')]);
+        if(Yii::$app->request->get('type') == 2)
+        {
+            $model = $model->andWhere(['type'=>2])->one();
+            if($model){
+                return ['code'=>1,'msg'=>'成功','data'=>['discount'=>$model->number]];
+            }
+            return ['code'=>0,'msg'=>'不存在'];
+
+            $model->end_time = time();
+            $model->status = 1;
+            if($model->save()){
+                return ['code'=>1,'msg'=>'成功'];
+            }
+            $message = $model->getFirstErrors();
+            $message = reset($message);
+            return ['code'=>1,'msg'=>$message];
+        }
+        return ['code'=>0,'msg'=>'不存在'];
+    }
     /**
      * 结算操作
      * @return array

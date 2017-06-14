@@ -3,6 +3,7 @@
 namespace tea\controllers;
 
 use tea\models\Book;
+use tea\models\ChargRule;
 use tea\models\Order;
 use tea\models\Table;
 use tea\models\TableType;
@@ -150,6 +151,7 @@ class TableController extends ObjectController
         $model = Table::findOne(Yii::$app->request->get('table_id'));
         $data = $model->getOrderAndGoods();
         $data['merge_order'] = $model->getMergeOrder($data['id']);
+        $data['charg_name'] = ChargRule::getName($data['charg_id']);
         foreach ($data['merge_order'] as $key => $value) {
             $data['beans_amount']+=$value['beans_amount'];
         }

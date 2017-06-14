@@ -51,7 +51,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id', 'status', 'start_time', 'end_time', 'person', 'is_exempt', 'merge_order_id', 'staff_id', 'store_id'], 'integer'],
+            [['shoper_id', 'wx_user_id', 'vip_user_id', 'table_id', 'status', 'start_time', 'end_time', 'person', 'is_exempt', 'merge_order_id', 'staff_id','charg_id','store_id'], 'integer'],
             [['table_amount', 'total_amount', 'beans_amount',  'discount', 'coupon_amount', 'wx_pay', 'ali_pay', 'card_pay', 'cash_amout'], 'number'],
             [['table_name',], 'string', 'max' => 255],
             [['notes'], 'string', 'max' => 120],
@@ -268,6 +268,7 @@ class Order extends \yii\db\ActiveRecord
                 $orderGoods->add_time = time();
                 $orderGoods->is_goods = 1;
                 $orderGoods->type = $type;
+                $orderGoods->vip_grade = $value['vip_grade'];
                 if (!$orderGoods->save()){
                     $message = $orderGoods->getFirstErrors();
                     $message = reset($message);
@@ -566,10 +567,10 @@ class Order extends \yii\db\ActiveRecord
      * @param $strat_time
      * @return float|int
      */
-    public function redyTableAmount($strat_time)
+    public function readTableAmount($strat_time,$chargId)
     {
         $table = Table::findOne($this->table_id);
-        return $table->redyTableAmount($strat_time);
+        return $table->readTableAmount($strat_time,$chargId);
     }
 
 

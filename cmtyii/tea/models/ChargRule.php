@@ -22,7 +22,7 @@ class ChargRule extends \yii\db\ActiveRecord
     /**
      * 计时类型
      */
-    const TYPE_TIME  = 1;
+    const TYPE_TIME = 1;
 
     /**
      * 包段类型
@@ -49,7 +49,6 @@ class ChargRule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
             [['id', 'shoper_id', 'store_id', 'type'], 'integer'],
             [['value'], 'string'],
             [['name'], 'string', 'max' => 120],
@@ -78,7 +77,9 @@ class ChargRule extends \yii\db\ActiveRecord
      */
     public function create($param)
     {
-        if($this->load($param,'') && $this->validate()){
+        $param['shoper_id'] = Yii::$app->session->get('shoper_id');
+        $param['store_id'] = Yii::$app->session->get('store_id');
+        if ($this->load($param, '') && $this->validate()) {
             if ($param['type'] == self::TYPE_TIME) {
                 $time = new Time();
                 $time->setName($param['name']);
@@ -86,25 +87,20 @@ class ChargRule extends \yii\db\ActiveRecord
                 $time->setPrice($param['price']);
                 $this->value = $time->saveDB();
                 return $this->save();
-            }
-            elseif ($param['type'] == self::TYPE_MIANGEI)
-            {
+            } elseif ($param['type'] == self::TYPE_MIANGEI) {
                 $mianFei = new MianFei();
                 $mianFei->setName($param['name']);
                 $mianFei->setType($param['type']);
                 $mianFei->setPrice(0);
                 $this->value = $mianFei->saveDB();
                 return $this->save();
-            }
-            elseif ($param['type'] == self::TYPE_BAODUAN)
-            {
+            } elseif ($param['type'] == self::TYPE_BAODUAN) {
                 $baoDuan = new BaoDuan();
                 $baoDuan->setName($param['name']);
                 $baoDuan->setType($param['type']);
                 $baoDuan->setPrice($param['price']);
                 $baoDuan->setShiDuan($param['sd']);
-                $baoDuan->setHuanChongTime($param['hctime']);
-                $baoDuan->setMeiXiaoShiPrice($param['xstime']);
+                $baoDuan->setMeiXiaoShiPrice($param['xsprice']);
                 $this->value = $baoDuan->saveDB();
                 return $this->save();
             }
@@ -117,33 +113,73 @@ class ChargRule extends \yii\db\ActiveRecord
      */
     public function getList()
     {
-        $data = self::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
-            ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+        $data = self::find()->andWhere(['shoper_id' => Yii::$app->session->get('shoper_id')])
+            ->andWhere(['store_id' => Yii::$app->session->get('store_id')])
             ->all();
         $retData = '';
-        foreach ($data as $key=>$value)
-        {
-            if($value['type'] == self::TYPE_TIME)
-            {
+        foreach ($data as $key => $value) {
+            if ($value['type'] == self::TYPE_TIME) {
                 $time = new Time();
                 $time->loadDbData($value);
                 $retData[$key] = $time->getArray();
 
-            }
-            elseif ($value['type'] == self::TYPE_BAODUAN)
-            {
+            } elseif ($value['type'] == self::TYPE_BAODUAN) {
                 $baoDuan = new BaoDuan();
                 $baoDuan->loadDbData($value);
                 $retData[$key] = $baoDuan->getArray();
 
-            }
-            elseif ($value['type'] == self::TYPE_MIANGEI)
-            {
+            } elseif ($value['type'] == self::TYPE_MIANGEI) {
                 $mianFei = new MianFei();
                 $mianFei->loadDbData($value);
                 $retData[$key] = $mianFei->getArray();
             }
         }
         return $retData;
+    }
+
+    /**
+     * 删除一个规则！
+     * @return false|int
+     */
+    public function del()
+    {
+        if(!$order = Order::find()->andWhere(['charg_id'=>$this->id])->one()){
+            return $this->delete();
+        }
+        $this->addError('id','删除收费规则正在使用中！');
+        return false;
+    }
+
+    /**
+     * 解析函数
+     * @return BaoDuan|MianFei|Time
+     */
+    public function parse()
+    {
+        if ($this->type == self::TYPE_TIME) {
+            $time = new Time();
+            $time->loadDbData($this);
+            return $time;
+        } elseif ($this->type == self::TYPE_BAODUAN) {
+            $baoDuan = new BaoDuan();
+            $baoDuan->loadDbData($this);
+            return $baoDuan;
+
+        } elseif ($this->type == self::TYPE_MIANGEI) {
+            $mianFei = new MianFei();
+            $mianFei->loadDbData($this);
+            return $mianFei;
+        }
+    }
+
+    /**
+     * 计费规则
+     * @param $chargId
+     * @return mixed
+     */
+    public static function getName($chargId)
+    {
+        $model = self::findOne($chargId);
+        return $model['name'];
     }
 }

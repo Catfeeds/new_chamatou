@@ -151,4 +151,17 @@ class VipGrade extends \yii\db\ActiveRecord
                 ->asArray()->all();
         return $model;
     }
+
+    /**
+     * 获取会员折扣
+     * @param $gradId
+     * @return int
+     */
+    public static function getDiscount($gradId)
+    {
+        if(!$name = self::findOne($gradId)){
+            return 0;
+        }
+        return $name['discount'];
+    }
 }

@@ -181,7 +181,7 @@ class Table extends \yii\db\ActiveRecord
         $order['goods_list'] = OrderGoods::find()->where(['order_id'=>$order['id']])->asArray()->all();
 
         # 算出订单价格
-        $order['table_amount'] = $this->redyTableAmount($order['start_time']);
+        $order['table_amount'] = $this->readTableAmount($order['start_time'],$order['charg_id']);
         $order['total_amount'] = 0;
         foreach ($order['goods_list'] as $key=>$value)
         {
@@ -288,44 +288,69 @@ class Table extends \yii\db\ActiveRecord
 
     /**
      * 算出桌台的使用费用
-     * @param int $start_time 订单开始时间
+     * @param int $start_time
+     * @param $chargId
      * @return float|int
      */
-    public function redyTableAmount($start_time = 0)
+    public function readTableAmount($start_time = 0,$chargId=0)
     {
         $price = 0;
-        $tableData = $this->getTableType();
-        $h      = $this->ToHourI($start_time);
-        if($tableData['type'] == 1)
+        $charg = ChargRule::findOne($chargId);
+        $chargParseModel = $charg->parse();
+        unset($charg);
+        if($chargParseModel->type == ChargRule::TYPE_TIME)
         {
-            $price  = round(($tableData['price'] * $h));
+            $h      = $this->ToHourI($start_time);
+            $price  = $h * $chargParseModel->price;
+            return $price;
         }
-        elseif ($tableData['type'] == 2)
+        elseif ($chargParseModel->type == ChargRule::TYPE_BAODUAN)
         {
-            $h      = ceil($h/$tableData['hour']);
-            $price  = round(($h * $tableData['price']));
+            $h      = $this->ToHourI($start_time);
+            if($h != 0 && $h <= $chargParseModel->shiDuan){
+                return $chargParseModel->price;
+            }else{
+                $h  = $h - $chargParseModel->shiDuan;
+                if($h > 0){
+                    $price = $price + $chargParseModel->price;
+                    $price+= $h * $chargParseModel->meiXiaoShiPrice;
+                    return $price;
+                }
+            }
+            return $price;
         }
-        elseif($tableData['type'] == 3)
+        elseif ($chargParseModel->type == ChargRule::TYPE_MIANGEI)
         {
-            $price = 0;
+            return $price;
         }
-
-        return $price;
+//        废弃
+//        $tableData = $this->getTableType();
+//        $h      = $this->ToHourI($start_time);
+//        if($tableData['type'] == 1)
+//        {
+//            $price  = round(($tableData['price'] * $h));
+//        }
+//        elseif ($tableData['type'] == 2)
+//        {
+//            $h      = ceil($h/$tableData['hour']);
+//            $price  = round(($h * $tableData['price']));
+//        }
+//        elseif($tableData['type'] == 3)
+//        {
+//            $price = 0;
+//        }
+//
+//        return $price;
     }
 
-    /***********************************************************************
-    -  Function :       // 排序时间
+    /*
+    -  Function :       // 排序时间 -- 内部程序算出几个小时
     -  Description :    // 12:12(12个小时12分钟)
-    -  Calls By:        // null
-    -  Table Accessed ：// null
-    -  Table Update :   // null
     -  Input :          // time 格式化的时间
-    -  Output :         // string
-    -  Return ：        // string
     -  Others :         // 其他说明
-     ***********************************************************************/
-    public function ToHourI($time){
-
+     */
+    private function ToHourI($time)
+    {
         $time = time()-$time;
         $d = floor($time/86400);
         $h = floor($time%86400/3600);
@@ -334,24 +359,21 @@ class Table extends \yii\db\ActiveRecord
         {
             $h = ($h + ($d * 24));
         }
-        if($i >= Yii::$app->params['minTime'])
+        /* 获取缓冲时间、并判断*/
+        $bufferTime = BufferTime::get();
+        if($i >= $bufferTime)
         {
             $h++;
         }
         return $h;
     }
 
-    /***********************************************************************
+    /*
     -  Function :       // 排序时间
     -  Description :    // 格式为 1天1小时1分钟
-    -  Calls By:        // null
-    -  Table Accessed ：// null
-    -  Table Update :   // null
     -  Input :          // time 格式化的时间
-    -  Output :         // string
-    -  Return ：        // string
     -  Others :         // 其他说明
-     ***********************************************************************/
+     */
     public function ToHour($time){
 
         $time = time() - $time;
@@ -365,17 +387,12 @@ class Table extends \yii\db\ActiveRecord
         return "{$h}小时{$i}分钟";
     }
 
-    /***********************************************************************
+    /*
     -  Function :       // 排序时间
     -  Description :    // 格式为 今天1小时1分钟 || 名天1小时1分钟 || 2017-03-13 16:48
-    -  Calls By:        // null
-    -  Table Accessed ：// null
-    -  Table Update :   // null
     -  Input :          // time 格式化的时间
-    -  Output :         // string
-    -  Return ：        // string
     -  Others :         // 其他说明
-     ***********************************************************************/
+     */
     private function ToHourDouble($time)
     {
         $retTime = '';
@@ -402,6 +419,7 @@ class Table extends \yii\db\ActiveRecord
     /**
      * 台座添加操作
      * @param $data
+     * @return bool
      */
     public function addTable($data)
     {
@@ -418,6 +436,7 @@ class Table extends \yii\db\ActiveRecord
     /**
      * 台座修改操作
      * @param $data
+     * @return bool
      */
     public function editTable($data)
     {
@@ -668,6 +687,7 @@ class Table extends \yii\db\ActiveRecord
                 if($model->tableUseCost($orderModel,$tableType))
                 {
                     $orderModel->table_id   = $this->table_turn_id;
+                    $orderModel->charg_id   = $data['charg_id'];
                     $orderModel->start_time = time();
                     $orderModel->table_name = reset($tableType).'--'.$modelTurn->table_name;
                     return $orderModel->save();
@@ -718,7 +738,7 @@ class Table extends \yii\db\ActiveRecord
 
                         $value->tableUseCost($order,$value->getTableType());
                         $order->total_amount = $order->getGoodsSumPrice();
-                        $order->table_amount = $order->redyTableAmount($order->start_time);
+                        $order->table_amount = $order->readTableAmount($order->start_time,$order['charg_id']);
                         $order->merge_order_id = $tableOrder->id;
                         if($order->save() == false)
                         {
@@ -748,7 +768,7 @@ class Table extends \yii\db\ActiveRecord
         $model->price       = $type['price'];
         $model->num         = $this->ToHourI($order['start_time']);
         $model->give        = 0;
-        $model->sum_price   = $this->redyTableAmount($order['start_time']);
+        $model->sum_price   = $this->readTableAmount($order['start_time'],$order['charg_id']);
         $model->add_time    = time();
         $model->is_goods    = 0;
         if($type['type'] == 1)
