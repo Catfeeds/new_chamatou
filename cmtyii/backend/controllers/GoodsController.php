@@ -11,7 +11,9 @@ namespace backend\controllers;
 
 use backend\models\Goods;
 use backend\models\GoodsCat;
+use backend\models\GoodsImg;
 use backend\models\search\GoodsSearch;
+use backend\models\Upload;
 use yii\console\Response;
 use yii\data\Pagination;
 use yii\web\Controller;
@@ -44,6 +46,7 @@ class GoodsController extends ObjectController
      */
     public function actionAdd()
     {
+        $uploadModel = new Upload();
         $goodsModel = new Goods();
         if ($goodsModel->load(\Yii::$app->request->post())) {
             //将上传图片加载到模型对象上
@@ -53,6 +56,7 @@ class GoodsController extends ObjectController
                 $goodsModel->add_time = time();
                 //$goodsModel->content = serialize($goodsModel->content);
                 if ($goodsModel->save(false)) {
+                    Upload::uploadGoodsImg($goodsModel->attributes['Id']);
                     return $this->redirect(['index']);
                 }
             }
@@ -63,6 +67,7 @@ class GoodsController extends ObjectController
         return $this->render('add', [
             'model' => $goodsModel,
             'cate' => $cate,
+            'uploadModel'=>$uploadModel,
         ]);
     }
 
@@ -70,9 +75,11 @@ class GoodsController extends ObjectController
     public function actionEdit($id)
     {
         $model = Goods::findOne($id);
+        $uploadModel = new Upload();
         if($model->load(\Yii::$app->request->post())){
             //将上传图片加载到模型对象上
             $model->file = UploadedFile::getInstance($model, 'file');
+            Upload::uploadGoodsImg($id);
             //调用模型方法处理图片
             if ($model->upload()) {
                 if ($model->save(false)) {
@@ -86,6 +93,7 @@ class GoodsController extends ObjectController
         return $this->render('add',[
             'model'=>$model,
             'cate' =>$cate,
+            'uploadModel' => $uploadModel,
         ]);
     }
 

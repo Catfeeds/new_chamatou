@@ -55,10 +55,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php
                     $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
                     echo $form->field($model, 'goods_name')->textInput();
-                    echo $form->field($model, 'file')->fileInput()->label('商品图片');
+                    echo $form->field($model, 'file')->fileInput()->label('商品logo');
                     if(!$model->isNewRecord){
-                     echo \yii\helpers\Html::img($model->cover,['width'=>'60px']);
+                        echo \yii\helpers\Html::img($model->cover,['width'=>'60px']);
                     }
+                    echo $form->field($uploadModel, 'file[]')->widget(\kartik\file\FileInput::classname(), [
+                        'options' => [
+                            'accept' => 'image/*',
+                            'multiple' => true
+                        ],
+                        'pluginOptions' => [
+                            'maxFileCount' => 5,
+                            'showUpload' => false
+                        ]
+                    ])->label('商品相册');
                     echo $form->field($model, 'price')->textInput();
                     echo $form->field($model, 'store')->textInput();
                     echo $form->field($model, 'spec')->textInput();
