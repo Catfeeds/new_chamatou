@@ -13,3 +13,5 @@
         t_sp_vip_grade //会员等级
         t_sp_charg_rule //费用表
         t_sp_buffer_time //缓冲时间
+        t_sp_draw_record  //记录用户抽奖日期 （因为每天只能抽奖一次）
+        t_goods_img      //b2b商品相册表
