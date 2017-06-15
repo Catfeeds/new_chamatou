@@ -64,6 +64,15 @@ class Draw extends \yii\db\ActiveRecord
         if ($this->load($param, '') && $this->validate()) {
             $this->shoper_id = Yii::$app->session->get('shoper_id');
             $this->store_id = Yii::$app->session->get('store_id');
+            if($this->number >= 10){
+                $this->addError('number','折扣不能大于10');
+                return false;
+            }
+
+            if($this->number < 0.1){
+                $this->addError('number','折扣不小于等于10！');
+                return false;
+            }
             return $this->save();
         }
     }

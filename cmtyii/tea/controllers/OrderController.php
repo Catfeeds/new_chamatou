@@ -109,28 +109,18 @@ class  OrderController extends ObjectController
      */
     public function actionPreferential()
     {
-        $model = DrawCard::find()->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
-        ->andWhere(['store_id'=>Yii::$app->get('store_id')])
-        ->andWhere(['sn'=>Yii::$app->request->get('sn')]);
-        if(Yii::$app->request->get('type') == 2)
-        {
-            $model = $model->andWhere(['type'=>2])->one();
-            if($model){
-                return ['code'=>1,'msg'=>'成功','data'=>['discount'=>$model->number]];
-            }
-            return ['code'=>0,'msg'=>'不存在'];
-
-            $model->end_time = time();
-            $model->status = 1;
-            if($model->save()){
-                return ['code'=>1,'msg'=>'成功'];
-            }
-            $message = $model->getFirstErrors();
-            $message = reset($message);
-            return ['code'=>1,'msg'=>$message];
+        $model = DrawCard::find()
+                ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                ->andWhere(['status'=>0])
+                ->andWhere(['sn'=>Yii::$app->request->get('sn')]);
+        $model = $model->andWhere(['type'=>Yii::$app->request->get('type')])->one();
+        if($model){
+            return ['code'=>1,'msg'=>'成功','data'=>['discount'=>$model->number]];
         }
-        return ['code'=>0,'msg'=>'不存在'];
+        return ['code'=>0,'msg'=>'兑奖码不存在或已使用'];
     }
+
     /**
      * 结算操作
      * @return array
@@ -156,16 +146,16 @@ class  OrderController extends ObjectController
     public function actionPaybtxf()
     {
         if (Yii::$app->request->isPost) {
-            $data['table_id'] = 0;
+            $data['table_id']   = 0;
             $data['start_time'] = date('Y-m-d H:i:s');
-            $data['person'] = 0;
+            $data['person']     = 0;
             $data['table_name'] = '吧台消费订单';
-            $data['notes'] = '吧台消费订单';
-            $data['staff_id'] = Yii::$app->session->get('tea_user_id');
-            $data['shoper_id'] = Yii::$app->session->get('shoper_id');
-            $data['store_id'] = Yii::$app->session->get('store_id');
+            $data['notes']      = '吧台消费订单';
+            $data['staff_id']   = Yii::$app->session->get('tea_user_id');
+            $data['shoper_id']  = Yii::$app->session->get('shoper_id');
+            $data['store_id']   = Yii::$app->session->get('store_id');
             $data['start_time'] = time();
-            $data['status'] = 1;
+            $data['status']     = 1;
             $order = new Order();
             if ($order->load($data, '') && $order->validate()) {
                 if ($order->save()) {
@@ -173,8 +163,8 @@ class  OrderController extends ObjectController
                         $param = Yii::$app->request->post();
                         $param['order_id'] = $order->id;
                         unset($order);
-                        $order = new Order();
-                        $ret = $order->endOrderBtxf($param);
+                        $order  = new Order();
+                        $ret    = $order->endOrderBtxf($param);
                         if ($ret) {
                             return ['code' => 1, 'msg' => '成功！'];
                         }

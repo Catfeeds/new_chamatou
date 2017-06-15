@@ -90,6 +90,16 @@ class VipGrade extends \yii\db\ActiveRecord
         $param['store_id'] = Yii::$app->session->get('store_id');
         if($this->load($param,'') && $this->validate())
         {
+            if($this->discount >= 10){
+                $this->addError('discount','会员折扣不能大于10');
+                return false;
+            }
+
+            if($this->discount < 0.1){
+                $this->addError('discount','会员折扣不小于等于10！');
+                return false;
+            }
+
             return $this->save();
         }
         return false;
