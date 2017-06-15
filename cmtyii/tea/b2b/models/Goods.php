@@ -7,6 +7,7 @@
 
 namespace tea\b2b\models;
 
+use backend\models\GoodsImg;
 use Yii;
 use yii\data\Pagination;
 use yii\data\Sort;
@@ -146,6 +147,18 @@ class Goods extends \yii\db\ActiveRecord
         $data = ArrayHelper::toArray(self::findOne($goods_id));
         $data['cate_name'] =  GoodsCate::getCateNameById($data['cat_id']);
         $data['content'] = htmlspecialchars_decode($data['content']);
+        $photo = GoodsImg::getGoodsImg($goods_id);
+        if($photo){
+            $photos = [];
+            foreach ($photo as $key=>$value){
+                $photos[$key] = $value['path'];
+            }
+            array_unshift($photos,$data['cover']);
+            //unset($data['cover']);
+            $data['photo'] = $photos;
+        }else{
+            $data['photo'] = [$data['cover']];
+        }
         return $data;
     }
 

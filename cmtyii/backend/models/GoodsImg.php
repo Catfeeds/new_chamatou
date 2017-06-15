@@ -44,4 +44,15 @@ class GoodsImg extends ActiveRecord
             'path' => \Yii::t('app', 'Path'),
         ];
     }
+
+
+    /**
+     * 获取一个商品的图片
+     * @param $goods_id
+     * @return array|ActiveRecord[]
+     */
+    public static function getGoodsImg($goods_id)
+    {
+         return self::find()->where(['goods_id'=>$goods_id])->select(['path'])->asArray()->all();
+    }
 }
