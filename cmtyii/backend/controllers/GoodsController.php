@@ -113,6 +113,7 @@ class GoodsController extends ObjectController
         }else{
             \Yii::$app->session->setFlash('error','删除失败');
         }
+        Upload::delImg($id);
         return $this->redirect(['index']);
     }
 

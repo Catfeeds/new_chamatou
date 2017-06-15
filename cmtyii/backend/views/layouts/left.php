@@ -5,7 +5,6 @@
     <section class="sidebar">
         <?php
         $roles = Yii::$app->session->get('roles');
-
         $items = [];
         if(isset($roles['/statistics/store/index'])){
             $items[] = ['label' => '统计中心', 'url' => ['/statistics/store/index'], 'icon'=>'dashboard'];
@@ -38,6 +37,9 @@
 
         if(isset($roles['/message/index'])){
             $items[] = ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'];
+        }
+        if(isset($roles['/adv/index'])){
+            $items[] = ['label' => '广告管理', 'url' => ['/adv'], 'icon'=>'comments'];
         }
 
         if(isset($roles['/goods/index'])){
@@ -73,10 +75,10 @@
                 'items' => [
                     ['label' => '管理员管理', 'url' => ['/adminuser'],],
                     ['label' => '分配', 'url' => ['/admin/assignment'],],
-//                    ['label' => '路由管理', 'url' => ['/admin/route'],],
-//                    ['label' => '权限管理', 'url' => ['/admin/permission'],],
-//                    ['label' => '菜单管理', 'url' => ['/admin/menu'],],
-//                    ['label' => '角色管理', 'url' => ['/admin/role'],],
+                    ['label' => '路由管理', 'url' => ['/admin/route'],],
+                    ['label' => '权限管理', 'url' => ['/admin/permission'],],
+                    ['label' => '菜单管理', 'url' => ['/admin/menu'],],
+                    ['label' => '角色管理', 'url' => ['/admin/role'],],
                 ]
             ];
         }

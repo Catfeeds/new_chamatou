@@ -91,6 +91,7 @@ class Upload extends Model
     }
 
     /**
+     * 处理商品相册图片上传
      * @param $param  商品id
      * @return array
      */

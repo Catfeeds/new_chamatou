@@ -42,7 +42,6 @@ class CategoryController extends ObjectController
     {
         $goodsModel = new GoodsCat();
         $cates = $goodsModel->getCate();
-        //var_dump($cates);die;
         return $this->render('index', ['data' => $cates]);
     }
 
