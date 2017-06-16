@@ -268,16 +268,32 @@ use yii\widgets\ActiveForm;
                         <label for="inputEmail3" class="col-sm-2 control-label" style="color: #808080;font-weight: 400">店铺图片</label>
                         <div class="col-sm-7">
                             <!--门店信息-上传图片-->
-                            <?= $form->field($uploadModel, 'file[]')->widget(\kartik\file\FileInput::classname(), [
-                                'options' => [
-                                    'accept' => 'image/*',
-                                    'multiple' => true
-                                ],
-                                'pluginOptions' => [
-                                    'maxFileCount' => 5,
-                                    'showUpload' => false
-                                ]
-                            ]) ?>
+                            <?php if(!empty($storeImage)):?>
+                                <?= $form->field($uploadModel, 'file[]')->widget(\kartik\file\FileInput::classname(), [
+                                    'options' => [
+                                        'accept' => 'image/*',
+                                        'multiple' => true
+                                    ],
+                                    'pluginOptions' => [
+                                        'maxFileCount' => 5,
+                                        'showUpload' => false,
+                                        'initialPreview' => $storeImage ,
+                                        'initialPreviewAsData'=>true,
+                                    ]
+                                ]) ?>
+                            <?php else:?>
+                                <?= $form->field($uploadModel, 'file[]')->widget(\kartik\file\FileInput::classname(), [
+                                    'options' => [
+                                        'accept' => 'image/*',
+                                        'multiple' => true
+                                    ],
+                                    'pluginOptions' => [
+                                        'maxFileCount' => 5,
+                                        'showUpload' => false,
+                                        'initialPreviewAsData'=>true,
+                                    ]
+                                ]) ?>
+                            <?php endif;?>
                         </div>
                         <div class="col-sm-3 hidden-xs" style="line-height: 34px;font-size: 12px;color: #999999">
                             * 注：(非必填)最多支持5张图片！请用Ctrl多选图片！

@@ -157,28 +157,24 @@ class  OrderController extends ObjectController
             $data['start_time'] = time();
             $data['status']     = 1;
             $order = new Order();
-            if ($order->load($data, '') && $order->validate()) {
-                if ($order->save()) {
-                    if ($order->addGoods(Yii::$app->session->get('btxfGoods'))) {
-                        $param = Yii::$app->request->post();
-                        $param['order_id'] = $order->id;
-                        unset($order);
-                        $order  = new Order();
-                        $ret    = $order->endOrderBtxf($param);
-                        if ($ret) {
-                            return ['code' => 1, 'msg' => '成功！'];
-                        }
-                        $message = $order->getFirstErrors();
-                        $message = reset($message);
-                        return ['code' => 0, 'msg' => $message];
+            if ($order->load($data, '') && $order->validate() && $order->save()) {
+                if ($order->addGoods(Yii::$app->session->get('btxfGoods'))) {
+                    $param = Yii::$app->request->post();
+                    $param['order_id'] = $order->id;
+                    unset($order);
+                    $order      = new Order();
+                    $retAjax    = $order->endOrderBtxf($param);
+                    if ($retAjax) {
+                        return ['code' => 1, 'msg' => '成功！'];
                     }
+                    $message = $order->getFirstErrors();
+                    $message = reset($message);
+                    return ['code' => 0, 'msg' => $message];
                 }
-                $message = $order->getFirstErrors();
-                $message = reset($message);
-                return ['code' => 0, 'msg' => $message];
             }
-
-
+            $message = $order->getFirstErrors();
+            $message = reset($message);
+            return ['code' => 0, 'msg' => $message];
         }
     }
 
@@ -189,7 +185,7 @@ class  OrderController extends ObjectController
     public function actionBtxf()
     {
         Yii::$app->session->set('btxfGoods',Yii::$app->request->post('goodsList'));
-        return ['code' => 1, 'msg' => '成功！','data'=>['order_id'=>1]];
+        return ['code' => 1, 'msg' => '成功！','data'=>['order_id'=>1,'time'=>date('Y-m-d H:i:s',time())]];
 
     }
 

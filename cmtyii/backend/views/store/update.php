@@ -28,6 +28,7 @@ $this->title = Yii::t('app', '更新店铺信息 ');
     <?= $this->render('_form', [
         'storeModel' => $storeModel,
         'shoperModel' => $shoperModel,
-        'uploadModel'=>$uploadModel
+        'uploadModel'=>$uploadModel,
+        'storeImage'=>$storeImage,
     ]) ?>
 </div>

@@ -49,7 +49,7 @@ class Upload extends Model
         $dir = Yii::$app->getBasePath()."/web/public/uploads/" . date("Ymd");
         if (!is_dir($dir)){
 
-            mkdir($dir,'0777',true);
+            mkdir($dir,0777,true);
         }
         $file_ids = [];
         if ($upload->file && $upload->validate()) {
@@ -73,6 +73,21 @@ class Upload extends Model
         return $file_ids;
     }
 
+    /**
+     * 获取店铺文件
+     * @param $storeId
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getStoreImg($storeId)
+    {
+        $storeImage =  ShoperImg::find()->andWhere(['store_id'=>$storeId])->select(['path'])->all();
+        $imagesArray = [];
+        foreach ($storeImage as $key=>$images)
+        {
+            $imagesArray[] = Yii::$app->request->hostInfo.'/public/'.$images['path'];
+        }
+        return $imagesArray;
+    }
     /**
      * 删除图片
      * 方法有点小问题！需要开启事务
