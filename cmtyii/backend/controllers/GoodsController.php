@@ -19,6 +19,7 @@ use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 
+
 class GoodsController extends ObjectController
 {
 
@@ -107,14 +108,16 @@ class GoodsController extends ObjectController
      */
     public function actionDel($id)
     {
+        //$id = \Yii::$app->request->get('id');
+        //var_dump($id);die;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $model = Goods::findOne($id);
         if($model->delete()){
-            \Yii::$app->session->setFlash('success','删除成功');
+            Upload::delImg($id);
+            return ['code'=>1,'message'=>'删除成功'];
         }else{
-            \Yii::$app->session->setFlash('error','删除失败');
+            return ['code'=>1,'message'=>'删除失败'];
         }
-        Upload::delImg($id);
-        return $this->redirect(['index']);
     }
 
     public function actionShangjia()
