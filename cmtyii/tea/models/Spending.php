@@ -56,23 +56,26 @@ class Spending
         $count = $model->count();
         $pages = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
 
-        $data = $model->limit($pages->limit)->offset($pages->offset)->orderBy('end_time DESC')->all();
-        $datas['list'] = ArrayHelper::toArray($data);
-        foreach ($data as $key=>$value)
+        $orderARArray = $model->limit($pages->limit)->offset($pages->offset)->orderBy('end_time DESC')->all();
+        $orderArray['list'] = ArrayHelper::toArray($orderARArray);
+        foreach ($orderARArray as $key=>$value)
         {
             $goodsList = $value->getGoods();
-            $datas['list'][$key]['start_time'] =date("Y-m-d H:i:s",$value['start_time']);
-            $datas['list'][$key]['end_time'] =date("Y-m-d H:i:s",$value['end_time']);
-            $datas['list'][$key]['goods_price_sum'] = 0;
-            $datas['list'][$key]['consume_time'] = Time::ToHour($value['start_time'],$value['end_time']);
-            $datas['list'][$key]['staff_id'] = UsersForm::getUserNameById($value['staff_id']);
-            foreach ($goodsList as $keys=>$values){
-                $datas['list'][$key]['goods_price_sum'] = $datas['list'][$key]['goods_price_sum']+$values['sum_price'];
+            $orderArray['list'][$key]['start_time']      =date("Y-m-d H:i:s",$value['start_time']);
+            $orderArray['list'][$key]['end_time']        =date("Y-m-d H:i:s",$value['end_time']);
+            $orderArray['list'][$key]['goods_price_sum'] = 0;
+            $orderArray['list'][$key]['consume_time']    = Time::ToHour($value['start_time'],$value['end_time']);
+            $orderArray['list'][$key]['staff_id']        = UsersForm::getUserNameById($value['staff_id']);
+            foreach ($goodsList as $keys=>$goods){
+                if($goods['is_discount'] == 1){
+                    $goods['sum_price'] += $goods['discount_money'];
+                }
+                $orderArray['list'][$key]['goods_price_sum'] = $orderArray['list'][$key]['goods_price_sum']+$goods['sum_price'];
             }
         }
-        $datas['pageCount'] = $count;
-        $datas['pageNum'] = $pages->getPageCount();
-        return $datas;
+        $orderArray['pageCount'] = $count;
+        $orderArray['pageNum'] = $pages->getPageCount();
+        return $orderArray;
     }
 
 
