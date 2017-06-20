@@ -66,14 +66,15 @@ class Goods extends ActiveRecord
      */
     public static function addInformation($data,$table_name)
     {
-        $model = new Information();
+        $model   = new Information();
         $content = $table_name.':';
         //遍历数组将每个商品及数量拼接成字符串
         foreach ($data as $goods){
-            $content .= $goods['name'].'&'.$goods['count'].';';
+            $unit = Goods::find()->where("id = :id",[':id'=>$goods['id']])->select(['unit'])->one();
+            $content .= $goods['name'].'x'.$goods['count']."{$unit['unit']}".';';
         }
-        $type = 2;
+        $type  = 2;
         $data1 = ['content'=>$content,'type'=>$type];
-        $model->add($data1);
+        $model ->add($data1);
     }
 }
