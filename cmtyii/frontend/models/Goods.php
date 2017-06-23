@@ -57,7 +57,8 @@ class Goods extends ActiveRecord
         $sp_img = StoreImg::find()->where("store_id = :store_id and shoper_id = :shoper_id",
             [':store_id'=>$ids['store_id'],':shoper_id'=>$ids['shoper_id']])
             ->select(['path'])
-            ->one()->toArray();
+            ->asArray()
+            ->one();
         return ['data'=>$data,'sp_name'=>$sp_name['sp_name'],'sp_img'=>$sp_img['path']];
     }
 

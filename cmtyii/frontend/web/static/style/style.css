@@ -447,3 +447,41 @@
   display: none;
 }
 .bgblacks.in{background-color:rgba(0,0,0,.0);display:block;z-index: 9999;}
+#draw-box{
+  height: 100%;
+  width: 100%;
+  background: url(../images/draw-bg.png) no-repeat center;
+  background-size: 100% 100%;
+}
+
+#app{
+  height: 100%;
+  background:#fff;
+}
+.detial-content-btn p{
+  width: 78%;
+  float: left;
+  color: #666;
+  border-right:1px solid #ddd ;
+  margin-top: 10px;
+  height:30px;
+  line-height: 30px;
+  font-size: 0.27rem;
+  background: url(../images/loca.png) no-repeat left center;
+  text-indent: 25px;
+}
+
+.TitBg {
+  width: 100%;
+  height: 2.7rem;
+  background: url(../images/2.jpg) no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.draw-ok{
+  background: url(../images/draw-bg-2.png) repeat-y right;
+}
+.draw-no{
+  background: url(../images/draw-bg-1.png) repeat-y right;
+}

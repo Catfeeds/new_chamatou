@@ -128,7 +128,7 @@ class DrawCard extends \yii\db\ActiveRecord
                         'status'    => 1,
                         'end_time'  => time(),
                         'type'      => $drawModel->type,
-                        'number'    => $drawModel->number,
+                        //'number'    => $drawModel->number,
                         'user_id'   => $user['id'],
                         ]);
             }
@@ -185,7 +185,7 @@ class DrawCard extends \yii\db\ActiveRecord
         $this->add_time  = time();
         $this->end_time  = isset($param['end_time']) ? $param['end_time'] : '';
         $this->type      = $param['type'];
-        $this->number    = $param['number'];
+        //$this->number    = $param['number'];
         return $this->save();
     }
 

@@ -50,19 +50,27 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="wrapper">
-    <?php
-    $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data'],]);
-    echo $form->field($model, 'title')->textInput();
-    echo $form->field($model, 'file')->widget(\kartik\file\FileInput::classname(), [
-        'options' => [
-            'accept' => 'image/*',
-            'multiple' => true
-        ],
-        'pluginOptions' => [
-            'maxFileCount' => 5,
-            'showUpload' => false
-        ]
-    ]);
+
+    <?php $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data'],]);?>
+    <div class="form-group">
+        <?= $form->field($model, 'title')->textInput();?>
+    </div>
+    <div class="form-group" style="float: left">
+        <?= $form->field($model, 'file')->widget(\kartik\file\FileInput::classname(), [
+            'options' => [
+                'accept' => 'image/*',
+                'multiple' => true
+            ],
+            'pluginOptions' => [
+                'maxFileCount' => 5,
+                'showUpload' => false
+            ]
+        ]);?>
+        <div class="col-sm-7 hidden-xs" style="line-height: 34px;font-size: 12px;color: #999999;">
+            * 注：上传图片尺寸为1200X450,否则影响茶坊端商城显示效果！
+        </div>
+    </div>
+   <?
     echo \yii\helpers\Html::submitInput('提交', ['class' => 'btn btn-success', 'style' => 'margin-right:1em;']);
     \yii\bootstrap\ActiveForm::end();
     ?>
