@@ -20,10 +20,16 @@ export default {
       'getTeaData': 'index/tea', //根据位置获取推荐茶楼
       'teaDeta': 'index/teadetail', //获取茶楼的详细信息
       'pay': 'wechat/pay', //调取支付的参数
-      'outIn':'index/type'//判断是否从外面扫码进入
+      'outIn':'index/type',//判断是否从外面扫码进入
+      /*@add coding
+      * @update  Author for zhangwenxia in  2017-06-07
+      */
+      'drawInit':'draw/test1',//初始化抽奖数据
+      'getdraw':'draw/test2',//初始化抽奖数据
+      'getprize':'draw/index',//初始化中奖数据
+      'cardprize':'draw/end-card',//初始化中奖数据
     };
     Vue.prototype.hostUrl = 'http://wx.chamatou.cn/'; //定义请求公共头
-
     Vue.prototype.ajax = function(url, data, methodType, callback) {
       var _this = this;
       //const  HostUrl=
@@ -59,26 +65,5 @@ export default {
         }
       });
     };
-
-
-
-    // (function () {
-    //   const  HostUrl='http://192.168.2.222:8080/';
-    //   $.ajax({
-    //     type: 'get',
-    //     url: HostUrl+'role/get-roles',
-    //     data:'',
-    //     dataType:'json',
-    //     success: function (data) {
-    //       console.log(data.data)
-    //       window.localStorage.setItem('roledata',JSON.stringify(data.data));
-    //     },
-    //     error:function (err) {
-    //       console.log(err);
-    //     }
-    //   });
-    // })()
-
-
   }
 }
