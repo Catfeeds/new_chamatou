@@ -3,6 +3,8 @@
 namespace tea\controllers;
 
 use tea\models\Dosing;
+use tea\models\Draw;
+use tea\models\DrawCard;
 use tea\models\Goods;
 use tea\models\GoodsCate;
 use tea\models\GoodsToDosing;
@@ -11,8 +13,10 @@ use tea\models\OrderGoods;
 use tea\models\StorageInfo;
 use tea\models\UsersForm;
 use tea\models\Vip;
+use tea\models\VipGrade;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 
 class  OrderController extends ObjectController
 {
@@ -34,25 +38,25 @@ class  OrderController extends ObjectController
             $stockType = $goods->getGoodsStockType($model->goods_id);
 
             if ($stockType == 'goods') {
-                $data['type'] = $stockType;
-                $data['id'] = $model->goods_id;
-                $data['type'] = $stockType;
-                $data['push_type'] = StorageInfo::STATUS_BACK_PUSH;
-                $data['buy_price'] = $model['price'];
-                $data['num'] = $model['num'];
-                $data['note'] = '销售回退--系统生成';
-                $storageInfo = new StorageInfo();
+                $data['type']       = $stockType;
+                $data['id']         = $model->goods_id;
+                $data['type']       = $stockType;
+                $data['push_type']  = StorageInfo::STATUS_BACK_PUSH;
+                $data['buy_price']  = $model['price'];
+                $data['num']        = $model['num'];
+                $data['note']       = '销售回退--系统生成';
+                $storageInfo        = new StorageInfo();
                 $storageInfo->add($data);
             } elseif ($stockType == 'dosing') {
                 $goodsToDosing = GoodsToDosing::getGoodsRelate($model->goods_id);
                 foreach ($goodsToDosing as $keys => $values) {
-                    $data['type'] = $stockType;
-                    $data['id'] = $values['dosing_id'];
-                    $data['type'] = $stockType;
-                    $data['push_type'] = StorageInfo::STATUS_BACK_PUSH;
-                    $data['buy_price'] = $model['price'];
-                    $data['num'] = $model['num'] * $values['number'];
-                    $data['note'] = '销售回退--系统生成';
+                    $data['type']       = $stockType;
+                    $data['id']         = $values['dosing_id'];
+                    $data['type']       = $stockType;
+                    $data['push_type']  = StorageInfo::STATUS_BACK_PUSH;
+                    $data['buy_price']  = $model['price'];
+                    $data['num']        = $model['num'] * $values['number'];
+                    $data['note']       = '销售回退--系统生成';
                     $storageInfo = new StorageInfo();
                     $storageInfo->add($data);
                 }
@@ -90,11 +94,31 @@ class  OrderController extends ObjectController
      */
     public function actionGetVipOne()
     {
-        $model = Vip::getVipByPhone(Yii::$app->request->get('phone'), ['username', 'vip_amount', 'id']);
-        if ($model)
-            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $model];
-        else
+        $model = Vip::getVipByPhone(Yii::$app->request->get('phone'), ['username', 'vip_amount', 'id','grade_id']);
+        if ($model){
+            $data   = ArrayHelper::toArray($model);
+            $data['discount'] = VipGrade::getDiscount($model['grade_id']);
+            return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'], 'data' => $data];
+        }else
             return ['code' => 0, 'msg' => Yii::t('app', 'vip')['phone_null']];
+    }
+
+    /**
+     * 获取折扣/优惠券的参数
+     * @return array
+     */
+    public function actionPreferential()
+    {
+        $model = DrawCard::find()
+                ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                ->andWhere(['status'=>0])
+                ->andWhere(['sn'=>Yii::$app->request->get('sn')]);
+        $model = $model->andWhere(['type'=>Yii::$app->request->get('type')])->one();
+        if($model){
+            return ['code'=>1,'msg'=>'成功','data'=>['discount'=>$model->number]];
+        }
+        return ['code'=>0,'msg'=>'兑奖码不存在或已使用'];
     }
 
     /**
@@ -122,39 +146,35 @@ class  OrderController extends ObjectController
     public function actionPaybtxf()
     {
         if (Yii::$app->request->isPost) {
-            $data['table_id'] = 0;
+            $data['table_id']   = 0;
             $data['start_time'] = date('Y-m-d H:i:s');
-            $data['person'] = 0;
+            $data['person']     = 0;
             $data['table_name'] = '吧台消费订单';
-            $data['notes'] = '吧台消费订单';
-            $data['staff_id'] = Yii::$app->session->get('tea_user_id');
-            $data['shoper_id'] = Yii::$app->session->get('shoper_id');
-            $data['store_id'] = Yii::$app->session->get('store_id');
+            $data['notes']      = '吧台消费订单';
+            $data['staff_id']   = Yii::$app->session->get('tea_user_id');
+            $data['shoper_id']  = Yii::$app->session->get('shoper_id');
+            $data['store_id']   = Yii::$app->session->get('store_id');
             $data['start_time'] = time();
-            $data['status'] = 1;
+            $data['status']     = 1;
             $order = new Order();
-            if ($order->load($data, '') && $order->validate()) {
-                if ($order->save()) {
-                    if ($order->addGoods(Yii::$app->session->get('btxfGoods'))) {
-                        $param = Yii::$app->request->post();
-                        $param['order_id'] = $order->id;
-                        unset($order);
-                        $order = new Order();
-                        $ret = $order->endOrderBtxf($param);
-                        if ($ret) {
-                            return ['code' => 1, 'msg' => '成功！'];
-                        }
-                        $message = $order->getFirstErrors();
-                        $message = reset($message);
-                        return ['code' => 0, 'msg' => $message];
+            if ($order->load($data, '') && $order->validate() && $order->save()) {
+                if ($order->addGoods(Yii::$app->session->get('btxfGoods'))) {
+                    $param = Yii::$app->request->post();
+                    $param['order_id'] = $order->id;
+                    unset($order);
+                    $order      = new Order();
+                    $retAjax    = $order->endOrderBtxf($param);
+                    if ($retAjax) {
+                        return ['code' => 1, 'msg' => '成功！'];
                     }
+                    $message = $order->getFirstErrors();
+                    $message = reset($message);
+                    return ['code' => 0, 'msg' => $message];
                 }
-                $message = $order->getFirstErrors();
-                $message = reset($message);
-                return ['code' => 0, 'msg' => $message];
             }
-
-
+            $message = $order->getFirstErrors();
+            $message = reset($message);
+            return ['code' => 0, 'msg' => $message];
         }
     }
 
@@ -165,7 +185,7 @@ class  OrderController extends ObjectController
     public function actionBtxf()
     {
         Yii::$app->session->set('btxfGoods',Yii::$app->request->post('goodsList'));
-        return ['code' => 1, 'msg' => '成功！','data'=>['order_id'=>1]];
+        return ['code' => 1, 'msg' => '成功！','data'=>['order_id'=>1,'time'=>date('Y-m-d H:i:s',time())]];
 
     }
 

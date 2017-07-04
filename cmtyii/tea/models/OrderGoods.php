@@ -24,6 +24,10 @@ use Yii;
  * @property integer $store_id
  * @property integer $shoper_id
  * @property integer $type
+ * @property integer $vip_grade
+ * @property integer $discount_money
+ * @property integer $discount
+ * @property integer $is_discount
  */
 class OrderGoods extends \yii\db\ActiveRecord
 {

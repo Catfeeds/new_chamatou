@@ -3,6 +3,13 @@ return [
     'adminEmail' => 'admin@example.com',
     'pageSize'   => 10,# 分页 一页的显示数量
     'minTime'    => 0,# 茶坊忽略的时间 分钟
+    'sms' => [
+        'type' => 'ALIDAYU',//短信发送类型 只支持 ALIDAYU(阿里大于) ALIYUN(阿里云)
+        'ak' => '23875791', //第三方appkey
+        'sk' => 'd8c246a44449ad959b331c6088f6f66a',//第三方secretkey
+        'signname' => '茶码头', //模板签名
+        'bookTemplateCode' => 'SMS_71805020',//签名ID
+    ],
     'wxPay'=>[
         'appid'=>'wx3a8c350faa88e646',
         'secret'=>'9fee3d531dcd68e50c19c4941a033fb8',
@@ -197,6 +204,17 @@ return [
             ]
         ],
         [
+            'name'=>'奖品管理',
+            'list'=>[
+                [
+                    'name'=>'奖品管理',
+                    'list'=>[
+                        ['name'  =>'奖品管理', 'value'   =>'draw/index', 'select'=>0]
+                    ],
+                ]
+            ]
+        ],
+        [
             'name'=>'设置',
             'list'=>[
                 [
@@ -247,6 +265,37 @@ return [
                         ['name'  =>'预留金', 'value'   =>'jiaoban/index', 'select'=>0]
                     ]
                 ]
+                ,
+                [
+                    'name'=>'抽奖设置',
+                    'list'=>[
+                        ['name'  =>'抽奖设置', 'value'   =>'draw/list', 'select'=>0]
+                    ]
+                ],
+                [
+                    'name'=>'会员等级',
+                    'list'=>[
+                        ['name'  =>'会员等级', 'value'   =>'vip/get-all', 'select'=>0]
+                    ]
+                ],
+                [
+                    'name'=>'收费规则',
+                    'list'=>[
+                        ['name'  =>'收费规则', 'value'   =>'charg/add', 'select'=>0]
+                    ]
+                ],
+                [
+                    'name'=>'缓冲时间',
+                    'list'=>[
+                        ['name'  =>'缓冲时间', 'value'   =>'charg/buffer-time', 'select'=>0]
+                    ]
+                ],
+                [
+                    'name'=>'支付选择',
+                    'list'=>[
+                        ['name'  =>'支付选择', 'value'   =>'payment/payment-select', 'select'=>0]
+                    ]
+                ]
             ]
         ],
     ],
@@ -257,6 +306,12 @@ return [
         'table/begin-table-order'=>1,
         'information/message-box'=>1,
         'jiaoban/index'=>1,
+        'draw/test1'=>1,
+        'draw/test2'=>1,
+        'qrcode/download'=>1,
+        'vip/get-all'=>1,
+        'charg/get-all'=>1,
+        'payment/payment-select'=>1
     ],
     /* 判断权限下所包含的URL*/
     'rbacUrlList' =>[
@@ -300,6 +355,29 @@ return [
         'discount/edit'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/del'=>'discount/config',//设置 -- 优惠操作 添加
         'discount/get-list'=>'discount/config',//设置 -- 优惠操作 添加
+        'vip/get-all'=>'vip/get-all',//设置
+        'vip/get-one'=>'vip/get-all',//设置
+        'vip/del-grade'=>'vip/get-all',//设置
+        'vip/edit-grade'=>'vip/get-all',//设置
+        'vip/add-grade'=>'vip/get-all',//设置
+        'charg/add'=>'charg/add',//设置
+        'charg/get-all'=>'charg/add',//设置
+        'charg/delete'=>'charg/add',//设置
+        'charg/get-one'=>'charg/add',//设置
+        'charg/edit'=>'charg/add',//设置
+        'charg/buffer-time'=>'charg/buffer-time',//设置
+        'payment/payment-select'=>'payment/payment-select',//设置
+
+        'draw/list'=>'draw/list',//设置 -- 抽奖列表
+        'draw/create'=>'draw/list',//设置 -- 抽奖列表
+        'draw/del'=>'draw/list',//设置 -- 抽奖列表
+        'draw/edit'=>'draw/list',//设置 -- 抽奖列表
+        'draw/one'=>'draw/list',//设置 -- 抽奖列表
+        'draw/create-conf'=>'draw/list',//设置 -- 抽奖列表
+        'draw/one-conf'=>'draw/list',//设置 -- 抽奖列表
+        'draw/index'=>'draw/index',//设置 -- 抽奖列表
+        'draw/end-card'=>'draw/index',//设置 -- 抽奖列表
+
         'erp/goods-list'=>'erp/goods-list',//库存 -- 获取库存列表  添加
         'erp/push-one'=>'erp/push',//库存 -- 入库一个商品或原料
         'erp/push-all'=>'erp/push',//库存 -- 入库多个商品或原料
@@ -336,6 +414,7 @@ return [
         'table/close-table-book'=>'business/book',//取消预定
         'order/get-vip-one'=>'business/order',//取消预定
         'order/pay'=>'business/order',//订单结算
+        'order/preferential'=>'business/order',//订单结算//优惠券
         'order/btxf'=>'order/btxf',//吧台消费订单生成
         'order/paybtxf'=>'order/btxf',//吧台订单结算
         'b2b/default/index'=>'b2b',//b2b商场首页
@@ -402,6 +481,12 @@ return [
         ['name'=>'discount/config','description'=>'优惠添加操作','data'=>'setting'],
         ['name'=>'users/config','description'=>'员工操作','data'=>'setting'],
         ['name'=>'jiaoban/index','description'=>'交班预留金额设置','data'=>'setting'],
+        ['name'=>'draw/list','description'=>'抽奖配置','data'=>'setting'],
+        ['name'=>'draw/index','description'=>'奖品领取','data'=>'draw'],
+        ['name'=>'vip/get-all','description'=>'会员管理','data'=>'setting'],
+        ['name'=>'charg/add','description'=>'收费规则管理','data'=>'setting'],
+        ['name'=>'charg/buffer-time','description'=>'缓冲时间','data'=>'setting'],
+        ['name'=>'payment/payment-select','description'=>'支付时间','data'=>'setting'],
         #库存管理
         ['name'=>'erp/goods-list','description'=>'库存商品列表','data'=>'repertory'],
         ['name'=>'erp/push','description'=>'库存入库','data'=>'repertory'],

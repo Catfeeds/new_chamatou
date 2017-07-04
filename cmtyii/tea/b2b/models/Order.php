@@ -427,7 +427,12 @@ class Order extends \yii\db\ActiveRecord
         foreach ($In as $key=>$value){
             $info = sizeof($goodsList);
             if($info < 7){
-                $goodsList = ArrayHelper::merge($goodsList, OrderGoods::find()->andWhere(['order_id'=>$value])->asArray()->all());
+                $goods = OrderGoods::find()->andWhere(['order_id'=>$value])->asArray()->all();
+                foreach ($goods as &$v){
+                    $store = Goods::find()->where(['Id'=>$v['goods_id']])->select(['store'])->one()->toArray();
+                    $v['store'] = $store['store'];
+                }
+                $goodsList = ArrayHelper::merge($goodsList, $goods);
             }
         }
         return $goodsList;

@@ -38,7 +38,6 @@ class SiteController extends ObjectController
     {
         $auth = Yii::$app->authManager;
         $test = $auth->getPermission('test');
-        var_dump($test);
         return ['code'=>1,'msg'=>Yii::t('app','GLOBAL')];
     }
 

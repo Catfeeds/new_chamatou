@@ -6,6 +6,7 @@ use tea\models\VipPay;
 use Yii;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
+use yii\web\User;
 
 /**
  * This is the model class for table "{{%sp_vip}}".
@@ -24,6 +25,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $birthday
  * @property integer $notes
  * @property integer $address
+ * @property integer $grade_id
  */
 class Vip extends \yii\db\ActiveRecord
 {
@@ -41,7 +43,7 @@ class Vip extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shoper_id', 'phone', 'username', 'card_no', 'birthday'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
+            [['shoper_id', 'phone', 'username', 'card_no', 'birthday','grade_id'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
             [['shoper_id','user_id', 'sex'], 'integer', 'message' => Yii::t('app', 'table')['param_type_error'], 'on' => ['add']],
             [['phone'], 'validatePhone', 'on' => ['add']],
             [['phone'], 'match','pattern'=>'/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/','on' => ['add']],
@@ -75,6 +77,7 @@ class Vip extends \yii\db\ActiveRecord
         $data['card_no'] = $this->randCardOn();
         $data['birthday'] = strtotime($data['birthday']);
         $data['shoper_id'] = Yii::$app->session->get('shoper_id');
+        $data['user_id'] = Yii::$app->session->get('tea_user_id');
 
         if ($this->load($data, '') && $this->save()) {
             return true;
@@ -134,6 +137,10 @@ class Vip extends \yii\db\ActiveRecord
                     ':shoper_id'=>Yii::$app->session->get('shoper_id'),
                     ':username' =>"%".$data['username']."%",
                     ':phone' =>"%".$data['phone']."%"]);
+        #搜索会员等级
+        if(isset($data['grade_id']))
+            $model = $model->andWhere(['grade_id'=>$data['grade_id']]);
+
         $dataCount = $model->count();
         $page = new Pagination(['totalCount' => $dataCount, 'pageSize' => Yii::$app->params['pageSize']]);
         $data = $model->offset($page->offset)->limit($page->limit)
@@ -142,10 +149,13 @@ class Vip extends \yii\db\ActiveRecord
         {
             # 格式化时间
             $data[$key]['birthday'] = date('Y-m-d',$value['birthday']);
+            $data[$key]['user_id'] = UsersForm::getUserNameById($value['user_id']);
             if($value['sex'] == 1)
                 $data[$key]['sex'] = '男';
             elseif ($value['sex'] == 2)
                 $data[$key]['sex'] = '女';
+
+            $data[$key]['grade_id'] = VipGrade::getGradeName($value['grade_id']);
         }
         return ['dateList'=>$data,'page'=>['pageCount'=>$page->getPageCount(),'dataCount'=>$dataCount]];
     }
@@ -170,7 +180,8 @@ class Vip extends \yii\db\ActiveRecord
     public function getPay($select = [])
     {
         $data = $this->hasMany(VipPay::className(),['vip_id'=>'user_id'])
-                    ->where('shoper_id =:shoper_id',[':shoper_id'=>Yii::$app->session->get('shoper_id')])->select($select)->asArray()->all();
+                    ->where('shoper_id =:shoper_id',[':shoper_id'=>Yii::$app->session->get('shoper_id')])
+                    ->select($select)->asArray()->all();
         return $data;
     }
 
@@ -273,6 +284,7 @@ class Vip extends \yii\db\ActiveRecord
             $data[$key]['phone']    = $vip['phone'];
             $data[$key]['card_no']  = $vip['card_no'];
             $data[$key]['sum']      = number_format($value['amount'] + $value['zs'] + $value['pay_up_amount'],2);
+            $data[$key]['tea_user_id'] = UsersForm::getUserNameById($value['tea_user_id']);
         }
         return ['dateList'=>$data,'page'=>['pageCount'=>$page->getPageCount(),'dataCount'=>$dataCount]];
     }

@@ -67,8 +67,23 @@ class Store extends \yii\db\ActiveRecord
             'intro' => 'Intro',
         ];
     }
+
+    /**
+     * 获取信息
+     * @return static
+     */
     public static function getThisUserToStoreInfo()
     {
         return self::findOne(Yii::$app->session->get('store_id'));
+    }
+
+    /**
+     * 返回店铺名称
+     * @return mixed
+     */
+    public static function getStoreName()
+    {
+        $store = self::getThisUserToStoreInfo();
+        return $store['sp_name'];
     }
 }

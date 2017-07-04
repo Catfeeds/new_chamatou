@@ -32,12 +32,12 @@ class UsersController extends ObjectController
             ->select(['sp_name'])
             ->andWhere(['id' => \Yii::$app->session->get('store_id')])
             ->one();
-        $datas = ArrayHelper::toArray($model);
-        $datas['credit_balance'] = $datas['credit_amount'];
-        $datas['cart'] = Cart::getCount();
-        $datas['order'] = Order::getCount();
-        $datas['sp_name'] = $data['sp_name'];
-        return ['code' => 1, 'msg' => \Yii::t('app', 'global')['true'], 'data' => $datas];
+        $arrayModel = ArrayHelper::toArray($model);
+        $arrayModel ['credit_balance'] = $arrayModel ['credit_amount'];
+        $arrayModel ['cart']    = Cart::getCount();
+        $arrayModel ['order']   = Order::getCount();
+        $arrayModel ['sp_name'] = $data['sp_name'];
+        return ['code' => 1, 'msg' => \Yii::t('app', 'global')['true'], 'data' => $arrayModel ];
 
     }
 }

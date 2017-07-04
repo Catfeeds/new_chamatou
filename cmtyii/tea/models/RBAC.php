@@ -167,9 +167,13 @@ class RBAC
 
         $auto = \Yii::$app->authManager;
         $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+        /**
+         * 超级管理员第一次登陆
+         */
         if(empty($rbacDataList) && \Yii::$app->session->get('is_admin') == 1){
             $rbacDataList = $auto->getPermissions();
             $admins = $auto->getRole(self::setRoleName('超级管理员'));
+
             if (!$admins) {
                 $admins = $auto->createRole(self::setRoleName('超级管理员'));
                 $auto->add($admins);
@@ -177,10 +181,35 @@ class RBAC
             }
 
             foreach ($rbacDataList as $key => $value) {
-                    $auto->addChild($admins, $value);
+                $auto->addChild($admins, $value);
             }
             unset($rbacDataList);
             $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+        }
+
+        /**
+         * 添加新的功能时更新超级管理员的权限
+         */
+        if(\Yii::$app->session->get('_test_test','') == '' && \Yii::$app->session->get('is_admin') == 1){
+
+            $rbacDataList = $auto->getPermissions();
+            $admins = $auto->getRole(self::setRoleName('超级管理员'));
+
+            if (!$admins) {
+                $admins = $auto->createRole(self::setRoleName('超级管理员'));
+                $auto->add($admins);
+                $auto->assign($admins, \Yii::$app->user->id);
+            }
+            foreach ($rbacDataList as $key => $value) {
+                /* 判断现在是否有这个权限 */
+                if(\Yii::$app->user->can($value->name) === false)
+                {
+                    $auto->addChild($admins, $value);
+                }
+            }
+            unset($rbacDataList);
+            $rbacDataList = ArrayHelper::toArray($auto->getPermissionsByUser(\Yii::$app->user->id));
+            \Yii::$app->session->set('_test_test',1);
         }
         unset($auto);
 
@@ -205,6 +234,9 @@ class RBAC
             ],
             'message' => [
                 'length' => 0,
+            ],
+            'draw'      =>[
+                'length'=>0,
             ],
             'setting' => [
                 'length' => 0,
@@ -274,6 +306,12 @@ class RBAC
                     $name = str_replace('-','_',$name);
                     $roleList['common'][$name] = 1;
                     $roleList['common']['length']++;
+                    break;
+                case 'draw':
+                    $name = str_replace('/','_',$item['name']);
+                    $name = str_replace('-','_',$name);
+                    $roleList['draw'][$name] = 1;
+                    $roleList['draw']['length']++;
                     break;
             }
         }

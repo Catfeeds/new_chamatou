@@ -45,13 +45,11 @@ class ObjectController extends Controller
         if ($route == 'pay/wx-pay-ret') {
             return true;
         }
-
         /* 开发模拟用户登录 */
-//        $user = new Users();
-//        $user->login(['phone'=>'15982707139','password'=>'15982707139']);
-//        $user->login(['phone' => '15888888888', 'password' => 'xiaozhang']);
+        $user = new Users();
+        $user->login(['phone' => '15888888888', 'password' => '123456']);
         /* 开发更新权限表 */
-//        RBAC::initAuth();
+        RBAC::initAuth();
 
         if ($action->id == 'login') {
             return true;

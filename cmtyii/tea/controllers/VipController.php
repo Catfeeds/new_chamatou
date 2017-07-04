@@ -3,6 +3,8 @@
 namespace tea\controllers;
 
 
+use tea\models\UsersForm;
+use tea\models\VipGrade;
 use tea\models\VipPay;
 use Yii;
 use tea\models\Vip;
@@ -70,6 +72,8 @@ class VipController extends ObjectController
                 $data[$key]['sex'] = '男';
             elseif ($value['sex'] == 2)
                 $data[$key]['sex'] = '女';
+            $data[$key]['user_id'] = UsersForm::getUserNameById($value['user_id']);
+            $data[$key]['grade_id'] = VipGrade::getGradeName($value['grade_id']);
         }
 
         return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>[
@@ -103,6 +107,8 @@ class VipController extends ObjectController
                 'id'=>Yii::$app->request->get('vip_id')])->asArray()->one();
             $ret['list']         =  $data;
             $ret['list']['birthday'] =  date('Y-m-d',$data['birthday']);
+            $ret['list']['user_id']  = UsersForm::getUserNameById($data['user_id']);
+            $ret['list']['grade_id']  = VipGrade::getGradeName($data['grade_id']);
             return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$ret];
         }
         else
@@ -150,6 +156,7 @@ class VipController extends ObjectController
                 $data['phone']    = $vip->phone;
                 $data['card_no']  = $vip->card_no;
                 $data['sum']      = number_format($data['amount'] + $data['zs'] + $data['pay_up_amount'],2);
+                $data['tea_user_id'] = UsersForm::getUserNameById($data['tea_user_id']);
                 return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$data];
             }
             return ['code' => 0, 'msg' => Yii::t('app', 'global')['false']];
@@ -165,5 +172,90 @@ class VipController extends ObjectController
         $consume = new Vip();
         $data = $consume->consume(Yii::$app->request->get());
         return ['code' => 1, 'msg' => Yii::t('app', 'global')['true'],'data'=>$data];
+    }
+
+    /**
+     * 创建会员等级
+     * @return array
+     */
+    public function actionAddGrade()
+    {
+        if(Yii::$app->request->isPost)
+        {
+            $vipGrade = new VipGrade();
+            if($vipGrade->create(Yii::$app->request->post())){
+                return ['code'=>1,'msg'=>"成功"];
+            }
+            $message = $vipGrade->getFirstErrors();
+            $message = reset($message);
+            return ['code'=>0,'msg'=>$message];
+        }
+        return ['code'=>0,'请POST提交数据！'];
+    }
+
+    /**
+     * 修改会员等级
+     * @return array
+     */
+    public function actionEditGrade()
+    {
+        if(Yii::$app->request->isPost)
+        {
+            $vipGrade = VipGrade::findOne(Yii::$app->request->post('grade_id'));
+            if($vipGrade->edit(Yii::$app->request->post())){
+                return ['code'=>1,'msg'=>"成功"];
+            }
+            $message = $vipGrade->getFirstErrors();
+            $message = reset($message);
+            return ['code'=>0,'msg'=>$message];
+        }
+        return ['code'=>0,'请POST提交数据！'];
+    }
+
+    /**
+     * 删除会员等级
+     * @return array
+     */
+    public function actionDelGrade()
+    {
+        if(Yii::$app->request->isPost)
+        {
+            $vipGrade = VipGrade::findOne(Yii::$app->request->post('grade_id'));
+            if($vipGrade->del()){
+                return ['code'=>1,'msg'=>"成功"];
+            }
+            $message = $vipGrade->getFirstErrors();
+            $message = reset($message);
+            return ['code'=>0,'msg'=>$message];
+        }
+        return ['code'=>0,'请POST提交数据！'];
+    }
+
+    /**
+     * 获取一个等级
+     * @return array
+     */
+    public function actionGetOne()
+    {
+        if(Yii::$app->request->isGet)
+        {
+            $vipGrade = VipGrade::findOne(Yii::$app->request->get('grade_id'));
+            return ['code'=>1,'msg'=>'成功!','data'=>$vipGrade];
+        }
+        return ['code'=>0,'请Get提交数据！'];
+    }
+
+    /**
+     * 获取一个等级
+     * @return array
+     */
+    public function actionGetAll()
+    {
+        if(Yii::$app->request->isGet)
+        {
+            $vipGrade = new VipGrade();
+            return ['code'=>1,'msg'=>'成功!','data'=>$vipGrade->getList()];
+        }
+        return ['code'=>0,'请Get提交数据！'];
     }
 }

@@ -140,6 +140,7 @@ class Information extends \yii\db\ActiveRecord
             ->andWhere(['or',['type'=>Information::BOOK_MATURE],['type'=>Information::TABLE_ADD_GOODS]])
             ->andWhere(['reading' => 1])
             ->orderBy('add_time DESC')->all();
+
         foreach ($list as $key=>$value)
         {
             $value->reading =  0;

@@ -70,7 +70,10 @@ class Unit extends \yii\db\ActiveRecord
     {
         if(!$this->hasErrors())
         {
-            $data = Goods::find()->where(['unit'=>$this->name])->one();
+            $data = Goods::find()->where(['unit'=>$this->name])
+                    ->andWhere(['shoper_id'=>Yii::$app->session->get('shoper_id')])
+                    ->andWhere(['store_id'=>Yii::$app->session->get('store_id')])
+                    ->one();
             if($data) {
                 return $this->addError($atr,Yii::t('app','unit_name_use_ing'));
             }
