@@ -113,8 +113,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <td>
                     <?= Html::a('编辑', ['edit', 'id' => $v->Id], ['class' => 'btn btn-xs btn-primary btn2']); ?>
-                    <a data-href="<?= Url::to(['del', 'id' => $v->Id]) ?>" data-target="#delModal"
-                       data-toggle="modal" class="btn btn-danger btn-xs deleteBtn btn2">删除</a>
+
+                    <a href='#' onclick="alertWarning('删除商品?','请确认你的操作？','<?= Url::to(['del', 'id' => $v->Id])?>')" class='btn btn-xs btn-danger btn2'  style='margin-right: 5px;'>删除</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -131,32 +131,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'maxButtonCount' => 5,
     ]); ?>
 
-<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">提示：Notice!</h4>
-            </div>
-            <div class="modal-body">
-                亲！你确认要删除吗？你确定不后悔?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">让我想想</button>
-                <a href="" id="deleteTrue" class="btn btn-primary">确认删除</a>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span-->
+<!--                            aria-hidden="true">&times;</span></button>-->
+<!--                <h4 class="modal-title" id="myModalLabel">提示：Notice!</h4>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                亲！你确认要删除吗？你确定不后悔?-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-default" data-dismiss="modal">让我想想</button>-->
+<!--                <a href="" id="deleteTrue" class="btn btn-primary">确认删除</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <?php
 \backend\assets\AppAsset::addScript($this, '/ext/layer/layer.js');
 $this->registerJs('
-    //删除商品
+    
     $(function () {
-         $(".deleteBtn").click(function(){
-            $(\'#deleteTrue\').attr(\'href\',$(this).attr(\'data-href\'));
-        })
         //点击商品上下架
        $(".is_sx").click(function(){
             var id = $(this).attr("data");

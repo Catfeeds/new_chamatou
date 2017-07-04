@@ -5,7 +5,6 @@
     <section class="sidebar">
         <?php
         $roles = Yii::$app->session->get('roles');
-
         $items = [];
         if(isset($roles['/statistics/store/index'])){
             $items[] = ['label' => '统计中心', 'url' => ['/statistics/store/index'], 'icon'=>'dashboard'];
@@ -38,6 +37,9 @@
 
         if(isset($roles['/message/index'])){
             $items[] = ['label' => '留言管理', 'url' => ['/message'], 'icon'=>'comments'];
+        }
+        if(isset($roles['/adv/index'])){
+            $items[] = ['label' => '广告管理', 'url' => ['/adv'], 'icon'=>'comments'];
         }
 
         if(isset($roles['/goods/index'])){

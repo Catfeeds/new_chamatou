@@ -11,11 +11,14 @@ namespace backend\controllers;
 
 use backend\models\Goods;
 use backend\models\GoodsCat;
+use backend\models\GoodsImg;
 use backend\models\search\GoodsSearch;
+use backend\models\Upload;
 use yii\console\Response;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\UploadedFile;
+
 
 class GoodsController extends ObjectController
 {
@@ -44,6 +47,7 @@ class GoodsController extends ObjectController
      */
     public function actionAdd()
     {
+        $uploadModel = new Upload();
         $goodsModel = new Goods();
         if ($goodsModel->load(\Yii::$app->request->post())) {
             //将上传图片加载到模型对象上
@@ -53,6 +57,7 @@ class GoodsController extends ObjectController
                 $goodsModel->add_time = time();
                 //$goodsModel->content = serialize($goodsModel->content);
                 if ($goodsModel->save(false)) {
+                    Upload::uploadGoodsImg($goodsModel->attributes['Id']);
                     return $this->redirect(['index']);
                 }
             }
@@ -63,6 +68,7 @@ class GoodsController extends ObjectController
         return $this->render('add', [
             'model' => $goodsModel,
             'cate' => $cate,
+            'uploadModel'=>$uploadModel,
         ]);
     }
 
@@ -70,9 +76,11 @@ class GoodsController extends ObjectController
     public function actionEdit($id)
     {
         $model = Goods::findOne($id);
+        $uploadModel = new Upload();
         if($model->load(\Yii::$app->request->post())){
             //将上传图片加载到模型对象上
             $model->file = UploadedFile::getInstance($model, 'file');
+            Upload::uploadGoodsImg($id);
             //调用模型方法处理图片
             if ($model->upload()) {
                 if ($model->save(false)) {
@@ -86,6 +94,7 @@ class GoodsController extends ObjectController
         return $this->render('add',[
             'model'=>$model,
             'cate' =>$cate,
+            'uploadModel' => $uploadModel,
         ]);
     }
 
@@ -99,13 +108,16 @@ class GoodsController extends ObjectController
      */
     public function actionDel($id)
     {
+        //$id = \Yii::$app->request->get('id');
+        //var_dump($id);die;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $model = Goods::findOne($id);
         if($model->delete()){
-            \Yii::$app->session->setFlash('success','删除成功');
+            Upload::delImg($id);
+            return ['code'=>1,'message'=>'删除成功'];
         }else{
-            \Yii::$app->session->setFlash('error','删除失败');
+            return ['code'=>1,'message'=>'删除失败'];
         }
-        return $this->redirect(['index']);
     }
 
     public function actionShangjia()

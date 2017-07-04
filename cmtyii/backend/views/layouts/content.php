@@ -299,6 +299,7 @@ use dmstr\widgets\Alert;
 
         });
     }
+
     /**
      * 弹出确认
      * @param title
@@ -314,7 +315,7 @@ use dmstr\widgets\Alert;
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true,
                 confirmButtonText:"确认",
-                cancelButtonText:"取消",
+                cancelButtonText:"取消"
             },
             function(){
                 $.ajax({

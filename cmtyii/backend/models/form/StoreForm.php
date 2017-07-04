@@ -68,7 +68,8 @@ class StoreForm extends SpStore
 
         $this->save();
         //TODO:: 有上传文件，再增加文件
-        Upload::uploadStoreImg($this->id);
+//        Upload::uploadStoreImg($this->id);
+        Upload::uploadStoreImg(['storeId'=>$this->id,'shoperId'=>$this->shoper_id]);
         return $this ? $this : null;
     }
 

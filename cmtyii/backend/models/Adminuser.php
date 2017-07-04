@@ -34,8 +34,8 @@ class Adminuser extends ActiveRecord implements IdentityInterface
     {
         parent::__construct($config);
         $this->statusMsg = [
-            self::STATUS_ACTIVE => yii::t('app', 'status_active'),
-            self::STATUS_DELETED => yii::t('app', 'status_deleted'),
+            self::STATUS_ACTIVE => yii::t('app', '正常'),
+            self::STATUS_DELETED => yii::t('app', '删除'),
         ];
     }
 

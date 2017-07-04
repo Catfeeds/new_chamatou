@@ -77,7 +77,6 @@ class StoreController extends ObjectController
             }
             throw new \Exception('');
         }catch (\Exception $exception){
-            var_dump($exception->getMessage());
             $transaction->rollBack();
             return $this->render('create', [
                 'storeModel' => $storeModel,
@@ -127,10 +126,12 @@ class StoreController extends ObjectController
             throw new \Exception('');
         }catch (\Exception $exception){
             $transaction->rollBack();
+            $storeImage = Upload::getStoreImg($storeModel->id);
             return $this->render('update', [
                 'storeModel' => $storeModel,
                 'shoperModel'=>$shoperModel,
-                'uploadModel' => $uploadModel
+                'uploadModel' => $uploadModel,
+                'storeImage' => $storeImage,
             ]);
         }
     }
