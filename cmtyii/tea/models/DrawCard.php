@@ -20,10 +20,7 @@ use yii\data\Pagination;
  * @property integer $end_time
  * @property integer $type
  * @property integer $number
-<<<<<<< HEAD
-=======
  * @property integer $draw_id
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
  */
 class DrawCard extends \yii\db\ActiveRecord
 {
@@ -102,10 +99,6 @@ class DrawCard extends \yii\db\ActiveRecord
         if (empty($prize))
             return $this->addError('id', '非法访问');
 
-<<<<<<< HEAD
-        foreach ($prize as $key => $value) {
-            $drawModel = Draw::findOne($key);
-=======
 
         /**
          * 检查是不是必中用户、判断是不是茶豆币、判断奖品是不是今日最大值、判断奖品数量余额是否足够、
@@ -130,16 +123,15 @@ class DrawCard extends \yii\db\ActiveRecord
              * 判断每日最大出奖数量
              */
             $dayMaxPrizeNumber = DrawCard::find()->andWhere(['draw_id'=>$drawModel->id])
-                                ->andWhere(['>','add_time',time()])
-                                ->andWhere(['<','add_time',strtotime(date('Y-m-d').'00:00:00')])
-                                ->count();
+                ->andWhere(['>','add_time',time()])
+                ->andWhere(['<','add_time',strtotime(date('Y-m-d').'00:00:00')])
+                ->count();
             if( $drawModel->day_max_prize_number >= $dayMaxPrizeNumber)
             {
                 $proArr[$key] = 0;
                 continue;
             }
 
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
             /**
              * 检查是不是茶豆币
              */
@@ -150,19 +142,6 @@ class DrawCard extends \yii\db\ActiveRecord
                 {
                     $proArr[$key] = 0;
                 }
-<<<<<<< HEAD
-            }
-            else
-            {
-                $proArr[$key] = $drawModel->probability;
-            }
-        }
-
-        $key        = $this->get_rand($proArr);
-        $drawModel  = Draw::findOne($key);
-        if ($drawModel->type !== 5)
-        {
-=======
                 continue;
             }
 
@@ -183,37 +162,28 @@ class DrawCard extends \yii\db\ActiveRecord
         if ($drawModel->type !== 5)
         {
 
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
             if ($drawModel->type == 1)
             {
                 $this->addDrawCard([
-                        'name'      => $drawModel->name . '--' . $drawModel->number.'个',
-                        'status'    => 1,
-                        'end_time'  => time(),
-                        'type'      => $drawModel->type,
-<<<<<<< HEAD
-                        //'number'    => $drawModel->number,
-                        'user_id'   => $user['id'],
-=======
-                        'number'    => $drawModel->number,
-                        'user_id'   => $user['id'],
-                        'draw_id'   => $drawModel->id,
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
-                        ]);
+                    'name'      => $drawModel->name . '--' . $drawModel->number.'个',
+                    'status'    => 1,
+                    'end_time'  => time(),
+                    'type'      => $drawModel->type,
+                    'number'    => $drawModel->number,
+                    'user_id'   => $user['id'],
+                    'draw_id'   => $drawModel->id,
+                ]);
             }
             elseif($drawModel->type == 2)
             {
                 $this->addDrawCard([
-                        'name'      => $drawModel->name . '--' . $drawModel->number.'折',
-                        'status'    => 0,
-                        'type'      => $drawModel->type,
-                        'number'    => $drawModel->number,
-                        'user_id'   => $user['id'],
-<<<<<<< HEAD
-=======
-                        'draw_id'   => $drawModel->id,
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
-                    ]);
+                    'name'      => $drawModel->name . '--' . $drawModel->number.'折',
+                    'status'    => 0,
+                    'type'      => $drawModel->type,
+                    'number'    => $drawModel->number,
+                    'user_id'   => $user['id'],
+                    'draw_id'   => $drawModel->id,
+                ]);
             }
             elseif($drawModel->type == 3)
             {
@@ -223,10 +193,7 @@ class DrawCard extends \yii\db\ActiveRecord
                     'type'      => $drawModel->type,
                     'number'    => $drawModel->number,
                     'user_id'   => $user['id'],
-<<<<<<< HEAD
-=======
                     'draw_id'   => $drawModel->id,
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
                 ]);
             }
             else
@@ -237,16 +204,11 @@ class DrawCard extends \yii\db\ActiveRecord
                     'type'      => $drawModel->type,
                     'number'    => $drawModel->number,
                     'user_id'   => $user['id'],
-<<<<<<< HEAD
-                ]);
-            }
-=======
                     'draw_id'   => $drawModel->id,
                 ]);
             }
             $drawModel->prize_surplus_number += 1;
             $drawModel->save();
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
         }
         Yii::$app->session->remove('drawList');
 
@@ -270,12 +232,8 @@ class DrawCard extends \yii\db\ActiveRecord
         $this->add_time  = time();
         $this->end_time  = isset($param['end_time']) ? $param['end_time'] : '';
         $this->type      = $param['type'];
-<<<<<<< HEAD
-        //$this->number    = $param['number'];
-=======
         $this->number    = $param['number'];
         $this->draw_id   = $param['draw_id'];
->>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
         return $this->save();
     }
 
