@@ -50,7 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="wrapper">
-
     <?php $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data'],]);?>
     <div class="form-group">
         <?= $form->field($model, 'title')->textInput();?>
@@ -70,7 +69,19 @@ $this->params['breadcrumbs'][] = $this->title;
             * 注：上传图片尺寸为1200X450,否则影响茶坊端商城显示效果！
         </div>
     </div>
-   <?
+    <?php
+    $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data'],]);
+    echo $form->field($model, 'title')->textInput();
+    echo $form->field($model, 'file')->widget(\kartik\file\FileInput::classname(), [
+        'options' => [
+            'accept' => 'image/*',
+            'multiple' => true
+        ],
+        'pluginOptions' => [
+            'maxFileCount' => 5,
+            'showUpload' => false
+        ]
+    ]);
     echo \yii\helpers\Html::submitInput('提交', ['class' => 'btn btn-success', 'style' => 'margin-right:1em;']);
     \yii\bootstrap\ActiveForm::end();
     ?>

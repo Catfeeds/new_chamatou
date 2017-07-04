@@ -2,6 +2,10 @@
 
 namespace tea\models;
 
+<<<<<<< HEAD
+=======
+use function GuzzleHttp\Promise\exception_for;
+>>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -86,7 +90,11 @@ class DrawConf extends \yii\db\ActiveRecord
         $this->prize  = serialize($param['prize']);
         if ($this->load($param, '') && $this->validate())
         {
+<<<<<<< HEAD
             $this->prize  = serialize($param['prize']);
+=======
+            $this->prize     = serialize($param['prize']);
+>>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
             $this->shoper_id = Yii::$app->session->get('shoper_id');
             $this->store_id  = Yii::$app->session->get('store_id');
             return $this->save();
@@ -118,8 +126,13 @@ class DrawConf extends \yii\db\ActiveRecord
             $drawConf['prize'] = unserialize($drawConf['prize']);
             $drawConf = ArrayHelper::toArray($drawConf);
             foreach ($drawConf['prize'] as $key => $value) {
+<<<<<<< HEAD
                 $temp = Draw::findOne($value);
                 $list[$value] = $temp->name;
+=======
+                $temp = Draw::findOne($value['key']);
+                $list[$key] = $value;
+>>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
                 $drawConf['prize'][$key] = $temp->name;
             }
             \Yii::$app->session->set('drawList', $list);

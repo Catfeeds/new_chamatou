@@ -45,8 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'filter' => [
-                    Adminuser::STATUS_DELETED=> yii::t('app', 'status_deleted'),
-                    Adminuser::STATUS_ACTIVE=> yii::t('app', 'status_active'),
+                    Adminuser::STATUS_DELETED=> yii::t('app', '删除'),
+                    Adminuser::STATUS_ACTIVE=> yii::t('app', '正常'),
                 ],
                 'value' => 'statusMsg'
 
@@ -85,7 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'aria-label' => Yii::t('app', 'reset_pwd'),
                             'data-pjax' => '0',
                         ];
-                        return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, $options);
+                        $url = \yii\helpers\Url::to(['admin/user/reset-password']);
+                        return Html::a('<span class="glyphicon glyphicon-lock"></span>',$url , $options);
                     },
 
                 ],

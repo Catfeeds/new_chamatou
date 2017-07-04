@@ -23,15 +23,20 @@ use yii\helpers\Html;
 
 
                 <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="<?php echo  \yii\helpers\Url::to(['/admin/user/change-password'])?>">
                         <span class="hidden-xs">
                             当前登录用户:
                             <?php if(isset(Yii::$app->user->identity->username)){ echo Yii::$app->user->identity->username;} ?>
                         </span>
                     </a>
-
                 </li>
-
+                <li>
+                    <?= Html::a(
+                        '修改密码',
+                        ['/admin/user/change-password'],
+                        ['class' => 'btn  btn-flat']
+                    ) ?>
+                </li>
                 <!-- User Account: style can be found in dropdown.less -->
                 <li>
                     <?= Html::a(

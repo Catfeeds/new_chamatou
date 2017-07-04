@@ -143,7 +143,11 @@ class ChargRule extends \yii\db\ActiveRecord
      */
     public function del()
     {
+<<<<<<< HEAD
         if(!$order = Order::find()->andWhere(['charg_id'=>$this->id])->one()){
+=======
+        if(!$order = Order::find()->andWhere(['charg_id'=>$this->id])->andWhere(['!=','status',2])->one()){
+>>>>>>> 11ccbf4012988c804c2961d8d9c6a79e9ddf439a
             return $this->delete();
         }
         $this->addError('id','删除收费规则正在使用中！');

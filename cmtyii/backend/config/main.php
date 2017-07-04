@@ -13,6 +13,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'name' => '茶码头-平台管理系统',
+    'language' => 'zh-CN',
     'modules' => [
         "admin" => [
             "class" => "mdm\admin\Module",
@@ -92,5 +93,4 @@ return [
         ]
     ],
     'params' => $params,
-    'language' => 'zh-CN',
 ];

@@ -38,25 +38,25 @@ class  OrderController extends ObjectController
             $stockType = $goods->getGoodsStockType($model->goods_id);
 
             if ($stockType == 'goods') {
-                $data['type'] = $stockType;
-                $data['id'] = $model->goods_id;
-                $data['type'] = $stockType;
-                $data['push_type'] = StorageInfo::STATUS_BACK_PUSH;
-                $data['buy_price'] = $model['price'];
-                $data['num'] = $model['num'];
-                $data['note'] = '销售回退--系统生成';
-                $storageInfo = new StorageInfo();
+                $data['type']       = $stockType;
+                $data['id']         = $model->goods_id;
+                $data['type']       = $stockType;
+                $data['push_type']  = StorageInfo::STATUS_BACK_PUSH;
+                $data['buy_price']  = $model['price'];
+                $data['num']        = $model['num'];
+                $data['note']       = '销售回退--系统生成';
+                $storageInfo        = new StorageInfo();
                 $storageInfo->add($data);
             } elseif ($stockType == 'dosing') {
                 $goodsToDosing = GoodsToDosing::getGoodsRelate($model->goods_id);
                 foreach ($goodsToDosing as $keys => $values) {
-                    $data['type'] = $stockType;
-                    $data['id'] = $values['dosing_id'];
-                    $data['type'] = $stockType;
-                    $data['push_type'] = StorageInfo::STATUS_BACK_PUSH;
-                    $data['buy_price'] = $model['price'];
-                    $data['num'] = $model['num'] * $values['number'];
-                    $data['note'] = '销售回退--系统生成';
+                    $data['type']       = $stockType;
+                    $data['id']         = $values['dosing_id'];
+                    $data['type']       = $stockType;
+                    $data['push_type']  = StorageInfo::STATUS_BACK_PUSH;
+                    $data['buy_price']  = $model['price'];
+                    $data['num']        = $model['num'] * $values['number'];
+                    $data['note']       = '销售回退--系统生成';
                     $storageInfo = new StorageInfo();
                     $storageInfo->add($data);
                 }

@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Salesman;
 use backend\models\search\SalesmanSearch;
+use yii\grid\DataColumn;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +39,6 @@ class SalesmanController extends ObjectController
     {
         $searchModel = new SalesmanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

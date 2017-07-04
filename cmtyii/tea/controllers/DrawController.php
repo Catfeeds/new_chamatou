@@ -147,9 +147,12 @@ class DrawController extends ObjectController
      */
     public function actionCreateConf()
     {
+
         if(\Yii::$app->request->isPost)
         {
+
             $drawConf = DrawConf::getInfo();
+
             if(!$drawConf)
                 $drawConf = new DrawConf();
             if ($id = $drawConf->create(\Yii::$app->request->post())){

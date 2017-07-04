@@ -77,7 +77,6 @@ class StoreController extends ObjectController
             }
             throw new \Exception('');
         }catch (\Exception $exception){
-            var_dump($exception->getMessage());
             $transaction->rollBack();
             return $this->render('create', [
                 'storeModel' => $storeModel,

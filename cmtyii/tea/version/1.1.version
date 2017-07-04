@@ -1,0 +1,17 @@
+数据库
+    新增数据库字段：
+        t_sp_draw
+            prize_sum_number 奖品总数
+            prize_surplus_number 商品送出数量
+            day_max_prize_number 每日商品出奖数量
+            winning_phone 指定用户中奖
+        t_sp_draw_card
+            draw_id 中奖商品的ID
+
+文件变动：
+    新增文件：
+    修改文件:
+        tea\controllers\DrawController.php
+        tea\models\Draw.php
+        tea\models\DrawConf.php
+

@@ -48,7 +48,6 @@ class Upload extends Model
         }
         $dir = Yii::$app->getBasePath()."/web/public/uploads/" . date("Ymd");
         if (!is_dir($dir)){
-
             mkdir($dir,0777,true);
         }
         $file_ids = [];

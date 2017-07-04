@@ -3,6 +3,13 @@ return [
     'adminEmail' => 'admin@example.com',
     'pageSize'   => 10,# 分页 一页的显示数量
     'minTime'    => 0,# 茶坊忽略的时间 分钟
+    'sms' => [
+        'type' => 'ALIDAYU',//短信发送类型 只支持 ALIDAYU(阿里大于) ALIYUN(阿里云)
+        'ak' => '23875791', //第三方appkey
+        'sk' => 'd8c246a44449ad959b331c6088f6f66a',//第三方secretkey
+        'signname' => '茶码头', //模板签名
+        'bookTemplateCode' => 'SMS_71805020',//签名ID
+    ],
     'wxPay'=>[
         'appid'=>'wx3a8c350faa88e646',
         'secret'=>'9fee3d531dcd68e50c19c4941a033fb8',

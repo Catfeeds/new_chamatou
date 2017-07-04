@@ -65,7 +65,8 @@ class ChargController extends  ObjectController
         {
             $charg = new ChargRule();
             if ($charg->getList())
-            return ['code'=>1,'msg'=>'成功！','data'=>$charg->getList()];
+                return ['code'=>1,'msg'=>'成功！','data'=>$charg->getList()];
+            return ['code'=>0,'msg'=>'没检查到计费规则'];
         }
         return ['code'=>0,'msg'=>'请GET提交数据！'];
     }

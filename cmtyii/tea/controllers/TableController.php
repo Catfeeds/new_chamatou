@@ -2,9 +2,11 @@
 
 namespace tea\controllers;
 
+use gmars\sms\Sms;
 use tea\models\Book;
 use tea\models\ChargRule;
 use tea\models\Order;
+use tea\models\Store;
 use tea\models\Table;
 use tea\models\TableType;
 use tea\models\UsersForm;
@@ -177,8 +179,23 @@ class TableController extends ObjectController
     {
         if (Yii::$app->request->isPost) {
             $model = new Book();
-            if ($model->add(Yii::$app->request->post()))
+            if ($model->add(Yii::$app->request->post())){
+                $smsParam = \Yii::$app->params['sms'];
+                $smsObj   = new Sms($smsParam['type'],['appkey'=>$smsParam['ak'],'secretkey'=>$smsParam['sk']]);
+                $shopName = Store::getStoreName();
+                $shopName .= "(桌台号：".Table::getTableNameById($model->table_id).")";
+
+                $re  = $smsObj->send([
+                    'mobile' => $model->phone,
+                    'signname' => $smsParam['signname'],
+                    'templatecode' => $smsParam['bookTemplateCode'],
+                    'data' => [
+                        'table' =>$shopName,
+                        'time' => date('Y-m-d H:i:s',$model->arrive_time)
+                    ],
+                ]);
                 return ['code' => 1, 'msg' => Yii::t('app', 'global')['true']];
+            }
             $msg = $model->getFirstErrors();
             return ['code' => 0, 'msg' => reset($msg)];
         }
