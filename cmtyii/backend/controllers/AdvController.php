@@ -20,6 +20,8 @@ class AdvController extends ObjectController
     public function actionIndex()
     {
         $model = Adv::find()->all();
+        $model = Adv::find()->all();
+        $model = Adv::find()->all();
         return $this->render('index',['model'=>$model]);
     }
 
