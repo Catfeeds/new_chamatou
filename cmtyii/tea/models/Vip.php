@@ -46,7 +46,6 @@ class Vip extends \yii\db\ActiveRecord
             [['shoper_id', 'phone', 'username', 'card_no', 'birthday','grade_id'], 'required', 'message' => Yii::t('app', 'table')['param_type_null'], 'on' => ['add']],
             [['shoper_id','user_id', 'sex'], 'integer', 'message' => Yii::t('app', 'table')['param_type_error'], 'on' => ['add']],
             [['phone'], 'validatePhone', 'on' => ['add']],
-            [['phone'], 'match','pattern'=>'/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/','on' => ['add']],
             [['notes', 'address'], 'safe'],
             [['sex'], 'in', 'range' => [1, 2], 'on' => 'add'],
         ];
