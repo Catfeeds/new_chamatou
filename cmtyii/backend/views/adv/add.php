@@ -70,18 +70,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?php
-    $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data'],]);
-    echo $form->field($model, 'title')->textInput();
-    echo $form->field($model, 'file')->widget(\kartik\file\FileInput::classname(), [
-        'options' => [
-            'accept' => 'image/*',
-            'multiple' => true
-        ],
-        'pluginOptions' => [
-            'maxFileCount' => 5,
-            'showUpload' => false
-        ]
-    ]);
     echo \yii\helpers\Html::submitInput('提交', ['class' => 'btn btn-success', 'style' => 'margin-right:1em;']);
     \yii\bootstrap\ActiveForm::end();
     ?>
