@@ -104,33 +104,8 @@ class DrawCard extends \yii\db\ActiveRecord
          * 检查是不是必中用户、判断是不是茶豆币、判断奖品是不是今日最大值、判断奖品数量余额是否足够、
          */
         foreach ($prize as $key => $value) {
+
             $drawModel = Draw::findOne($value['key']);
-
-            /**
-             * 检查数量是否还存在
-             */
-            if( $drawModel->prize_sum_number == 0){
-                $proArr[$key] = $value['odds'];
-                continue;
-            }
-            elseif ( $drawModel->prize_surplus_number == $drawModel->prize_sum_number )
-            {
-                $proArr[$key] = 0;
-                continue;
-            }
-
-            /**
-             * 判断每日最大出奖数量
-             */
-            $dayMaxPrizeNumber = DrawCard::find()->andWhere(['draw_id'=>$drawModel->id])
-                ->andWhere(['>','add_time',time()])
-                ->andWhere(['<','add_time',strtotime(date('Y-m-d').'00:00:00')])
-                ->count();
-            if( $drawModel->day_max_prize_number >= $dayMaxPrizeNumber)
-            {
-                $proArr[$key] = 0;
-                continue;
-            }
 
             /**
              * 检查是不是茶豆币
@@ -144,7 +119,6 @@ class DrawCard extends \yii\db\ActiveRecord
                 }
                 continue;
             }
-
             /**
              * 指定用户中奖
              */
@@ -153,10 +127,38 @@ class DrawCard extends \yii\db\ActiveRecord
                 continue;
             }
 
+            /**
+             * 判断是不是谢谢惠顾
+             */
+            if($drawModel->type == 5){
+                $proArr[$key] = $value['odds'];
+                continue;
+            }
+            /**
+             * 检查数量是否还存在
+             */
+            if ( $drawModel->prize_surplus_number == $drawModel->prize_sum_number )
+            {
+                $proArr[$key] = 0;
+                continue;
+            }
+
+            /**
+             * 判断每日最大出奖数量
+             */
+            $dayMaxPrizeNumber = DrawCard::find()->andWhere(['draw_id'=>$drawModel->id])
+                ->andWhere(['>','add_time',time()])
+                ->andWhere(['<','add_time',strtotime(date('Y-m-d').'00:00:00')])
+                ->count();
+            if( $drawModel->day_max_prize_number <= $dayMaxPrizeNumber)
+            {
+                $proArr[$key] = 0;
+                continue;
+            }
+
             $proArr[$key] = $value['odds'];
         }
-//        var_dump($proArr);
-//        exit();
+
         $key        = $this->get_rand($proArr);
         $drawModel  = Draw::findOne($prize[$key]['key']);
         if ($drawModel->type !== 5)
@@ -248,6 +250,8 @@ class DrawCard extends \yii\db\ActiveRecord
         $proSum = array_sum($proArr);
         foreach ($proArr as $key => $proCur)
         {
+            if($proSum == 0)
+                break;
             $randNum = mt_rand(1, $proSum);
             if ($randNum <= $proCur)
             {

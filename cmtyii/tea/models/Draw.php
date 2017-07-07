@@ -79,17 +79,17 @@ class Draw extends \yii\db\ActiveRecord
             $this->shoper_id = Yii::$app->session->get('shoper_id');
             $this->store_id = Yii::$app->session->get('store_id');
             $this->prize_surplus_number = 0;
-            if($this->type ==5){
-                if($this->number >= 10){
-                    $this->addError('number','折扣不能大于10');
-                    return false;
-                }
-
-                if($this->number < 0.1){
-                    $this->addError('number','折扣不小于等于10！');
-                    return false;
-                }
-            }
+//            if($this->type ==5){
+//                if($this->number >= 10){
+//                    $this->addError('number','折扣不能大于10');
+//                    return false;
+//                }
+//
+//                if($this->number < 0.1){
+//                    $this->addError('number','折扣不小于等于10！');
+//                    return false;
+//                }
+//            }
             return $this->save();
         }
     }
